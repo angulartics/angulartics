@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Angulartics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analytics for AngularJS applications">
+    <meta name="author" content="Luis Farzati">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="//bootswatch.com/united/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333;            
+        }
+        footer {
+            margin: 20px 0 0 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            padding-bottom: 40px;
+        }
+        .icon-6 {
+            font-size: 20em;
+        }
+        .icon-5 {
+            font-size: 12em;            
+        }
+        .lead {
+            font-size: 20px;
+        }
+        .icon {
+            margin-top: -2px;
+            margin-left: 1px;
+        }
+        .sample-code {
+            background-color: white;
+        }
+        .sample-code-name {
+            position: absolute;
+            width: auto;
+            padding: 3px 7px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            -webkit-border-radius: 4px 0 4px 0;
+            -moz-border-radius: 4px 0 4px 0;
+            border-radius: 4px 0 4px 0;
+            font-size: 12px;
+            font-weight: bold;
+            color: #9da0a4;
+        }
+        h4 {
+            margin-top: -5px;
+        }
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+
+  <body data-spy="scroll" data-target=".subnav" data-offset="80">
+
+  <!-- Navbar
+    ================================================== -->
+ <div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+       <a class="brand" href="#">Angulartics</a>
+       <div class="nav-collapse collapse" id="main-menu">
+        <ul class="nav" id="main-menu-left">
+          <li><a href="#getting-started">Getting started</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Plugins <b class="caret"></b></a>
+            <ul class="dropdown-menu" id="swatch-menu">
+              <li><a href="#google-analytics-plugin">Google Analytics</a></li>
+              <li class="divider"></li>
+              <li><a href="#contribute">Contribute!</a></li>
+            </ul>
+          </li>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a href="http://github.com/luisfarzati/angulartics">Source Code</a></li>
+        </ul>
+<!--         <ul class="nav pull-right" id="main-menu-right">
+          <li><a href="#" title="GitHub"><i class="icon-github"></i></a></li>
+          <li><a href="#"><i class="icon-share-alt"></i></a></li>
+        </ul>        
+ -->       </div>
+     </div>
+   </div>
+ </div>
+
+    <div class="hero-unit">
+        <i class="icon-bar-chart icon-5 pull-right"></i>
+        <h1>Angulartics</h1>
+        <h2>Web analytics for AngularJS applications</h2>
+    </div>
+
+    <div class="container">
+
+<!-- How To Use
+================================================== -->
+<section id="getting-started">
+  <div class="page-header">
+    <h3>Getting started</h3>
+  </div>
+
+  <div class="row">
+    <div class="span4">
+        <h4>Installation</h4>
+        <p>Angulartics is vendor-agnostic; the current supported providers are Google Analytics and
+            Clicky. In the following examples we'll use the former.</p>
+        <p>1. Embed your GA code into your HTML main page (not the templates!), making sure you delete
+            the page view tracking line.</p>
+        <p>2. In your AngularJS app definition, add Angulartics and the Angulartics GA plugin to your
+            dependencies.</p>
+        <hr>
+        <h4>Virtual page tracking</h4>
+        <p>Angulartics provides automatic virtual page tracking out of the box, meaning the entire
+            user navigation across the different routes of your application is tracked.</p>
+    </div>
+    <div class="span1"></div>
+    <div class="span5">
+        <div class="row">
+            <div class="sample-code-name">index.html</div>
+            <div>
+                <pre class="sample-code">
+
+    &lt;html ng-app="myApp"&gt;
+        ...
+        &lt;script type="text/javascript"&gt;
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'YOUR_UA_CODE']);
+            <del>_gaq.push(['_trackPageview']);</del>
+            ...
+        &lt;/script&gt;</pre>
+            </div>
+            <div class="sample-code-name">app.js</div>
+            <div>
+                <pre class="sample-code">
+
+    angular.module('myApp', ['angulartics', 'angulartics.ga'])</pre>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="span4">
+        <h4>Event tracking</h4>
+        <p>In order to track user actions you need to specify:</p>
+        <ol>
+            <li>the trigger event (e.g. "click");</li>
+            <li>the action itself to be tracked;</li>
+            <li>and a category used for grouping together related actions.</li>
+        </ol>
+        <p>While the event and category information are mandatory, the action may be omitted, in
+            which case Angulartics will try to infer it based on the HTML element. For example,
+            for a <code>&lt;button&gt;</code> it will use the inner text of the element. In the case of
+            an <code>&lt;input&gt;</code> button, the <code>value</code> attribute will be used.</p>
+    </div>
+    <div class="span1"></div>
+    <div class="span5">
+        <div class="row">
+            <div class="sample-code-name">index.html</div>
+            <div>
+                <pre class="sample-code">
+
+    &lt;button ng-click="zoom()" 
+        analytics-track="click" 
+        analytics-action="Zoom-in"
+        analytics-category="Mapping"&gt;Zoom&lt;/button&gt;
+
+    &lt;button ng-click="doSomething()" 
+        analytics-track="click" 
+        analytics-category="Commands"&gt;Do Something&lt;/button&gt;
+
+    &lt;input type="submit" value="Step 3"
+        analytics-track="click" 
+        analytics-category="Sign-up Form"&gt;</pre>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section id="plugins">
+  <div class="page-header">
+    <h3>Plugins</h3>
+  </div>
+
+  <div id="google-analytics-plugin" class="row">
+    <div class="span10">
+        <h4>Google Analytics</h4>
+        <p>The GA plugin implements Page Tracking and Event Tracking. To use it, just download
+            <code>angulartics-ga.js</code> and add <code>'angulartics.ga'</code> to your
+            app dependencies.</p>
+    </div>
+  </div>
+  <hr>
+  <div id="contribute" class="row">
+    <div class="span10">
+        <h4>Contribute!</h4>
+        <p>You have an analytics vendor of choice and there's no Angulartics plugin for it? Please feel free to write your implementation. Contributions are most welcomed!</p>
+    </div>
+  </div>
+
+</section>
+
+<section id="roadmap">
+  <div class="page-header">
+    <h3>Roadmap</h3>
+  </div>
+
+  <div class="row">
+    <div class="span10">
+        <h4>Complete documentation</h4>
+        <p>Add more docs, examples, wiki.</p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="span10">
+        <h4>Add more providers</h4>
+        <p>While GA is maybe the most common option, there are several other products out there.</p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="span10">
+        <h4>More features</h4>
+        <p>Too early to even tell you about. :)</p>
+    </div>
+  </div>
+
+</section>
+
+     <!-- Footer
+      ================================================== -->
+
+      <footer id="footer">
+        <p class="pull-right"><a href="#top">Back to top</a></p>
+        Made by <a href="http://linkedin.com/in/luisfarzati"><i class="icon-linkedin-sign"></i> Luis Farzati</a>. Contact me at <a href="mailto:lfarzati@gmail.com">lfarzati@gmail.com</a>, <a href="http://github.com/luisfarzati"><i class="icon-github"></i> luisfarzati</a> or <a href="http://twitter.com/luisfarzati"><i class="icon-twitter"></i> luisfarzati</a>.<br>
+        Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br>
+        <i class="icon-heart" style="color:red"></i><a href="http://angularjs.org"><img class="icon" src="http://angularjs.org/favicon.ico"></a>
+      </footer>
+
+    </div><!-- /container -->
+  </body>
+</html>
