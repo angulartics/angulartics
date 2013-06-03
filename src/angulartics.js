@@ -20,6 +20,7 @@ angular.module('angulartics', [])
 
     return {
       $get: function() { return api; },
+      autoTracking: function(value) { this.settings.tracking.auto = value; },
       settings: settings,
       registerPageTrack: registerPageTrack,
       registerEventTrack: registerEventTrack
@@ -29,7 +30,6 @@ angular.module('angulartics', [])
   .run(function($rootScope, $location, $analytics, $log) {
     if ($analytics.settings.tracking.auto) {
       $rootScope.$on('$routeChangeStart', function() {
-        console.log('pageTrack', $location.url());
         $analytics.pageTrack($location.url());
       });
     }
@@ -49,12 +49,12 @@ angular.module('angulartics', [])
     this.applyBetweenComments = applyBetweenComments;
   })  
 
-  .directive('analyticsCategory', function($groupDirective, $analytics) {
+  .directive('analyticsActionType', function($groupDirective, $analytics) {
     return {
       restrict: 'M',
       compile: function($element, $attrs) {
-        if ($attrs.analyticsCategory) {
-          $groupDirective.applyBetweenComments('analytics-category', $element[0].nextSibling, $attrs.analyticsCategory);
+        if ($attrs.analyticsActionType) {
+          $groupDirective.applyBetweenComments('analytics-action-type', $element[0].nextSibling, $attrs.analyticsActionType);
         }
       }
     }
@@ -86,16 +86,15 @@ angular.module('angulartics', [])
       restrict: 'A',
       scope: false,
       link: function($scope, $element, $attrs) {
-        var eventType = $attrs.analyticsTrack,
-            category = $attrs.analyticsCategory,
+        var eventType = $attrs.analyticsTrack || 'click',
+            actionType = $attrs.analyticsActionType || 'Event',
             action = $attrs.analyticsAction || inferAction($element[0]),
-            label = $attrs.analyticsLabel,
+            identifier = $attrs.analyticsIdentifier,
             value = $attrs.analyticsValue;
 
-        if (category && action) {
+        if (actionType && action) {
           angular.element($element[0]).bind(eventType, function() {
-            console.log('eventTrack', category, action, label, value);
-            $analytics.eventTrack(category, action, label, value);
+            $analytics.eventTrack(actionType, action, identifier, value);
           });
         }
       }

@@ -8,10 +8,14 @@ angular.module('myApp', ['angulartics', 'angulartics.ga'])
       .when('/b', { templateUrl: 'sample.tpl.html', controller: 'SampleCtrl' })
       .otherwise({ redirectTo: '/a' });
 
-    // $analyticsProvider.settings.tracking.auto = false;
+    // $analyticsProvider.autoTracking(false);
   })
 
   .controller('SampleCtrl', function() {
+  })
+
+  .controller('test', function($scope) {
+    console.log($scope);
   });
 
 })(angular);
