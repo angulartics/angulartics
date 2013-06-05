@@ -3,4 +3,4 @@ angulartics
 
 Analytics for AngularJS applications.
 
-Full docs at https://github.com/luisfarzati/angulartics
+Full docs at http://luisfarzati.github.io/angulartics
