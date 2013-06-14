@@ -71,7 +71,7 @@ angular.module('angulartics', [])
     };
   })
 
-  .directive('analyticsTrack', function($analytics) {
+  .directive('analyticsOn', function($analytics) {
 
     function isCommand(element) {
       return ['a:','button:submit','input:button','input:submit'].indexOf(
@@ -89,14 +89,14 @@ angular.module('angulartics', [])
     }
 
     function isProperty(name) {
-      return name.substr(0, 9) === 'analytics' && ['track', 'event'].indexOf(name.substr(10)) === -1;
+      return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
     }
 
     return {
       restrict: 'A',
       scope: false,
       link: function($scope, $element, $attrs) {
-        var eventType = $attrs.analyticsTrack || inferEventType($element[0]),
+        var eventType = $attrs.analyticsOn || inferEventType($element[0]),
             eventName = $attrs.analyticsEvent || inferEventName($element[0]);
 
         var properties = {};
