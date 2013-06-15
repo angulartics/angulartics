@@ -35,42 +35,6 @@ angular.module('angulartics', [])
     }
   })
 
-  .service('$groupDirective', function($compile) {
-    function applyBetweenComments(directiveName, element, value) {
-      if (!element || (element instanceof Comment && element.data === ' directive: ' + directiveName + ' ')) {
-        return;
-      }
-      if (element instanceof HTMLElement) {
-        angular.element(element).attr(directiveName, value);
-      }
-      applyBetweenComments(directiveName, element.nextSibling, value);
-    }
-
-    this.applyBetweenComments = applyBetweenComments;
-  })  
-
-  .directive('analyticsActionType', function($groupDirective, $analytics) {
-    return {
-      restrict: 'M',
-      compile: function($element, $attrs) {
-        if ($attrs.analyticsActionType) {
-          $groupDirective.applyBetweenComments('analytics-action-type', $element[0].nextSibling, $attrs.analyticsActionType);
-        }
-      }
-    };
-  })
-
-  .directive('analyticsTrack', function($groupDirective, $analytics) {
-    return {
-      restrict: 'M',
-      compile: function($element, $attrs) {
-        if ($attrs.analyticsTrack) {
-          $groupDirective.applyBetweenComments('analytics-track', $element[0].nextSibling, $attrs.analyticsTrack);
-        }
-      }
-    };
-  })
-
   .directive('analyticsOn', function($analytics) {
 
     function isCommand(element) {
