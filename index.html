@@ -7,14 +7,11 @@
   <meta name="description" content="Angulartics is an AngularJS module that lets you implement web analytics using the vendor of your choice.">
   <meta name="author" content="Luis Farzati">
   <meta name="google-site-verification" content="-hjukrhf79hZA9uTDhN8gZwzjYoa0WCipxEdDc4gRu0" />  
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
   <link rel="stylesheet" href="//bootswatch.com/united/bootstrap.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-  <link href="//jmblog.github.io/color-themes-for-google-code-prettify/css/themes/github.css" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="github.min.css" rel="stylesheet">
+  <style>html{background-color:#777}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333}footer{margin:20px 0 0 0;padding:10px;background-color:#f1f1f1;padding-bottom:40px}del{color:red}.icon-6{font-size:20em}.icon-5{font-size:130px}.icon{margin-top:-2px;margin-left:1px}.sample-code-name{float:right;padding:3px 7px;background-color:#f5f5f5;border:1px solid #ddd;-webkit-border-radius:0 4px 0 4px;-moz-border-radius:0 4px 0 4px;border-radius:0 4px 0 4px;font-size:12px;font-weight:bold;color:#9da0a4}h4{margin-top:-5px}</style>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -24,10 +21,13 @@
     ga('create', 'UA-10255892-8', 'luisfarzati.github.io');
     ga('send', 'pageview');
   </script>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-  <script src="//google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
-  <script src="//google-code-prettify.googlecode.com/svn/trunk/src/lang-css.js"></script>
+  <script src="prettify.min.js"></script>
+  <script src="lang-css.min.js"></script>
 </head>
 
 <body onload="prettyPrint()">
@@ -74,12 +74,11 @@
   <h2>Web analytics for AngularJS applications</h2>
   <div>
     <span>
-      <a href="https://twitter.com/angulartics" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @angulartics</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <a href="https://twitter.com/angulartics" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false" style="font-size:11px">Follow @angulartics</a>
     </span>
     <span>
-      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://luisfarzati.github.io/angulartics" data-via="angulartics" data-count="none">Tweet</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>    </span>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://luisfarzati.github.io/angulartics" data-via="angulartics" data-count="none" style="font-size:11px">Tweet</a>
+    </span>
     <span>
       <a href="http://ngmodules.org/modules/angulartics" class="btn btn-mini" style="padding:0px 4px;line-height:18px;margin-top:-10px">
         <i class="icon-thumbs-up"></i> I use it
@@ -306,33 +305,6 @@
         </div>
     </div>
   </div>
-
-
-<!--   <div class="row">
-    <div class="span4">
-        <hr>
-        <h4>Enable tracking for multiple elements</h4>
-        <p>You can declare tracking parameters for a group of elements by enclosing
-          them in directive comments, which act as variables. This makes for less redundant code.</p>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <p>&nbsp;</p>
-            <div class="sample-code-name">index.html</div>
-            <div>
-                <pre class="sample-code">
-
-    <span class="comment">&lt;!-- directive: analytics-action-type Video --&gt;</span>
-    &lt;button ng-click="play()"&gt;&lt;/button&gt;
-    &lt;button ng-click="stop()"&gt;&lt;/button&gt;
-    &lt;button ng-click="mute()"&gt;&lt;/button&gt;
-    <span class="comment">&lt;!-- directive: analytics-action-type --&gt;</span></pre>
-            </div>
-        </div>
-    </div>
-  </div>
- -->
 </section>
 
 <section id="plugins">
@@ -412,5 +384,7 @@
       </footer>
 
     </div><!-- /container -->
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';js.async=true;fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
   </body>
 </html>
