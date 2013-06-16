@@ -3,6 +3,8 @@ angulartics
 
 Vendor-agnostic analytics for AngularJS applications.
 
+[http://luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "http://luisfarzati.github.io/angulartics")
+
 # Minimal setup
 
 ## Setup with Google Analytics ##
