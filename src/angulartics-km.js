@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('angulartics.km', ['angulartics'])
-  .config(function($analyticsProvider) {
+  .config(['$analyticsProvider', function($analyticsProvider) {
 
     $analyticsProvider.registerPageTrack(function(path) {
       _kmq.push(['record', 'Pageview', { 'Page': path }]);
@@ -11,6 +11,6 @@ angular.module('angulartics.km', ['angulartics'])
     $analyticsProvider.registerEventTrack(function(action, properties) {
       _kmq.push(['record', action, properties]);
     });
-  });
+  }]);
 
 })(angular);
