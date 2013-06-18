@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('angulartics.ga', ['angulartics'])
-  .config(function($analyticsProvider) {
+  .config(['$analyticsProvider', function($analyticsProvider) {
 
     $analyticsProvider.registerPageTrack(function(path) {
     	if (window._gaq) window._gaq.push(['_trackPageview', path]);
@@ -14,6 +14,6 @@ angular.module('angulartics.ga', ['angulartics'])
       if (window.ga) window.ga('send', 'event', properties.category, action, properties.label, properties.value);
     });
 
-  });
+  }]);
 
 })(angular);

@@ -27,15 +27,15 @@ angular.module('angulartics', [])
     };
   })
 
-  .run(function($rootScope, $location, $analytics, $log) {
+  .run(['$rootScope', '$location', '$analytics', '$log', function($rootScope, $location, $analytics, $log) {
     if ($analytics.settings.tracking.auto) {
       $rootScope.$on('$routeChangeStart', function() {
         $analytics.pageTrack($location.url());
       });
     }
-  })
+  }])
 
-  .directive('analyticsOn', function($analytics) {
+  .directive('analyticsOn', ['$analytics', function($analytics) {
 
     function isCommand(element) {
       return ['a:','button:submit','input:button','input:submit'].indexOf(
@@ -75,6 +75,6 @@ angular.module('angulartics', [])
         });
       }
     };
-  });
+  }]);
 
 })(angular);
