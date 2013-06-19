@@ -181,6 +181,7 @@
             <div>
                 <pre class="prettyprint lang-js">
   .config(function($analyticsProvider) {
+    // if you want to turn off automatic tracking, just set:
     <strong>$analyticsProvider.virtualPageviews(false);</strong></pre>
             </div>
         </div>
@@ -196,7 +197,7 @@
           The simplest way to do event tracking is by adding the attributes <code>analytics-on</code>
           and <code>analytics-event</code> to the element.</p>
         <p>
-          Think of it as: "<strong><i>on</i></strong> click, track <strong><i>event</i></strong>".
+          Think of it as: "<strong><i>on</i></strong> click, track <strong><i>event</i></strong> name".
         </p>
     </div>
     <div class="span1"></div>
@@ -253,9 +254,9 @@
         <hr>
         <h4>Additional parameters</h4>
         <p>
-          Each vendor has its own set of tracking properties. For example, Google Analytics lets
-          you specify a <i>category</i>, <i>label</i> and <i>value</i> for the event. You can set
-          these properties by adding attributes prefixed with <code>analytics-</code>.</p>
+          Each vendor has its own set of tracking properties. For example, Google Analytics requires
+          you to specify a <i>category</i>, and also lets you add a <i>label</i> and <i>value</i>. 
+          You can set these properties by adding attributes prefixed with <code>analytics-</code>.</p>
     </div>
     <div class="span1"></div>
     <div class="span5">
