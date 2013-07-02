@@ -53,7 +53,7 @@ angular.module('angulartics', [])
     }
 
     function isProperty(name) {
-      return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
+      return name.substr(0, 9) === 'analytics' && ['category'].indexOf(name.substr(10)) > -1;
     }
 
     return {
@@ -66,7 +66,7 @@ angular.module('angulartics', [])
         var properties = {};
         angular.forEach($attrs.$attr, function(attr, name) {
           if (isProperty(attr)) {
-            properties[name.slice(9)] = $attrs[name];
+            properties[name.slice(9).toLowerCase()] = $attrs[name];
           }
         });
 
