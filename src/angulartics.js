@@ -73,7 +73,7 @@ angular.module('angulartics', [])
         });
 
         angular.element($element[0]).bind(eventType, function() {
-          if (!properties.value && ngModel && ngModel.$viewValue) {
+          if (!properties.hasOwnProperty("value")  && ngModel && ngModel.$viewValue) {
                 properties.value = ngModel.$viewValue;
             }
           $analytics.eventTrack(eventName, properties);
