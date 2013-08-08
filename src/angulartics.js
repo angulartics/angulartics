@@ -38,7 +38,7 @@ angular.module('angulartics', [])
   .directive('analyticsOn', ['$analytics', function($analytics) {
 
     function isCommand(element) {
-      return ['a:','button:submit','input:button','input:submit'].indexOf(
+      return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
         element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
     }
 
