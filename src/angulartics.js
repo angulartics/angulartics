@@ -58,7 +58,7 @@ angular.module('angulartics', [])
     function evalAttr(scope, attr) {
         var str1 = attr.substring(0, attr.indexOf("{")),
             str2 = attr.substring(attr.lastIndexOf("}") + 1);
-        attr = attr.replace("{{", "").replace("}}", "");
+        attr = attr.replace(str1,"").replace(str2,"").replace("{{", "").replace("}}", "");
         return str1 + scope.$eval(attr) + str2;
     }
     return {
@@ -66,20 +66,32 @@ angular.module('angulartics', [])
       scope: false,
       link: function($scope, $element, $attrs) {
         var eventType = $attrs.analyticsOn || inferEventType($element[0]),
-            eventName = $attrs.analyticsEvent || inferEventName($element[0]);
+            eventName = $attrs.analyticsEvent || inferEventName($element[0]),
+            properties = {};
 
-        var properties = {};
-        angular.forEach($attrs.$attr, function(attr, name) {
-          if (isProperty(attr)) {
-              if ($attrs[name].indexOf("{") === -1) {
-                  properties[name.slice(9).toLowerCase()] = $attrs[name];
-              } else {
-                  properties[name.slice(9).toLowerCase()] = evalAttr($scope, $attrs[name]);
-              }
-          }
-        });
 
         angular.element($element[0]).bind(eventType, function() {
+          for (var i = 0, len = this.attributes.length; i < len; i++) {
+            var attr = this.attributes[i],
+                name = attr.name,
+                value = attr.value;
+            
+            if (name === "analytics-event") {
+              if (value.indexOf("{") != -1) {
+                eventName = evalAttr($scope, value);
+              } else {
+                eventName = value;
+              }
+            }else if (isProperty(name)) {
+              if (value.indexOf("{") != -1) {
+                properties[name.slice(10).toLowerCase()] = evalAttr($scope, value);
+              } else {
+                properties[name.slice(10).toLowerCase()] = value;
+              }
+            }
+          }
+          if (!eventName) eventName = inferEventName(this);
+            
           $analytics.eventTrack(eventName, properties);
         });
       }
