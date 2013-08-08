@@ -55,7 +55,12 @@ angular.module('angulartics', [])
     function isProperty(name) {
       return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
     }
-
+    function evalAttr(scope, attr) {
+        var str1 = attr.substring(0, attr.indexOf("{")),
+            str2 = attr.substring(attr.lastIndexOf("}") + 1);
+        attr = attr.replace("{{", "").replace("}}", "");
+        return str1 + scope.$eval(attr) + str2;
+    }
     return {
       restrict: 'A',
       scope: false,
@@ -66,7 +71,11 @@ angular.module('angulartics', [])
         var properties = {};
         angular.forEach($attrs.$attr, function(attr, name) {
           if (isProperty(attr)) {
-            properties[name.slice(9).toLowerCase()] = $attrs[name];
+              if ($attrs[name].indexOf("{") === -1) {
+                  properties[name.slice(9).toLowerCase()] = $attrs[name];
+              } else {
+                  properties[name.slice(9).toLowerCase()] = evalAttr($scope, $attrs[name]);
+              }
           }
         });
 
