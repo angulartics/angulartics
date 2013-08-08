@@ -64,25 +64,21 @@ angular.module('angulartics', [])
     return {
       restrict: 'A',
       scope: false,
-      link: function($scope, $element, $attrs) {
-        var eventType = $attrs.analyticsOn || inferEventType($element[0]),
-            eventName = $attrs.analyticsEvent || inferEventName($element[0]),
-            properties = {};
+      link: function ($scope, $element, $attrs, ngModel) {
+        var eventType = $attrs.analyticsOn || inferEventType($element[0]);
+  
+        angular.element($element[0]).bind(eventType, function () {
+          var eventName,
+              properties = {};
 
-
-        angular.element($element[0]).bind(eventType, function() {
           for (var i = 0, len = this.attributes.length; i < len; i++) {
             var attr = this.attributes[i],
                 name = attr.name,
                 value = attr.value;
-            
+
             if (name === "analytics-event") {
-              if (value.indexOf("{") != -1) {
-                eventName = evalAttr($scope, value);
-              } else {
-                eventName = value;
-              }
-            }else if (isProperty(name)) {
+              eventName = value;
+            } else if (isProperty(name)) {
               if (value.indexOf("{") != -1) {
                 properties[name.slice(10).toLowerCase()] = evalAttr($scope, value);
               } else {
@@ -90,11 +86,16 @@ angular.module('angulartics', [])
               }
             }
           }
+
           if (!eventName) eventName = inferEventName(this);
-            
+          if (eventName.indexOf("{") != -1) eventName = evalAttr($scope, eventName);
+          if (!properties.hasOwnProperty("value") && ngModel && ngModel.$viewValue) {
+              properties.value = ngModel.$viewValue;
+          }
           $analytics.eventTrack(eventName, properties);
         });
       }
+      
     };
   }]);
 
