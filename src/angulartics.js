@@ -78,7 +78,7 @@ angular.module('angulartics', [])
 
             if (name === "analytics-event") {
               eventName = value;
-            } else if (isProperty(name)) {
+            } else if (isProperty(name)&&value!="") {
               if (value.indexOf("{") != -1) {
                 properties[name.slice(10).toLowerCase()] = evalAttr($scope, value);
               } else {
@@ -89,7 +89,7 @@ angular.module('angulartics', [])
 
           if (!eventName) eventName = inferEventName(this);
           if (eventName.indexOf("{") != -1) eventName = evalAttr($scope, eventName);
-          if (!properties.hasOwnProperty("value") && ngModel && ngModel.$viewValue) {
+          if (!properties.hasOwnProperty("value") && $attrs.analyticsValue==""&& ngModel && ngModel.$viewValue) {
               properties.value = ngModel.$viewValue;
           }
           $analytics.eventTrack(eventName, properties);
