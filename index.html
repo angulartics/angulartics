@@ -44,6 +44,7 @@
           <ul class="dropdown-menu">
             <li><a href="#google-analytics-plugin">Google Analytics</a></li>
             <li><a href="#kissmetrics-plugin">Kissmetrics</a></li>
+            <li><a href="#mixpanel-plugin">Mixpanel</a></li>
             <li class="divider"></li>
             <li><a href="#contribute">Contribute!</a></li>
           </ul>
@@ -94,13 +95,17 @@
     <div class="span4">
       <h4>Ready to use</h4>
       <p>
-        Two of the most popular vendors are supported out of the box: 
-        <a href="http://analytics.google.com">Google Analytics</a> and 
-        <a href="http://kissmetrics.com">Kissmetrics</a>.
+        Three of the most popular vendors are supported out of the box: 
+        <a href="http://analytics.google.com">Google Analytics</a>, 
+        <a href="http://kissmetrics.com">Kissmetrics</a> and
+        <a href="http://mixpanel.com/">Mixpanel</a>.
       </p>
       <p>
         <img class="ga-logo" src="https://ssl.gstatic.com/analytics/20130604/web/analytics_logo.png" alt="Google Analytics logo" title="Google Analytics Logo" height="20" width="148">
         <img class="km-logo pull-right" src="https://www.kissmetrics.com/images/marketing/km_logo_dark.png" alt="KISSmetrics logo" title="KISSmetrics Logo" height="22" width="168">
+      </p>
+      <p style="text-align:center">
+        <img class="mp-logo" src="https://cdn.mxpnl.com/site_media/images/static/logo_gray_117px.png" alt="Mixpanel logo" title="Mixpanel Logo" height="39" width="117">
       </p>
     </div>
     <div class="span4">
@@ -246,7 +251,10 @@
   &lt;a href="file.pdf" analytics-on&gt;Download&lt;/a&gt;
 
   &lt;!-- same as adding analytics-event="Step 3" --&gt;
-  &lt;input type="submit" value="Step 3" analytics-on&gt;</pre>
+  &lt;input type="submit" value="Step 3" analytics-on&gt;
+
+  &lt;!-- same as above assuming the step.label === "Step 3" --&gt;
+  &lt;input type="submit" ng-model="step.label" analytics-on&gt;</pre>
             </div>
         </div>        
     </div>
@@ -326,6 +334,15 @@
         <p>The KM plugin implements Event Tracking which is used both for virtual pageviews
           and events. You need to add <code>angulartics-km.js</code> and inject
           <code>angulartics.km</code> into your app dependencies.
+    </div>
+  </div>
+  <br>
+  <div id="mixpanel-plugin" class="row">
+    <div class="span10">
+        <h4><img src="https://cdn.mxpnl.com/site_media/images/static/logo_gray_117px.png" alt="Mixpanel logo" title="Mixpanel Logo" height="39" width="117"></h4>
+        <p>Written by <a href="http://github.com/L42y"><i class="icon-github"></i> L42y</a></p>
+        <p>The MP plugin implements Page Tracking and Event Tracking. Add <code>angulartics-mixpanel.js</code> and inject
+          <code>angulartics.mixpanel</code> into your app dependencies.
     </div>
   </div>
   <hr>
