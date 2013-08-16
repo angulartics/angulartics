@@ -7,15 +7,25 @@ angular.module('angulartics', [])
 
     var api = {
       settings: settings,
-      pageTrack: angular.noop,
-      eventTrack: angular.noop
+      pageTrackers: [],
+      eventTrackers: [],
+      pageTrack: function (url) {
+        angular.forEach(api.pageTrackers, function (tracker) {
+          tracker(url);
+        });
+      },
+      eventTrack: function (eventName, properties) {
+        angular.forEach(api.eventTrackers, function (tracker) {
+          tracker(eventName, properties);
+        });
+      }
     };
 
     var registerPageTrack = function(fn) {
-      api.pageTrack = fn;
+      api.pageTrackers.push(fn);
     };
     var registerEventTrack = function(fn) {
-      api.eventTrack = fn;
+      api.eventTrackers.push(fn);
     };
 
     return {
