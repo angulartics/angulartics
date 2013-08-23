@@ -29,5 +29,5 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-karma": "~0.4.5"
-    },
+  }
 }
