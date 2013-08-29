@@ -1,16 +1,21 @@
 module.exports = function(grunt) {
-  'use strict';
+   'use strict';
 
-  grunt.initConfig({
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
+   grunt.initConfig({
+      karma: {
+         unit: {
+            configFile: 'karma.conf.js',
+            singleRun: true
+         }
+      },
+
+      jshint: {
+         all: ['Gruntfile.js', 'src/*.js']
       }
-    }
-  });
+   });
 
-  grunt.loadNpmTasks('grunt-karma');
-  
-  grunt.registerTask('test', 'karma');
+   grunt.loadNpmTasks('grunt-contrib-jshint');
+   grunt.loadNpmTasks('grunt-karma');
+
+   grunt.registerTask('test', 'jshint karma');
 };
