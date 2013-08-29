@@ -4,312 +4,174 @@
   <meta charset="utf-8">
   <title>Angulartics | Web analytics for AngularJS applications</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Angulartics is an AngularJS module that lets you implement web analytics using the vendor of your choice.">
+  <meta name="description" content="Angulartics is an AngularJS module that enables web analytics for your application using the vendor of your choice.">
   <meta name="author" content="Luis Farzati">
   <meta name="google-site-verification" content="-hjukrhf79hZA9uTDhN8gZwzjYoa0WCipxEdDc4gRu0" />  
-  <link rel="stylesheet" href="//bootswatch.com/2/united/bootstrap.min.css">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="github.min.css" rel="stylesheet">
-  <style>html{background-color:#777}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333}footer{margin:20px 0 0 0;padding:10px;background-color:#f1f1f1;padding-bottom:40px}del{color:red}.icon-6{font-size:20em}.icon-5{font-size:130px}.icon{margin-top:-2px;margin-left:1px}.sample-code-name{float:right;padding:3px 7px;background-color:#f5f5f5;border:1px solid #ddd;-webkit-border-radius:0 4px 0 4px;-moz-border-radius:0 4px 0 4px;border-radius:0 4px 0 4px;font-size:12px;font-weight:bold;color:#9da0a4}h4{margin-top:-5px}</style>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+    body {padding-top:50px;}
+    .twitter-follow-button[style], .twitter-share-button[style] { margin-top: 17px; margin-left: 10px; }
+    .logos img {
+      background: white;
+      width: 40px;
+      height: 40px;
+    }
+    del { color: red; }
+    code strong { color: black; }
+    code strong.highlighted { color: navy; }
+  </style>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
     ga('create', 'UA-10255892-8', 'luisfarzati.github.io');
     ga('send', 'pageview');
   </script>
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <script src="prettify.min.js"></script>
-  <script src="lang-css.min.js"></script>
 </head>
-
-<body onload="prettyPrint()">
-
-<!-- Navbar
-  ================================================== -->
-<div class="navbar navbar-fixed-top">
- <div class="navbar-inner">
-   <div class="container-fluid">
-     <a class="brand" href="#">Angulartics</a>
-     <div class="nav-collapse collapse">
-      <ul class="nav">
-        <li><a href="#getting-started">Getting started</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Plugins <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#google-analytics-plugin">Google Analytics</a></li>
-            <li><a href="#kissmetrics-plugin">Kissmetrics</a></li>
-            <li><a href="#mixpanel-plugin">Mixpanel</a></li>
-            <li class="divider"></li>
-            <li><a href="#contribute">Contribute!</a></li>
-          </ul>
-        </li>
-        <li><a href="#roadmap">Roadmap</a></li>
-        <li><a href="http://github.com/luisfarzati/angulartics">Source Code</a></li>
-      </ul>
-      <ul class="nav pull-right" id="main-menu-right">
-        <li><a href="http://github.com/luisfarzati/angulartics" title="GitHub"><i class="icon-github"></i></a></li>
-        <li><a href="http://twitter.com/angulartics" title="Twitter"><i class="icon-twitter"></i></a></li>
-<!--         <li><a href="#"><i class="icon-share-alt"></i></a></li> -->
-      </ul>        
-    </div>
-   </div>
- </div>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="#getting-started">Getting started</a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="plugins-menu">Plugins <span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="plugins-menu">
+          <li><a tabindex="-1" href="#plugins">Google Analytics</a></li>
+          <li class="divider"></li>
+          <li><a tabindex="-1" href="#plugins">Kissmetrics</a></li>
+          <li><a tabindex="-1" href="#plugins">Chartbeat</a></li>
+          <li><a tabindex="-1" href="#plugins">Segment.io</a></li>
+          <li class="divider"></li>
+          <li><a tabindex="-1" href="#contribute">Contribute!</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="//github.com/luisfarzati/angulartics">Source code</a>
+      </li>
+      <li>
+        <a href="//github.com/luisfarzati/angulartics/archive/master.zip">Download</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
-<div class="hero-unit">
-  <i class="icon-bar-chart icon-5 pull-right"></i>
-  <h1>Angulartics</h1>
-  <h2>Web analytics for AngularJS applications</h2>
-  <div>
-    <span>
-      <a href="https://twitter.com/angulartics" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false" style="font-size:11px">Follow @angulartics</a>
-    </span>
-    <span>
-      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://luisfarzati.github.io/angulartics" data-via="angulartics" data-count="none" style="font-size:11px">Tweet</a>
-    </span>
-    <span>
-      <a href="http://ngmodules.org/modules/angulartics" class="btn btn-mini" style="padding:0px 4px;line-height:18px;margin-top:-10px">
-        <i class="icon-thumbs-up"></i> I use it
-      </a>
-    </span>
-  </div>
+<div class="well">
+<div class="container">
+  <h1><img src="images/angularjs.png" style="width:80px;height:80px" alt="A"></a>ngulartics | <small>Web analytics for AngularJS applications</small></h1>
+  <a href="https://twitter.com/angulartics" class="twitter-follow-button" data-size="large" data-show-count="false" data-show-screen-name="false">Follow @angulartics</a><a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-url="http://luisfarzati.github.io/angulartics" data-via="luisfarzati" data-hashtags="angularjs">Tweet</a>
+</div>
 </div>
 
 <div class="container">
 <section id="overview">
-  <div class="row">
-    <div class="span4">
-      <h4>Vendor-agnostic & extensible</h4>
-      <p>
-        Angulartics has an abstract, extensible design; which means you
-        can write your own plugin for your vendor of choice and
-        <a href="#contribute">contribute</a> it to the community :)
-      </p>
+  <div class="col-md-4">
+    <h4>Vendor-agnostic &amp; extensible</h4>
+    <p>Avoid dealing with vendor-specific code. If your provider of choice is not among the existing plugins, just write your own.</p>
+  </div>
+  <div class="col-md-4">
+    <h4>Ready to use</h4>
+    <p>
+      <a href="//google.com/analytics">Google Analytics</a>, 
+      <a href="//kissmetrics.com">Kissmetrics</a>,
+      <a href="//mixpanel.com/">Mixpanel</a>,
+      <a href="//chartbeat.com/">Chartbeat</a> and
+      <a href="//segment.io/">Segment.io</a> are supported out of the box.
+    </p>
+    <div class="logos">
+      <a href="//analytics.google.com"><img src="images/ga.png" alt="Google Analytics" title="Google Analytics"></a>
+      <a href="//kissmetrics.com"><img src="images/km.jpg" alt="Kissmetrics" title="Kissmetrics"></a>
+      <a href="//mixpanel.com"><img src="images/mp.png" alt="Mixpanel" title="Mixpanel"></a>
+      <a href="//chartbeat.com"><img src="images/cb.png" alt="Chartbeat" title="Chartbeat"></a>
+      <a href="//segment.io"><img src="images/sio.png" alt="Segment.io" title="Segment.io"></a>
     </div>
-    <div class="span4">
-      <h4>Ready to use</h4>
-      <p>
-        Three of the most popular vendors are supported out of the box: 
-        <a href="http://analytics.google.com">Google Analytics</a>, 
-        <a href="http://kissmetrics.com">Kissmetrics</a> and
-        <a href="http://mixpanel.com/">Mixpanel</a>.
-      </p>
-      <p>
-        <img class="ga-logo" src="images/google-analytics-logo.gif" alt="Google Analytics logo" title="Google Analytics Logo" height="50" width="160">
-        <img class="km-logo pull-right" src="images/km_logo_dark.png" alt="KISSmetrics logo" title="KISSmetrics Logo" height="22" width="168">
-      </p>
-      <p style="text-align:center">
-        <img class="mp-logo" src="images/logo_gray_117px.png" alt="Mixpanel logo" title="Mixpanel Logo" height="39" width="117">
-      </p>
-    </div>
-    <div class="span4">
-      <h4>1-line setup</h4>
-      <p>
-        Just add Angulartics to your app dependencies and you'll get
-        automatic pageview tracking for your application routes.
-      </p>
-    </div>
+  </div>
+  <div class="col-md-4">
+    <h4>1-line setup</h4>
+    <p>Just add Angulartics to your app dependencies and you'll get
+      automatic pageview tracking for your application routes.</p>
   </div>
 </section>
 </div>
 
 <div class="container">
-
-<br>
 <section id="getting-started">
   <div class="page-header">
-    <h2>Getting started</h2>
+    <h3>Getting started</h3>
   </div>
 
-  <div class="row">
-    <div class="span4">
-        <h4>Installation</h4>
-        <ol>
-          <li>Embed your vendor code into your HTML main page, making
-            sure you <strong>delete</strong> any automatic tracking line.</li>
-        </ol>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <div class="sample-code-name">index.html</div>
-            <div>
-                <pre class="prettyprint lang-html">
-  &lt;script&gt;
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'YOUR_UA_CODE']);
-      <del>_gaq.push(['_trackPageview']);</del>
-      ...</pre>
-            </div>
-        </div>
-    </div>
-  </div>
+  <section>
+    <h4>Installation</h4>
+    <p>In your application dependencies, inject Angulartics and the Angulartics plugin for your vendor.</p>
+    <pre><code>angular.module('myApp', ['<strong class="highlighted">angulartics</strong>', 'angulartics.<strong class="highlighted">google.analytics</strong>'])</code></pre>
 
-  <div class="row">
-    <div class="span4">
-        <ol start="2">
-          <li>In your AngularJS app dependencies, inject Angulartics
-            and the Angulartics vendor plugin of your choice.</li>
-        </ol>
+    <div class="alert alert-info">
+    <p>Make sure you <strong>delete</strong> any automatic tracking line from your vendor snippet code!</p><br>
+    <pre><code>// Google Analytics example
+<strong><del>ga('send', 'pageview');</del> // &lt;---- delete this line!</strong></pre></code>
     </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <div class="sample-code-name">app.js</div>
-            <div>
-                <pre class="prettyprint lang-js">
-  angular.module('myApp', ['<strong>angulartics</strong>', '<strong>angulartics.ga</strong>'])</pre>
-            </div>
-        </div>
-    </div>
-  </div>
+  </section>
+  <br>
 
-  <hr>
+  <section>
+    <h4>Virtual pageviews</h4>
+    <p>Angulartics does automatic virtual pageview tracking by default, meaning the entire
+        user navigation across the different routes of your application is tracked. You can turn it
+        off with <code>virtualPageviews(false)</code>.</p>
+    <pre><code>module.config(function (<strong class="highlighted">$analyticsProvider</strong>) {
+  // turn off automatic tracking
+  $analyticsProvider.<strong class="highlighted">virtualPageviews</strong>(<strong>false</strong>);</code></pre>
+  </section>
+  <br>
 
-  <div class="row">
-    <div class="span4">
-        <h4>Virtual pageviews</h4>
-        <p>Angulartics provides automatic virtual pageview tracking out of the box, meaning the entire
-            user navigation across the different routes of your application is tracked. It can always
-            be turned off with <code>virtualPageviews(false)</code>.</p>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <div class="sample-code-name">app.js</div>
-            <div>
-                <pre class="prettyprint lang-js">
-  .config(function($analyticsProvider) {
-    // if you want to turn off automatic tracking, just set:
-    <strong>$analyticsProvider.virtualPageviews(false);</strong></pre>
-            </div>
-        </div>
-    </div>
-  </div>
+  <section>
+    <h4>Declarative event tracking</h4>
+    <p>The simplest way to do event tracking is by adding the attributes <code>analytics-on</code>
+      and <code>analytics-event</code> to the element. Think of it as: <strong><i>on</i></strong> 'click',
+      track <strong><i>event</i></strong> 'name'.</p>
+    <pre><code>&lt;a href="file.pdf" <strong class="highlighted">analytics-on</strong>=<strong>"click"</strong> <strong class="highlighted">analytics-event</strong>=<strong>"Download"</strong>&gt;Download&lt;/a&gt;</code></pre>
+    <div class="alert alert-info">Depending on your analytics provider, the <code>analytics-event</code> attribute is automatically
+      mapped to its respective vendor field. For example, with Google Analytics, the event is used for
+      the 'action' parameter.</div>
+  </section>
+  <br>
 
-  <hr>
+  <section>
+    <h4>Inferred values</h4>
+    <p><code>analytics-on</code> always needs to be present, because it is the attribute that enables
+      event tracking for the element. All other attributes will be inferred if omitted.</p>
+    <pre><code>&lt;!-- infers <strong>analytics-event</strong> from the element inner text --&gt;
+&lt;a href="file.pdf" analytics-on="click"&gt;<strong class="highlighted">Download</strong>&lt;/a&gt;
 
-  <div class="row">
-    <div class="span4">
-        <h4>Declarative event tracking</h4>
-        <p>
-          The simplest way to do event tracking is by adding the attributes <code>analytics-on</code>
-          and <code>analytics-event</code> to the element.</p>
-        <p>
-          Think of it as: "<strong><i>on</i></strong> click, track <strong><i>event</i></strong> name".
-        </p>
-        <p>
-          Depending on the analytics provider, the <code>analytics-event</code> attribute is automatically mapped to its respective vendor field. For example, with Google Analytics, the event is used for the 'action' parameter.        
-        </p>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <div class="sample-code-name">HTML</div>
-            <div>
-                <pre class="prettyprint lang-html">
-  &lt;a href="file.pdf" 
-    analytics-on="click" 
-    analytics-event="Download"&gt;Download&lt;/a&gt;</pre>
-            </div>
-        </div>        
-    </div>
-  </div>
+&lt;!-- infers the <strong>analytics-on</strong> value from the element type; for anchor is 'click' --&gt;
+&lt;<strong class="highlighted">a</strong> href="file.pdf" analytics-on&gt;Download&lt;/a&gt;
 
-  <div class="row">
-    <div class="span4">
-        <hr>
-        <h4>Inferred values</h4>
-        <p>
-          <code>analytics-on</code> needs to be present, because it is the attribute that enables
-          event tracking for the element. However, Angulartics will try to infer its value if omitted.</p>
-        <p>
-          For example, for <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> elements, it 
-          will be assumed that you want to track whenever they are clicked.</p>
-        <p>
-          Same happens if <code>analytics-event</code> is not present or empty: following the example
-          above, the event name will be obtained from the inner text of the element.
-        </p>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <p>&nbsp;</p>
-            <div class="sample-code-name">HTML</div>
-            <div>
-                <pre class="prettyprint lang-html">
-  &lt;a href="file.pdf" 
-    analytics-on="click" analytics-event="Download"&gt;Download&lt;/a&gt;
+&lt;!-- same as adding <strong>analytics-event</strong>="Step 3" --&gt;
+&lt;input type="submit" value="<strong class="highlighted">Step 3</strong>" analytics-on&gt;</code></pre>
+  </section>
+  <br>
 
-  &lt;!-- same as above --&gt;
-  &lt;a href="file.pdf" analytics-on&gt;Download&lt;/a&gt;
+  <section>
+    <h4>Additional parameters</h4>
+    <p>Each vendor has its own set of tracking properties. For example, Google Analytics have
+      <i>category</i> and <i>label</i>.
+      You can set these properties with <code>analytics-</code> attributes.</p>
+    <pre><code>&lt;button analytics-on analytics-event="Play" <strong class="highlighted">analytics-category</strong>="<strong>Videos</strong>" <strong class="highlighted">analytics-label</strong>="<strong>Gone with the Wind</strong>"</strong>&gt;Play&lt;button&gt;</code></pre>
+  </section>
+  <br>
 
-  &lt;!-- same as adding analytics-event="Step 3" --&gt;
-  &lt;input type="submit" value="Step 3" analytics-on&gt;
-
-  &lt;!-- same as above assuming the step.label === "Step 3" --&gt;
-  &lt;input type="submit" ng-model="step.label" analytics-on&gt;</pre>
-            </div>
-        </div>        
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="span4">
-        <hr>
-        <h4>Additional parameters</h4>
-        <p>
-          Each vendor has its own set of tracking properties. For example, Google Analytics requires
-          you to specify a <i>category</i>, and also lets you add a <i>label</i> and <i>value</i>. 
-          You can set these properties by adding attributes prefixed with <code>analytics-</code>.</p>
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <p>&nbsp;</p>
-            <div class="sample-code-name">HTML</div>
-            <div>
-                <pre class="prettyprint lang-html">
-  &lt;button analytics-on
-    analytics-event="Play"
-    <strong>analytics-category</strong>="Videos"
-    <strong>analytics-label</strong>="Gone with the Wind"&gt;Play&lt;button&gt;</pre>
-            </div>
-        </div>        
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="span4">
-        <h4>Using the API</h4>
-        <p>In order to track pageviews and events from within your application logic,
-          inject <code>$analytics</code> and invoke either the <code>pageTrack()</code>
-          or <code>eventTrack()</code> methods.
-    </div>
-    <div class="span1"></div>
-    <div class="span5">
-        <div class="row">
-            <div class="sample-code-name">JavaScript</div>
-            <div>
-                <pre class="prettyprint lang-js">
-  module.controller('SampleCtrl', function(<strong>$analytics</strong>) {
-    $analytics.pageTrack('/my/url');
-    $analytics.eventTrack('eventName');
-    $analytics.eventTrack('eventName', { 
-      category: 'category', label: 'label'
-    });</pre>
-            </div>
-        </div>
-    </div>
-  </div>
+  <section>
+    <h4>Using the API</h4>
+    <p>In order to track pageviews and events from within your application logic,
+      inject <code>$analytics</code> and invoke either the <code>pageTrack()</code>
+      or <code>eventTrack()</code> methods.
+    <pre><code>module.controller('SampleCtrl', function (<strong class="highlighted">$analytics</strong>) {
+  $analytics.<strong class="highlighted">pageTrack</strong>('<strong>/my/url</strong>');
+  $analytics.<strong class="highlighted">eventTrack</strong>('<strong>eventName</strong>');
+  $analytics.<strong class="highlighted">eventTrack</strong>('<strong>eventName</strong>', <strong>{  category: 'category', label: 'label' }</strong>);</code></pre>
+  </section>
 </section>
 
 <section id="plugins">
@@ -317,88 +179,87 @@
     <h3>Plugins</h3>
   </div>
 
-  <div id="google-analytics-plugin" class="row">
-    <div class="span10">
-        <h4>
-          <img class="ga-logo" src="images/google-analytics-logo.gif" alt="Google Analytics logo" title="Google Analytics Logo" height="50" width="160">
-        </h4>
-        <p>The GA plugin implements Page Tracking and Event Tracking. To use it, just add
-          <code>angulartics-ga.js</code> and inject <code>angulartics.ga</code> into your app
-          dependencies.</p>
-    </div>
-  </div>
-  <br>
-  <div id="kissmetrics-plugin" class="row">
-    <div class="span10">
-        <h4><img class="km-logo" src="images/km_logo_dark.png" alt="KISSmetrics logo" title="KISSmetrics Logo" height="22" width="168"></h4>
-        <p>The KM plugin implements Event Tracking which is used both for virtual pageviews
-          and events. You need to add <code>angulartics-km.js</code> and inject
-          <code>angulartics.km</code> into your app dependencies.
-    </div>
-  </div>
-  <br>
-  <div id="mixpanel-plugin" class="row">
-    <div class="span10">
-        <h4><img class="mp-logo" src="images/logo_gray_117px.png" alt="Mixpanel logo" title="Mixpanel Logo" height="39" width="117"></h4>
-        <p>Written by <a href="http://github.com/L42y"><i class="icon-github"></i> L42y</a></p>
-        <p>The MP plugin implements Page Tracking and Event Tracking. Add <code>angulartics-mixpanel.js</code> and inject
-          <code>angulartics.mixpanel</code> into your app dependencies.
-    </div>
-  </div>
-  <hr>
-  <div id="contribute" class="row">
-    <div class="span10">
-        <h4>Contribute!</h4>
-        <p>You have an analytics vendor of choice and there's no Angulartics plugin for it?
-          Please feel free to write your implementation. Contributions are most welcomed!</p>
-    </div>
-  </div>
+  <table class="table table-bordered">
+    <tr>
+      <th>Vendor</th>
+      <th>Page Tracking support</th>
+      <th>Event Tracking support</th>
+      <th>Script</th>
+      <th>Module</th>
+      <th>Sample</th>
+    </tr>
+    <tr>
+      <th>Google Analytics</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>angulartics-google-analytics.js</td>
+      <td><code>angulartics.google.analytics</code></td>
+      <td><a href="//angulartics.herokuapp.com/google-analytics.html">link</a></td>
+    </tr>
+    <tr>
+      <th>Kissmetrics</th>
+      <td><a href="http://support.kissmetrics.com/apis/javascript/javascript-specific/#tracking-individual-page-views">Yes (via event tracking)</a></td>
+      <td>Yes</td>
+      <td>angulartics-kissmetrics.js</td>
+      <td><code>angulartics.kissmetrics</code></td>
+      <td><a href="//angulartics.herokuapp.com/kissmetrics.html">link</a></td>
+    </tr>
+    <tr>
+      <th>Mixpanel</th>
+      <td><a href="https://mixpanel.com/docs/getting-started/events-vs-page-views">Yes (via event tracking)</a></td>
+      <td>Yes</td>
+      <td>angulartics-mixpanel.js</td>
+      <td><code>angulartics.mixpanel</code></td>
+      <td><a href="//angulartics.herokuapp.com/mixpanel.html">link</a></td>
+    </tr>
+    <tr>
+      <th>Chartbeat</th>
+      <td>Yes</td>
+      <td>No</td>
+      <td>angulartics-chartbeat.js</td>
+      <td><code>angulartics.chartbeat</code></td>
+      <td><a href="//angulartics.herokuapp.com/chartbeat.html">link</a></td>
+    </tr>
+    <tr>
+      <th>Segment.io</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>angulartics-segmentio.js</td>
+      <td><code>angulartics.segment.io</code></td>
+      <td><a href="//angulartics.herokuapp.com/segmentio.html">link</a></td>
+    </tr>
+  </table>
 </section>
 
-<section id="roadmap">
+<section id="contributors">
   <div class="page-header">
-    <h3>Roadmap</h3>
+    <h3>Contributors</h3>
   </div>
-
-  <div class="row">
-    <div class="span10">
-        <h4>Complete documentation</h4>
-        <p>Add more docs, examples, wiki.</p>
-    </div>
-  </div>
+  <ul>
+    <li><a href="//github.com/L42y">L42y</a>: Mixpanel plugin</li>
+    <li><a href="//github.com/chechoacosta">chechoacosta</a>: Chartbeat plugin</li>
+    <li><a href="//github.com/willmcclellan">willmcclellan</a>: Google Analytics Universal update</li>
+    <li><a href="//github.com/NewMediaRoc">NewMediaRoc</a>: bugfixes and improvements</li>
+    <li><a href="//github.com/cironunes">cironunes</a>: Grunt + karma tests</li>
+    <li><a href="//github.com/ctso">ctso</a>: bugfixes and improvements</li>
+    <li><a href="//github.com/filmaj">filmaj</a>: bugfixes and improvements</li>
+  </ul>
   <br>
-  <div class="row">
-    <div class="span10">
-        <h4>Add more providers</h4>
-        <p>
-          While Google Analytics and Kissmetrics are probably the most common option, there are
-          several other products out there.</p>
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="span10">
-        <h4>More features</h4>
-        <p>
-          Keep an eye to the
-          <a href="https://github.com/luisfarzati/angulartics/issues?state=open">project issues</a>
-          to see what's coming!</p>
-    </div>
-  </div>
+  <h4>What about you?</h4>
+  <p>You have an analytics vendor of choice and there's no Angulartics plugin for it?
+    Please feel free to write your implementation and PR'it on GitHub. It'll be most welcomed!</p>
 </section>
+<hr>
 
-     <!-- Footer
-      ================================================== -->
+<footer id="footer">
+  <p class="pull-right"><a href="#top">Back to top</a></p>
+  Written by <a href="//linkedin.com/in/luisfarzati">Luis Farzati</a>. Contact me at <a href="mailto:lfarzati@gmail.com">lfarzati@gmail.com</a> or <a href="http://twitter.com/luisfarzati">@luisfarzati</a>. Code licensed under the <a href="http://opensource.org/licenses/MIT">MIT</a> license.<br><br>
+</footer>
 
-      <footer id="footer">
-        <p class="pull-right"><a href="#top">Back to top</a></p>
-        Made by <a href="http://linkedin.com/in/luisfarzati"><i class="icon-linkedin-sign"></i> Luis Farzati</a>. Contact me at <a href="mailto:lfarzati@gmail.com">lfarzati@gmail.com</a>, <a href="http://github.com/luisfarzati"><i class="icon-github"></i> luisfarzati</a> or <a href="http://twitter.com/luisfarzati"><i class="icon-twitter"></i> luisfarzati</a>.<br>
-        Code licensed under the <a href="http://opensource.org/licenses/MIT">MIT</a> license.<br>
-        <i class="icon-heart" style="color:red"></i><a href="http://angularjs.org"><img class="icon" src="http://angularjs.org/favicon.ico"></a>
-      </footer>
+</div><!-- /container -->
 
-    </div><!-- /container -->
-
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';js.async=true;fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-  </body>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';js.async=true;fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
 </html>
