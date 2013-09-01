@@ -7,15 +7,11 @@
   <meta name="description" content="Angulartics is an AngularJS module that enables web analytics for your application using the vendor of your choice.">
   <meta name="author" content="Luis Farzati">
   <meta name="google-site-verification" content="-hjukrhf79hZA9uTDhN8gZwzjYoa0WCipxEdDc4gRu0" />  
+  <meta name="robots" content="index,follow" />   
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <style>
-    body {padding-top:50px;}
     .twitter-follow-button[style], .twitter-share-button[style] { margin-top: 17px; margin-left: 10px; }
-    .logos img {
-      background: white;
-      width: 40px;
-      height: 40px;
-    }
+    .logos img { background: white; width: 40px; height: 40px; }
     del { color: red; }
     code strong { color: black; }
     code strong.highlighted { color: navy; }
@@ -29,34 +25,30 @@
     ga('send', 'pageview');
   </script>
 </head>
-<body>
-<div class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="#getting-started">Getting started</a>
-      </li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="plugins-menu">Plugins <span class="caret"></span></a>
-        <ul class="dropdown-menu" aria-labelledby="plugins-menu">
-          <li><a tabindex="-1" href="#plugins">Google Analytics</a></li>
-          <li><a tabindex="-1" href="#plugins">Kissmetrics</a></li>
-          <li><a tabindex="-1" href="#plugins">Mixpanel</a></li>
-          <li><a tabindex="-1" href="#plugins">Chartbeat</a></li>
-          <li><a tabindex="-1" href="#plugins">Segment.io</a></li>
-          <li class="divider"></li>
-          <li><a tabindex="-1" href="#contribute">Contribute!</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="//github.com/luisfarzati/angulartics">Source code</a>
-      </li>
-      <li>
-        <a href="//github.com/luisfarzati/angulartics/archive/master.zip">Download</a>
-      </li>
-    </ul>
+<body ng-app="website">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom:0">
+  <div class="container">
+  <ul class="nav navbar-nav">
+    <li><a href="#getting-started" analytics-on analytics-category="Navigation" analytics-event="Getting Started">Getting started</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="plugins-menu" analytics-on analytics-category="Navigation" analytics-event="Plugins">Plugins <span class="caret"></span></a>
+      <ul class="dropdown-menu" aria-labelledby="plugins-menu">
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Google Analytics">Google Analytics</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Kissmetrics">Kissmetrics</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Mixpanel">Mixpanel</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Chartbeat">Chartbeat</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Segment.io">Segment.io</a></li>
+        <li class="divider"></li>
+        <li><a tabindex="-1" href="#contribute" analytics-on analytics-category="Navigation" analytics-event="Write your plugin">Write your plugin</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributors" analytics-on analytics-category="Navigation" analytics-event="Contributors">Contributors</a></li>
+    <li><a href="//github.com/luisfarzati/angulartics" analytics-on analytics-category="Navigation" analytics-event="Source code">Source code</a></li>
+    <li><a href="//github.com/luisfarzati/angulartics/archive/master.zip" analytics-on analytics-category="Navigation" analytics-event="Download">Download</a></li>
+    <li><a href="#feedback" analytics-on analytics-category="Navigation" analytics-event="Feedback">Feedback</a></li>
+  </ul>
   </div>
-</div>
+</nav>
 
 <div class="well">
 <div class="container">
@@ -66,7 +58,7 @@
 </div>
 
 <div class="container">
-<section id="overview">
+<section id="overview" analytics-on="scroll">
   <div class="col-md-4">
     <h4>Vendor-agnostic &amp; extensible</h4>
     <p>Avoid dealing with vendor-specific code. If your provider of choice is not among the existing plugins, just write your own.</p>
@@ -97,11 +89,8 @@
 </div>
 
 <div class="container">
-<section id="getting-started">
-  <div class="page-header">
-    <h3>Getting started</h3>
-  </div>
-
+<section id="getting-started" analytics-on="scroll">
+  <div class="page-header"><h3>Getting started</h3></div>
   <section>
     <h4>Installation</h4>
     <p>In your application dependencies, inject Angulartics and the Angulartics plugin for your vendor.</p>
@@ -174,11 +163,8 @@
   </section>
 </section>
 
-<section id="plugins">
-  <div class="page-header">
-    <h3>Plugins</h3>
-  </div>
-
+<section id="plugins" analytics-on="scroll">
+  <div class="page-header"><h3>Plugins</h3></div>
   <table class="table table-bordered">
     <tr>
       <th>Vendor</th>
@@ -186,55 +172,52 @@
       <th>Event Tracking support</th>
       <th>Script</th>
       <th>Module</th>
-      <th>Sample</th>
     </tr>
     <tr>
       <th>Google Analytics</th>
       <td>Yes</td>
       <td>Yes</td>
-      <td>angulartics-google-analytics.js</td>
+      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-google-analytics.js" analytics-on analytics-category="Sources" analytics-event="angulartics-google-analytics.js">angulartics-google-analytics.js</a></td>
       <td><code>angulartics.google.analytics</code></td>
-      <td><a href="//angulartics.herokuapp.com/google-analytics.html">link</a></td>
+      <td><a href="//angulartics.herokuapp.com/google-analytics.html" analytics-on analytics-category="Samples" analytics-event="GA sample">Sample</a></td>
     </tr>
     <tr>
       <th>Kissmetrics</th>
       <td><a href="http://support.kissmetrics.com/apis/javascript/javascript-specific/#tracking-individual-page-views">Yes (via event tracking)</a></td>
       <td>Yes</td>
-      <td>angulartics-kissmetrics.js</td>
+      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-kissmetrics.js" analytics-on analytics-category="Sources" analytics-event="angulartics-kissmetrics.js">angulartics-kissmetrics.js</a></td>
       <td><code>angulartics.kissmetrics</code></td>
-      <td><a href="//angulartics.herokuapp.com/kissmetrics.html">link</a></td>
+      <td><a href="//angulartics.herokuapp.com/kissmetrics.html" analytics-on analytics-category="Samples" analytics-event="KM sample">Sample</a></td>
     </tr>
     <tr>
       <th>Mixpanel</th>
       <td><a href="https://mixpanel.com/docs/getting-started/events-vs-page-views">Yes (via event tracking)</a></td>
       <td>Yes</td>
-      <td>angulartics-mixpanel.js</td>
+      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-mixpanel.js" analytics-on analytics-category="Sources" analytics-event="angulartics-mixpanel.js">angulartics-mixpanel.js</a></td>
       <td><code>angulartics.mixpanel</code></td>
-      <td><a href="//angulartics.herokuapp.com/mixpanel.html">link</a></td>
+      <td><a href="//angulartics.herokuapp.com/mixpanel.html" analytics-on analytics-category="Samples" analytics-event="MP sample">Sample</a></td>
     </tr>
     <tr>
       <th>Chartbeat</th>
       <td>Yes</td>
       <td>No</td>
-      <td>angulartics-chartbeat.js</td>
+      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-chartbeat.js" analytics-on analytics-category="Sources" analytics-event="angulartics-chartbeat.js">angulartics-chartbeat.js</a></td>
       <td><code>angulartics.chartbeat</code></td>
-      <td><a href="//angulartics.herokuapp.com/chartbeat.html">link</a></td>
+      <td><a href="//angulartics.herokuapp.com/chartbeat.html" analytics-on analytics-category="Samples" analytics-event="CB sample">Sample</a></td>
     </tr>
     <tr>
       <th>Segment.io</th>
       <td>Yes</td>
       <td>Yes</td>
-      <td>angulartics-segmentio.js</td>
+      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-segmentio.js" analytics-on analytics-category="Sources" analytics-event="angulartics-segmentio.js">angulartics-segmentio.js</a></td>
       <td><code>angulartics.segment.io</code></td>
-      <td><a href="//angulartics.herokuapp.com/segmentio.html">link</a></td>
+      <td><a href="//angulartics.herokuapp.com/segmentio.html" analytics-on analytics-category="Samples" analytics-event="SIO sample">Sample</a></td>
     </tr>
   </table>
 </section>
 
-<section id="contributors">
-  <div class="page-header">
-    <h3>Contributors</h3>
-  </div>
+<section id="contributors" analytics-on="scroll">
+  <div class="page-header"><h3>Contributors</h3></div>
   <ul>
     <li><a href="//github.com/L42y">L42y</a>: Mixpanel plugin</li>
     <li><a href="//github.com/chechoacosta">chechoacosta</a>: Chartbeat plugin</li>
@@ -245,9 +228,15 @@
     <li><a href="//github.com/filmaj">filmaj</a>: bugfixes and improvements</li>
   </ul>
   <br>
-  <h4>What about you?</h4>
+  <h4 id="contribute">What about you?</h4>
   <p>You have an analytics vendor of choice and there's no Angulartics plugin for it?
     Please feel free to write your implementation and PR'it on GitHub. It'll be most welcomed!</p>
+</section>
+
+<section id="feedback" analytics-on="scroll">
+  <div class="page-header"><h3>Feedback</h3></div>
+  <div id="disqus_thread"></div>
+  <a id="disqus_powered" href="http://disqus.com" class="dsq-brlink hidden">comments powered by <span class="logo-disqus">Disqus</span></a>
 </section>
 <hr>
 
@@ -255,11 +244,26 @@
   <p class="pull-right"><a href="#top">Back to top</a></p>
   Written by <a href="//linkedin.com/in/luisfarzati">Luis Farzati</a>. Contact me at <a href="mailto:lfarzati@gmail.com">lfarzati@gmail.com</a> or <a href="http://twitter.com/luisfarzati">@luisfarzati</a>. Code licensed under the <a href="http://opensource.org/licenses/MIT">MIT</a> license.<br><br>
 </footer>
-
 </div><!-- /container -->
 
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';js.async=true;fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+<script src="js/angulartics.min.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';js.async=true;fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<script type="text/javascript">
+    $('#disqus_powered').removeClass('hidden');
+    var disqus_shortname = 'angulartics';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    angular.module('website', ['angulartics', 'angulartics.google.analytics', 'angulartics.scroll'])
+    .config(function ($analyticsProvider) {
+      $analyticsProvider.virtualPageviews(false);
+    });
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
 </html>
