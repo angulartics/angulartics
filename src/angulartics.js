@@ -55,25 +55,47 @@ angular.module('angulartics', [])
     function isProperty(name) {
       return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
     }
-
+    function evalAttr(scope, attr) {
+        var str1 = attr.substring(0, attr.indexOf("{")),
+            str2 = attr.substring(attr.lastIndexOf("}") + 1);
+        attr = attr.replace(str1,"").replace(str2,"").replace("{{", "").replace("}}", "");
+        return str1 + scope.$eval(attr) + str2;
+    }
     return {
       restrict: 'A',
       scope: false,
-      link: function($scope, $element, $attrs) {
-        var eventType = $attrs.analyticsOn || inferEventType($element[0]),
-            eventName = $attrs.analyticsEvent || inferEventName($element[0]);
+      link: function ($scope, $element, $attrs, ngModel) {
+        var eventType = $attrs.analyticsOn || inferEventType($element[0]);
+  
+        angular.element($element[0]).bind(eventType, function () {
+          var eventName,
+              properties = {};
 
-        var properties = {};
-        angular.forEach($attrs.$attr, function(attr, name) {
-          if (isProperty(attr)) {
-            properties[name.slice(9).toLowerCase()] = $attrs[name];
+          for (var i = 0, len = this.attributes.length; i < len; i++) {
+            var attr = this.attributes[i],
+                name = attr.name,
+                value = attr.value;
+
+            if (name === "analytics-event") {
+              eventName = value;
+            } else if (isProperty(name)&&value!="") {
+              if (value.indexOf("{") != -1) {
+                properties[name.slice(10).toLowerCase()] = evalAttr($scope, value);
+              } else {
+                properties[name.slice(10).toLowerCase()] = value;
+              }
+            }
           }
-        });
 
-        angular.element($element[0]).bind(eventType, function() {
+          if (!eventName) eventName = inferEventName(this);
+          if (eventName.indexOf("{") != -1) eventName = evalAttr($scope, eventName);
+          if (!properties.hasOwnProperty("value") && $attrs.analyticsValue==""&& ngModel && ngModel.$viewValue) {
+              properties.value = ngModel.$viewValue;
+          }
           $analytics.eventTrack(eventName, properties);
         });
       }
+      
     };
   }]);
 
