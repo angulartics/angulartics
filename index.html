@@ -31,6 +31,13 @@
   <ul class="nav navbar-nav">
     <li><a href="#getting-started" analytics-on analytics-category="Navigation" analytics-event="Getting Started">Getting started</a></li>
     <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="features-menu" analytics-on analytics-category="Navigation" analytics-event="Features">Features <span class="caret"></span></a>
+      <ul class="dropdown-menu" aria-labelledby="features-menu">
+        <li><a tabindex="-1" href="#page-tracking" analytics-on analytics-category="Navigation" analytics-event="Page tracking">Page tracking</a></li>
+        <li><a tabindex="-1" href="#event-tracking" analytics-on analytics-category="Navigation" analytics-event="Event tracking">Event tracking</a></li>
+        <li><a tabindex="-1" href="#scroll-tracking" analytics-on analytics-category="Navigation" analytics-event="Scroll tracking">Scroll tracking</a></li>
+      </ul>
+    <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="plugins-menu" analytics-on analytics-category="Navigation" analytics-event="Plugins">Plugins <span class="caret"></span></a>
       <ul class="dropdown-menu" aria-labelledby="plugins-menu">
         <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Google Analytics">Google Analytics</a></li>
@@ -58,7 +65,7 @@
 </div>
 
 <div class="container">
-<section id="overview" analytics-on="scroll">
+<section id="overview" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="col-md-4">
     <h4>Vendor-agnostic &amp; extensible</h4>
     <p>Avoid dealing with vendor-specific code. If your provider of choice is not among the existing plugins, just write your own.</p>
@@ -89,7 +96,7 @@
 </div>
 
 <div class="container">
-<section id="getting-started" analytics-on="scroll">
+<section id="getting-started" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="page-header"><h3>Getting started</h3></div>
   <section>
     <h4>Installation</h4>
@@ -104,7 +111,7 @@
   </section>
   <br>
 
-  <section>
+  <section id="page-tracking">
     <h4>Virtual pageviews</h4>
     <p>Angulartics does automatic virtual pageview tracking by default, meaning the entire
         user navigation across the different routes of your application is tracked. You can turn it
@@ -115,14 +122,14 @@
   </section>
   <br>
 
-  <section>
+  <section id="event-tracking">
     <h4>Declarative event tracking</h4>
     <p>The simplest way to do event tracking is by adding the attributes <code>analytics-on</code>
       and <code>analytics-event</code> to the element. Think of it as: <strong><i>on</i></strong> 'click',
       track <strong><i>event</i></strong> 'name'.</p>
     <pre><code>&lt;a href="file.pdf" <strong class="highlighted">analytics-on</strong>=<strong>"click"</strong> <strong class="highlighted">analytics-event</strong>=<strong>"Download"</strong>&gt;Download&lt;/a&gt;</code></pre>
     <div class="alert alert-info">Depending on your analytics provider, the <code>analytics-event</code> attribute is automatically
-      mapped to its respective vendor field. For example, with Google Analytics, the event is used for
+      mapped to its respective vendor field. For example, with <strong>Google Analytics</strong>, the event is used for
       the 'action' parameter.</div>
   </section>
   <br>
@@ -144,10 +151,26 @@
 
   <section>
     <h4>Additional parameters</h4>
-    <p>Each vendor has its own set of tracking properties. For example, Google Analytics have
+    <p>Each vendor has its own set of tracking properties. For example, <strong>Google Analytics</strong> have
       <i>category</i> and <i>label</i>.
       You can set these properties with <code>analytics-</code> attributes.</p>
     <pre><code>&lt;button analytics-on analytics-event="Play" <strong class="highlighted">analytics-category</strong>="<strong>Videos</strong>" <strong class="highlighted">analytics-label</strong>="<strong>Gone with the Wind</strong>"</strong>&gt;Play&lt;button&gt;</code></pre>
+  </section>
+  <br>
+
+  <section id="scroll-tracking">
+    <h4>Scroll tracking</h4>
+    <p>In the same way you can track an action by catching any valid DOM event (<em>click</em>, <em>hover</em>, etc), you can also
+      track any element that appears into the viewport while scrolling the page. To achieve this, Angulartics uses 
+      <strong><a href="http://imakewebthings.com/jquery-waypoints/">jQuery Waypoints</a></strong> and provides you with a <strong><em>scrollby</em></strong> event that you can use for <code>analytics-on</code>.</p>
+    <p>First, you need to include the plugin script named <code>angulartics-scroll.js</code>, and inject <code>angulartics.scroll</code> into your module.</p>
+    <pre><code>angular.module('myApp', [..., 'angulartics.<strong class="highlighted">scroll</strong>'])</code></pre>
+    <pre><code>&lt;section id="features" analytics-on="<strong class="highlighted">scrollby</strong>"&gt;</code></pre>
+    <p>Remember what we learned about inferred values: in the example above we didn't specify an event name so in this case
+      the <code>id</code> attribute ("features") will be used.</p>
+    <div class="alert alert-info">
+      <p><strong>jQuery Waypoints</strong> have <a href="http://imakewebthings.com/jquery-waypoints/#doc-options">a set of options</a> to customize its behavior; you can specify any of them by adding <code>scrollby-*</code> attributes. For more information you can take a look at <a href="http://github.com/luisfarzati/angulartics/blob/master/samples/scroll.html">this sample</a>.</p>
+    </div>
   </section>
   <br>
 
@@ -163,7 +186,7 @@
   </section>
 </section>
 
-<section id="plugins" analytics-on="scroll">
+<section id="plugins" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="page-header"><h3>Plugins</h3></div>
   <table class="table table-bordered">
     <tr>
@@ -216,7 +239,7 @@
   </table>
 </section>
 
-<section id="contributors" analytics-on="scroll">
+<section id="contributors" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="page-header"><h3>Contributors</h3></div>
   <ul>
     <li><a href="//github.com/L42y">L42y</a>: Mixpanel plugin</li>
@@ -233,7 +256,7 @@
     Please feel free to write your implementation and PR'it on GitHub. It'll be most welcomed!</p>
 </section>
 
-<section id="feedback" analytics-on="scroll">
+<section id="feedback" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="page-header"><h3>Feedback</h3></div>
   <div id="disqus_thread"></div>
   <a id="disqus_powered" href="http://disqus.com" class="dsq-brlink hidden">comments powered by <span class="logo-disqus">Disqus</span></a>
@@ -261,6 +284,7 @@
     })();
     angular.module('website', ['angulartics', 'angulartics.google.analytics', 'angulartics.scroll'])
     .config(function ($analyticsProvider) {
+      $analyticsProvider.firstPageview(false);
       $analyticsProvider.virtualPageviews(false);
     });
 </script>
