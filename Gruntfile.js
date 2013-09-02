@@ -10,12 +10,12 @@ module.exports = function(grunt) {
       },
 
       jshint: {
-         all: ['Gruntfile.js', 'src/*.js']
+         all: ['Gruntfile.js', 'src/*.js', 'test/**/*.js']
       }
    });
 
    grunt.loadNpmTasks('grunt-contrib-jshint');
    grunt.loadNpmTasks('grunt-karma');
 
-   grunt.registerTask('test', 'jshint karma');
+   grunt.registerTask('test', ['jshint', 'karma']);
 };

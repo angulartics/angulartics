@@ -4,36 +4,16 @@
 	<meta charset="utf8">
 	<title>Chartbeat sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
-
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-chartbeat.js"></script>
-
-	<script type="text/javascript">
-		// DISABLED BECAUSE WE ARE SETTING THIS VALUE FROM THE USER FORM
-		/*
-		var _sf_async_config = { uid: 48378, domain: 'angulartics.herokuapp.com', useCanonical: true };
-		(function() {
-		function loadChartbeat() {
-		  window._sf_endpt = (new Date()).getTime();
-		  var e = document.createElement('script');
-		  e.setAttribute('language', 'javascript');
-		  e.setAttribute('type', 'text/javascript');
-		  e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
-		  document.body.appendChild(e);
-		};
-		var oldonload = window.onload;
-		window.onload = (typeof window.onload != 'function') ?
-		  loadChartbeat : function() { oldonload(); loadChartbeat(); };
-		})();
-		*/
-	</script>	
+	<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
 </head>
 <body ng-app="sample">
 
 <div class="navbar navbar-default">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="#">My App</a>
+		<a class="navbar-brand" href="#/">My App</a>
 	</div>
 	<div>
 		<ul class="nav navbar-nav">
@@ -45,19 +25,6 @@
 </div>
 
 <div class="container">
-	<div class="well">
-		<form class="form-horizontal">
-			<div class="form-group">
-                <label for="inputEmail" class="col-lg-2 control-label">Your Chartbeat uid,domain:</label>
-                <div class="col-lg-8">
-					<input type="text" class="form-control" ng-model="code" placeholder="48378,angulartics.herokuapp.com">
-	            </div>
-                <div class="col-lg-2">
-					<button class="btn btn-primary" ng-click="setCode()">Submit</button>
-                </div>
-          </div>
-	</div>
-
 	<div ng-view></div>
 	<hr>
 
@@ -80,30 +47,33 @@
 	</p>
 </div>
 
-
 <script>
-	angular.module('sample', ['angulartics', 'angulartics.chartbeat']).config(function ($routeProvider, $analyticsProvider) {
+	angular.module('sample', ['angulartics', 'angulartics.chartbeat'])
+	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
-		  .when('/a', { templateUrl: 'partials/a.tpl.html', controller: 'SampleCtrl' })
-		  .when('/b', { templateUrl: 'partials/b.tpl.html', controller: 'SampleCtrl' })
-		  .when('/c', { templateUrl: 'partials/c.tpl.html', controller: 'SampleCtrl' })
-		  .otherwise({ redirectTo: '/a' });
+			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })
+	  	.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
+		  .when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
+		  .when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
+		  .otherwise({ redirectTo: '/' });
 	})
-	.controller('SampleCtrl', function () {})
-	.run(function ($rootScope) {
-		$rootScope.setCode = function () {
-			var uidDomain = $rootScope.code.split(',');
-			console.log('executing chartbeat snippet with uid', uidDomain[0], 'domain', uidDomain[1]);
-			window._sf_startpt=(new Date()).getTime();
-			window._sf_async_config = { uid: parseInt(uidDomain[0],10), domain: uidDomain[1], useCanonical: true };
-			window._sf_endpt = (new Date()).getTime();
-			var e = document.createElement('script');
-			e.setAttribute('language', 'javascript');
-			e.setAttribute('type', 'text/javascript');
-			e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
-			document.body.appendChild(e);
-		};
-	});
+	.controller('SampleCtrl', function () {});
+</script>
+<script type="text/javascript">
+  var _sf_async_config = { uid: 48378, domain: 'angulartics.herokuapp.com', useCanonical: true };
+  (function() {
+    function loadChartbeat() {
+      window._sf_endpt = (new Date()).getTime();
+      var e = document.createElement('script');
+      e.setAttribute('language', 'javascript');
+      e.setAttribute('type', 'text/javascript');
+      e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
+      document.body.appendChild(e);
+    };
+    var oldonload = window.onload;
+    window.onload = (typeof window.onload != 'function') ?
+      loadChartbeat : function() { oldonload(); loadChartbeat(); };
+  })();
 </script>
 </body>
 </html>

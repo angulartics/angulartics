@@ -6,7 +6,7 @@ describe('Module: angulartics', function() {
       _$analyticsProvider_.virtualPageviews(false);
     });
     inject(function(_$analytics_) {
-      expect(_$analytics_.settings.tracking.auto).toBe(false);
+      expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
     })
   });
 
@@ -24,13 +24,13 @@ describe('Module: angulartics', function() {
 
     describe('initialize', function() {
       it('should tracking pages by default', function() {
-        expect(analytics.settings.tracking.auto).toBe(true);
+        expect(analytics.settings.pageTracking.autoTrackVirtualPages).toBe(true);
       });
     });
 
     it('should tracking pages on route change', function() {
       location.path('/abc');
-      rootScope.$emit('$routeChangeStart');
+      rootScope.$emit('$routeChangeSuccess');
       expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
     });
     

@@ -1,19 +1,24 @@
+/**
+ * @license Angulartics v0.7.4
+ * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
+ * License: MIT
+ */
 (function(angular) {
-  'use strict';
+'use strict';
 
-  angular.module('angulartics.segment.io', ['angulartics'])
-    .config(['$analyticsProvider',
-      function($analyticsProvider) {
+/**
+ * @ngdoc overview
+ * @name angulartics.segment.io
+ * Enables analytics support for Segment.io (http://segment.io)
+ */
+angular.module('angulartics.segment.io', ['angulartics'])
+.config(['$analyticsProvider', function ($analyticsProvider) {
+  $analyticsProvider.registerPageTrack(function (path) {
+    analytics.pageview(path);
+  });
 
-        $analyticsProvider.registerPageTrack(function(path) {
-          analytics.pageview(path);
-        });
-
-        $analyticsProvider.registerEventTrack(function(action, properties) {
-          analytics.track(action, properties);
-        });
-
-      }
-    ]);
-
+  $analyticsProvider.registerEventTrack(function (action, properties) {
+    analytics.track(action, properties);
+  });
+}]);
 })(angular);
