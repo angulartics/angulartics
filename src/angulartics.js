@@ -59,7 +59,9 @@ angular.module('angulartics', [])
     return {
       restrict: 'A',
       scope: false,
-      link: function($scope, $element, $attrs) {
+      priority: 100,
+      require:'?ngModel',
+      link: function($scope, $element, $attrs, ngModel) {
         var eventType = $attrs.analyticsOn || inferEventType($element[0]),
             eventName = $attrs.analyticsEvent || inferEventName($element[0]);
 
@@ -71,6 +73,9 @@ angular.module('angulartics', [])
         });
 
         angular.element($element[0]).bind(eventType, function() {
+          if (!properties.hasOwnProperty("value")  && ngModel && ngModel.$viewValue) {
+                properties.value = ngModel.$viewValue;
+            }
           $analytics.eventTrack(eventName, properties);
         });
       }
