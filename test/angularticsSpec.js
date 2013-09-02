@@ -7,7 +7,7 @@ describe('Module: angulartics', function() {
     });
     inject(function(_$analytics_) {
       expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
-    })
+    });
   });
 
   describe('Provider: analytics', function() {
