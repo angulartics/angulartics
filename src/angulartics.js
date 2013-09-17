@@ -26,6 +26,7 @@ angular.module('angulartics', [])
     pageTracking: { 
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
+      autoTrackUrlQueryChanges: false,
       bufferFlushDelay: 1000 
     },
     eventTracking: {
@@ -69,6 +70,7 @@ angular.module('angulartics', [])
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
+    urlQueryChanges: function (value) { this.settings.pageTracking.autoTrackUrlQueryChanges = value; },
     registerPageTrack: registerPageTrack,
     registerEventTrack: registerEventTrack
   };
@@ -82,6 +84,12 @@ angular.module('angulartics', [])
     $rootScope.$on('$routeChangeSuccess', function (event, current) {
       if (current && (current.$$route||current).redirectTo) return;
       $analytics.pageTrack($location.url());
+    });
+  }
+  if ($analytics.settings.pageTracking.autoTrackUrlQueryChanges) {
+    $rootScope.$on('$routeUpdate', function (event, current) {
+        if (current && (current.$$route||current).redirectTo) return;
+        $analytics.pageTrack($location.url());
     });
   }
 }])
