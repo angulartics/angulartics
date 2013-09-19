@@ -12,7 +12,7 @@
 
   /**
    * @ngdoc overview
-   * @name angulartics.sanoma.console
+   * @name angulartics.console
    * Enables analytics support for Console
    */
   angular.module('angulartics.console', ['angulartics'])

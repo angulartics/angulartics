@@ -12,7 +12,7 @@
 
   /**
    * @ngdoc overview
-   * @name angulartics.sanoma.km
+   * @name angulartics.km
    * Enables analytics support for KISSmetrics (http://kissmetrics.com)
    */
   angular.module('angulartics.km', ['angulartics'])
