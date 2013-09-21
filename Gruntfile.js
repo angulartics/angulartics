@@ -38,6 +38,7 @@ module.exports = function(grunt) {
          dist: {
             files: {
                'dist/angulartics.min.js': ['src/angulartics.js'],
+               'dist/angulartics-console.min.js': ['src/angulartics-console.js'],
                'dist/angulartics-chartbeat.min.js': ['src/angulartics-chartbeat.js'],
                'dist/angulartics-google-analytics.min.js': ['src/angulartics-google-analytics.js'],
                'dist/angulartics-kissmetrics.min.js': ['src/angulartics-kissmetrics.js'],
