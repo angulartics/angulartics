@@ -65,7 +65,7 @@ angular.module('angulartics', [])
   };
 
   return {
-    $get: function() { return api; },
+    $get: ['$http', function($http) { api.httpService = $http; return api; }],
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
