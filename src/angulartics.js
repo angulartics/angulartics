@@ -70,7 +70,7 @@ angular.module('angulartics', [])
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
-    withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href') : ''; },
+    withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
     registerPageTrack: registerPageTrack,
     registerEventTrack: registerEventTrack
   };
