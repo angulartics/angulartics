@@ -26,6 +26,7 @@ angular.module('angulartics', [])
     pageTracking: { 
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
+      basePath: '',
       bufferFlushDelay: 1000 
     },
     eventTracking: {
@@ -69,6 +70,7 @@ angular.module('angulartics', [])
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
+    withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href') : ''; },
     registerPageTrack: registerPageTrack,
     registerEventTrack: registerEventTrack
   };
@@ -81,7 +83,8 @@ angular.module('angulartics', [])
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
     $rootScope.$on('$routeChangeSuccess', function (event, current) {
       if (current && (current.$$route||current).redirectTo) return;
-      $analytics.pageTrack($location.url());
+      var url = $analytics.settings.pageTracking.basePath + $location.url();
+      $analytics.pageTrack(url);
     });
   }
 }])
