@@ -123,6 +123,7 @@ angular.module('angulartics', [])
             var properties = {};
               angular.forEach($attrs.$attr, function(attr, name) {
                 if (isProperty(attr)) {
+                  console.log('property' + name.slice(9).toLowerCase() + ': ' + $attrs[name]);
                   properties[name.slice(9).toLowerCase()] = interpolateValue($scope, $attrs[name]);
                 }
               });
