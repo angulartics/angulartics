@@ -102,28 +102,33 @@ angular.module('angulartics', [])
     return element.id || element.name || element.tagName;
   }
 
+  function interpolateValue(scope, value){
+      return scope.$eval($interpolate(value));
+  }
+
   function isProperty(name) {
     return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
   }
 
-  return {
-    restrict: 'A',
-    scope: false,
-    link: function ($scope, $element, $attrs) {
-      var eventType = $attrs.analyticsOn || inferEventType($element[0]),
-          eventName = $attrs.analyticsEvent || inferEventName($element[0]);
+    return {
+      restrict: 'A',
+      scope: false,
+      link: function ($scope, $element, $attrs) {
+        var eventType = $attrs.analyticsOn || inferEventType($element[0]);
 
-      var properties = {};
-      angular.forEach($attrs.$attr, function(attr, name) {
-        if (isProperty(attr)) {
-          properties[name.slice(9).toLowerCase()] = $attrs[name];
-        }
-      });
+        angular.element($element[0]).bind(eventType, function () {
+            var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
+            eventName = interpolateValue($scope, eventName);
 
-      angular.element($element[0]).bind(eventType, function () {
-        $analytics.eventTrack(eventName, properties);
-      });
-    }
-  };
-}]);
-})(angular);
+            var properties = {};
+              angular.forEach($attrs.$attr, function(attr, name) {
+                if (isProperty(attr)) {
+                  properties[name.slice(9).toLowerCase()] = interpolateValue($scope, $attrs[name]);
+                }
+              });
+            $analytics.eventTrack(eventName, properties);
+        });
+      }
+    };
+  }]);
+  })(angular);
