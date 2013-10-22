@@ -8,7 +8,7 @@
 
 var angulartics = window.angulartics || (window.angulartics = {});
 angulartics.waitForVendorApi = function (objectName, delay, registerFn) {
-  if (!window.hasOwnProperty(objectName)) {
+  if (!Object.prototype.hasOwnProperty(window, objectName)) {
     setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, registerFn); }, delay);
   }
   else {
