@@ -6,12 +6,15 @@ module.exports = function(grunt) {
 
       karma: {
          unit: {
-            configFile: 'karma.conf.js',
-            singleRun: true
+            configFile: 'karma.conf.js'
+//            singleRun: true
          }
       },
 
       jshint: {
+         options: {
+            '-W093': false
+         },
          all: ['Gruntfile.js', 'src/*.js', 'test/**/*.js']
       },
 

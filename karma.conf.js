@@ -2,21 +2,18 @@ module.exports = function(config) {
   'use strict';
   
   config.set({
-
     basePath: './',
-
     frameworks: ["jasmine"],
-
+    browsers: ['PhantomJS'],
     files: [
-      'components/angular/angular.js',
-      'components/angular-mocks/angular-mocks.js',
-      'src/**/*.js',
-      'test/**/*.js'
+      'test/lib/vendor/angular/angular.js',
+      'test/lib/vendor/angular-mocks/angular-mocks.js',
+      'test/lib/vendor/analytics/analytics.js',
+      'test/specs/**/*.js',
+      'src/angulartics.js',
+      'src/**/*.js'
     ],
-
     autoWatch: true,
-
-    browsers: ['PhantomJS']
-
+    reportSlowerThan: 500    
   });
 };

@@ -1,129 +1,51 @@
-/**
- * @license Angulartics v0.8.5
- * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
- * License: MIT
- */
-(function(angular, analytics) {
+!function () {
 'use strict';
 
-var angulartics = window.angulartics || (window.angulartics = {});
-angulartics.waitForVendorApi = function (objectName, delay, registerFn) {
-  if (!window.hasOwnProperty(objectName)) {
-    setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, registerFn); }, delay);
-  }
-  else {
-    registerFn(window[objectName]);
-  }
+/**
+ * Directive prefix customization support
+ */
+var DEFAULT_DIRECTIVE_PREFIX = 'track';
+
+var angulartics = window.angulartics = {
+	directivePrefix: document.getElementsByTagName('html')[0].dataset.tkPrefix || DEFAULT_DIRECTIVE_PREFIX,
+	prefixed: function (name) { return this.directivePrefix + name[0].toUpperCase() + name.slice(1); }	
 };
 
+if (angulartics.directivePrefix !== DEFAULT_DIRECTIVE_PREFIX) console.debug('Using directive prefix:', directivePrefix);
+
 /**
- * @ngdoc overview
- * @name angulartics
+* Returns a link function that binds the specified trigger to the hit() method of the
+* trackMetric directive controller.
+*
+* @param {String} trigger
+*/
+function elementBind(trigger) {
+	return function (scope, iElement, iAttrs, metricCtrl) {
+		metricCtrl && iElement.bind(trigger, metricCtrl.hit);
+	};
+}
+
+/**
+ * Returns a directive function that wraps common functionality for
+ * automatically integrated HTML elements.
+ *
+ * @param {String} directiveName
+ * @param {String} restrict
+ * @param {String} trigger
  */
-angular.module('angulartics', [])
-.provider('$analytics', function () {
-  var settings = { 
-    pageTracking: { 
-      autoTrackFirstPage: true,
-      autoTrackVirtualPages: true,
-      bufferFlushDelay: 1000 
-    },
-    eventTracking: {
-      bufferFlushDelay: 1000
-    } 
-  };
+angulartics.commonElementDirective = function (restrict, trigger) {
+	return function () {
+		return {
+			restrict: restrict,
+			require: '?' + angulartics.prefixed('metric'),
+			link: elementBind(trigger)
+		};
+	};
+}
 
-  var cache = {
-    pageviews: [],
-    events: []
-  };
+/**
+ * AngularJS module
+ */
+angular.module('angulartics', []);
 
-  var bufferedPageTrack = function (path) {
-    cache.pageviews.push(path);
-  };
-  var bufferedEventTrack = function (event, properties) {
-    cache.events.push({name: event, properties: properties});
-  };
-
-  var api = {
-    settings: settings,
-    pageTrack: bufferedPageTrack,
-    eventTrack: bufferedEventTrack
-  };
-
-  var registerPageTrack = function (fn) {
-    api.pageTrack = fn;
-    angular.forEach(cache.pageviews, function (path, index) {
-      setTimeout(function () { api.pageTrack(path); }, index * settings.pageTracking.bufferFlushDelay);
-    });
-  };
-  var registerEventTrack = function (fn) {
-    api.eventTrack = fn;
-    angular.forEach(cache.events, function (event, index) {
-      setTimeout(function () { api.eventTrack(event.name, event.properties); }, index * settings.eventTracking.bufferFlushDelay);
-    });
-  };
-
-  return {
-    $get: function() { return api; },
-    settings: settings,
-    virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
-    firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
-    registerPageTrack: registerPageTrack,
-    registerEventTrack: registerEventTrack
-  };
-})
-
-.run(['$rootScope', '$location', '$analytics', function ($rootScope, $location, $analytics) {
-  if ($analytics.settings.pageTracking.autoTrackFirstPage) {
-    $analytics.pageTrack($location.absUrl());
-  }
-  if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
-    $rootScope.$on('$routeChangeSuccess', function (event, current) {
-      if (current && (current.$$route||current).redirectTo) return;
-      $analytics.pageTrack($location.url());
-    });
-  }
-}])
-
-.directive('analyticsOn', ['$analytics', function ($analytics) {
-  function isCommand(element) {
-    return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
-      element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
-  }
-
-  function inferEventType(element) {
-    if (isCommand(element)) return 'click';
-    return 'click';
-  }
-
-  function inferEventName(element) {
-    if (isCommand(element)) return element.innerText || element.value;
-    return element.id || element.name || element.tagName;
-  }
-
-  function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
-  }
-
-  return {
-    restrict: 'A',
-    scope: false,
-    link: function ($scope, $element, $attrs) {
-      var eventType = $attrs.analyticsOn || inferEventType($element[0]),
-          eventName = $attrs.analyticsEvent || inferEventName($element[0]);
-
-      var properties = {};
-      angular.forEach($attrs.$attr, function(attr, name) {
-        if (isProperty(attr)) {
-          properties[name.slice(9).toLowerCase()] = $attrs[name];
-        }
-      });
-
-      angular.element($element[0]).bind(eventType, function () {
-        $analytics.eventTrack(eventName, properties);
-      });
-    }
-  };
-}]);
-})(angular);
+}();
