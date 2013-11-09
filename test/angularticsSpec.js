@@ -30,7 +30,7 @@ describe('Module: angulartics', function() {
       });
     });
 
-    it('should support tracking pages on route change when using build in router', function() {
+    it('should support tracking pages on route change when using built in router', function() {
       location.path('/abc');
       rootScope.$emit('$routeChangeSuccess');
       expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
