@@ -118,7 +118,7 @@ angular.module('angulartics', [])
 
       var properties = {};
       angular.forEach($attrs.$attr, function(attr, name) {
-        if (isProperty(attr)) {
+        if (isProperty(name)) {
           properties[name.slice(9).toLowerCase()] = $attrs[name];
         }
       });
