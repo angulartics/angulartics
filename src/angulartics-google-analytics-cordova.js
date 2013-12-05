@@ -79,7 +79,7 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
     });
 
     $analyticsProvider.registerEventTrack(function (action, properties) {
-      analytics.trackEvent(success, failure, action, properties.label, properties.value, properties.scope);
+      analytics.trackEvent(success, failure, properties.category, action, properties.label, properties.value);
     });
   });
 }])
