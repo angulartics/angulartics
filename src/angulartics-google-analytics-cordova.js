@@ -12,20 +12,11 @@
  * Enables analytics support for Google Analytics (http://google.com/analytics)
  */
 angular.module('angulartics.google.analytics.cordova', ['angulartics'])
-.config(['$analyticsProvider', function ($analyticsProvider, googleAnalyticsCordovaProvider) {
-  googleAnalyticsCordovaProvider.ready(function (analytics, success, failure) {
-    $analyticsProvider.registerPageTrack(function (path) {
-      analytics.trackPage(success, failure, path);
-    });
-
-    $analyticsProvider.registerEventTrack(function (action, properties) {
-      analytics.trackEvent(success, failure, action, properties.label, properties.value, properties.scope);
-    });
-  });
-}])
 
 .provider('googleAnalyticsCordova', function () {
-  function GoogleAnalyticsCordova($q, $log, ready, debug, trackingId, period) {
+  var GoogleAnalyticsCordova = [
+  '$q', '$log', 'ready', 'debug', 'trackingId', 'period',
+  function ($q, $log, ready, debug, trackingId, period) {
     var deferred = $q.defer();
     var deviceReady = false;
 
@@ -56,7 +47,7 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
       return deferred.promise.then(function () {
         var analytics = window.plugins && window.plugins.gaPlugin;
         if (analytics) {
-          analytics.init(analytics, function () {
+          analytics.init(function onInit() {
             ready(analytics, success, failure);
           }, failure, trackingId, period || 10);
         } else if (debug) {
@@ -64,25 +55,37 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
         }
       });
     };
-  }
+  }];
 
   return {
-    $get: function () {
-      return angular.instantiate(GoogleAnalyticsCordova, {
+    $get: ['$injector', function ($injector) {
+      return $injector.instantiate(GoogleAnalyticsCordova, {
         ready: this._ready || angular.noop,
         debug: this.debug,
         trackingId: this.trackingId,
         period: this.period
       });
-    },
+    }],
     ready: function (fn) {
       this._ready = fn;
     }
   };
 })
 
-.run(function (googleAnalyticsCordova) {
+.config(['$analyticsProvider', 'googleAnalyticsCordovaProvider', function ($analyticsProvider, googleAnalyticsCordovaProvider) {
+  googleAnalyticsCordovaProvider.ready(function (analytics, success, failure) {
+    $analyticsProvider.registerPageTrack(function (path) {
+      analytics.trackPage(success, failure, path);
+    });
+
+    $analyticsProvider.registerEventTrack(function (action, properties) {
+      analytics.trackEvent(success, failure, action, properties.label, properties.value, properties.scope);
+    });
+  });
+}])
+
+.run(['googleAnalyticsCordova', function (googleAnalyticsCordova) {
   googleAnalyticsCordova.init();
-});
+}]);
 
 })(angular);
