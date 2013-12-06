@@ -30,7 +30,7 @@ describe('Module: angulartics', function() {
 
     it('should tracking pages on route change', function() {
       location.path('/abc');
-      rootScope.$emit('$routeChangeSuccess');
+      rootScope.$emit('$locationChangeSuccess');
       expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
     });
     
