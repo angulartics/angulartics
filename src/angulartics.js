@@ -80,18 +80,12 @@ angular.module('angulartics', [])
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
     $analytics.pageTrack($location.absUrl());
   }
-
-  function trackVirtualPage (event, current) {
-    if (current && (current.$$route||current).redirectTo) return;
-    var url = $analytics.settings.pageTracking.basePath + $location.url();
-    $analytics.pageTrack(url);
-  }
-
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
-    $rootScope.$on('$routeChangeSuccess', trackVirtualPage );
-
-    // Support for https://github.com/angular-ui/ui-router
-    $rootScope.$on('$stateChangeSuccess', trackVirtualPage );
+    $rootScope.$on('$routeChangeSuccess', function (event, current) {
+      if (current && (current.$$route||current).redirectTo) return;
+      var url = $analytics.settings.pageTracking.basePath + $location.url();
+      $analytics.pageTrack(url);
+    });
   }
 }])
 

@@ -20,8 +20,6 @@ describe('Module: angulartics', function() {
       rootScope = _$rootScope_;
 
       spyOn(analytics, 'pageTrack');
-
-      location.path('/');
     }));
 
     describe('initialize', function() {
@@ -30,16 +28,10 @@ describe('Module: angulartics', function() {
       });
     });
 
-    it('should support tracking pages on route change when using built in router', function() {
+    it('should tracking pages on route change', function() {
       location.path('/abc');
       rootScope.$emit('$routeChangeSuccess');
       expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
-    });
-
-    it('should support tracking pages on route change when using ui-router', function() {
-      location.path('/def');
-      rootScope.$emit('$stateChangeSuccess');
-      expect(analytics.pageTrack).toHaveBeenCalledWith('/def');
     });
     
   });
