@@ -43,7 +43,8 @@ module.exports = function(grunt) {
                'dist/angulartics-ga-cordova.min.js': ['src/angulartics-ga-cordova.js'],
                'dist/angulartics-kissmetrics.min.js': ['src/angulartics-kissmetrics.js'],
                'dist/angulartics-mixpanel.min.js': ['src/angulartics-mixpanel.js'],
-               'dist/angulartics-segmentio.min.js': ['src/angulartics-segmentio.js']
+               'dist/angulartics-segmentio.min.js': ['src/angulartics-segmentio.js'],
+               'dist/angulartics-flurry.min.js': ['src/angulartics-flurry.js']
             }
          }
       },
