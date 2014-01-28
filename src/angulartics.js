@@ -22,44 +22,58 @@ angulartics.waitForVendorApi = function (objectName, delay, registerFn) {
  */
 angular.module('angulartics', [])
 .provider('$analytics', function () {
-  var settings = { 
-    pageTracking: { 
+  var settings = {
+    pageTracking: {
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
       basePath: '',
-      bufferFlushDelay: 1000 
+      bufferFlushDelay: 1000
     },
     eventTracking: {
       bufferFlushDelay: 1000
-    } 
+    }
   };
 
   var cache = {
     pageviews: [],
     events: []
   };
+  var pageTrackers = [];
+  var eventTrackers = [];
 
-  var bufferedPageTrack = function (path) {
-    cache.pageviews.push(path);
+  var pageTrack = function (path) {
+      if (pageTrackers.length) {
+        angular.forEach(pageTrackers, function (fn) {
+          fn(path);
+        });
+      } else {
+        cache.pageviews.push(path);
+      }
   };
-  var bufferedEventTrack = function (event, properties) {
-    cache.events.push({name: event, properties: properties});
+  var eventTrack = function (event, properties) {
+    if (eventTrackers.length) {
+      angular.forEach(eventTrackers, function (fn) {
+        fn(event, properties);
+      });
+    } else {
+      cache.events.push({name: event, properties: properties});
+    }
   };
 
   var api = {
     settings: settings,
-    pageTrack: bufferedPageTrack,
-    eventTrack: bufferedEventTrack
+    pageTrack: pageTrack,
+    eventTrack: eventTrack
   };
 
   var registerPageTrack = function (fn) {
-    api.pageTrack = fn;
+    pageTrackers.push(fn);
     angular.forEach(cache.pageviews, function (path, index) {
       setTimeout(function () { api.pageTrack(path); }, index * settings.pageTracking.bufferFlushDelay);
     });
   };
   var registerEventTrack = function (fn) {
-    api.eventTrack = fn;
+    eventTrackers.push(fn);
     angular.forEach(cache.events, function (event, index) {
       setTimeout(function () { api.eventTrack(event.name, event.properties); }, index * settings.eventTracking.bufferFlushDelay);
     });
