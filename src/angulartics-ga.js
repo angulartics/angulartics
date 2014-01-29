@@ -23,9 +23,18 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     if (window.ga) ga('send', 'pageview', path);
   });
 
+  /**
+   * Track Event in GA
+   * @name eventTrack
+   *
+   * @param {string} action Required 'action' (string) associated with the event
+   * @param {object} properties Comprised of the mandatory field 'category' (string) and optional  fields 'label' (string), 'value' (integer) and 'noninteraction' (boolean)
+   *
+   * @link https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
+   */
   $analyticsProvider.registerEventTrack(function (action, properties) {
-    if (window._gaq) _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value]);
-    if (window.ga) ga('send', 'event', properties.category, action, properties.label, properties.value);
+    if (window._gaq) _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
+    if (window.ga) ga('send', 'event', properties.category, action, properties.label, properties.value, properties.noninteraction);
   });
   
 }]);
