@@ -116,14 +116,14 @@ angular.module('angulartics', [])
       var eventType = $attrs.analyticsOn || inferEventType($element[0]),
           eventName = $attrs.analyticsEvent || inferEventName($element[0]);
 
-      var properties = {};
-      angular.forEach($attrs.$attr, function(attr, name) {
-        if (isProperty(attr)) {
-          properties[name.slice(9).toLowerCase()] = $attrs[name];
-        }
-      });
-
       angular.element($element[0]).bind(eventType, function () {
+        var properties = {};
+        angular.forEach($attrs.$attr, function(attr, name) {
+            if (isProperty(attr)) {
+                properties[name.slice(9).toLowerCase()] = $attrs[name];
+            }
+        });
+
         $analytics.eventTrack(eventName, properties);
       });
     }
