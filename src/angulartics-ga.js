@@ -18,6 +18,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // GA already supports buffered invocations so we don't need
   // to wrap these inside angulartics.waitForVendorApi
 
+  $analyticsProvider.settings.trackRelativePath = true;
+
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
     if (window.ga) ga('send', 'pageview', path);
