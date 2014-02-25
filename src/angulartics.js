@@ -26,6 +26,7 @@ angular.module('angulartics', [])
     pageTracking: { 
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
+      trackRelativePath: false,
       basePath: '',
       bufferFlushDelay: 1000 
     },
@@ -78,7 +79,11 @@ angular.module('angulartics', [])
 
 .run(['$rootScope', '$location', '$analytics', function ($rootScope, $location, $analytics) {
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
-    $analytics.pageTrack($location.absUrl());
+    if ($analytics.settings.trackRelativePath) {
+        $analytics.pageTrack($location.url());
+    } else {
+	$analytics.pageTrack($location.absUrl());
+    }
   }
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
     $rootScope.$on('$locationChangeSuccess', function (event, current) {
