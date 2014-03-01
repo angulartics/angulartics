@@ -14,11 +14,23 @@
 angular.module('angulartics.segment.io', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
   $analyticsProvider.registerPageTrack(function (path) {
-    analytics.pageview(path);
+    try {
+        analytics.pageview(path);
+    } catch (e) {
+        if (!(e instanceof ReferenceError)) {
+            throw e;
+        }
+    }
   });
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
-    analytics.track(action, properties);
+    try {
+      analytics.track(action, properties);
+    } catch (e) {
+        if (!(e instanceof ReferenceError)) {
+            throw e;
+        }
+    }
   });
 }]);
 })(angular);
