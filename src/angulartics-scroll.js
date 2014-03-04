@@ -38,8 +38,8 @@ angular.module('angulartics.scroll', ['angulartics'])
         }
       });
 
-      $($element[0]).waypoint(function () {
-        this.dispatchEvent(new Event('scrollby'));
+      $element.waypoint(function () {
+        $element.triggerHandler('scrollby');
       }, properties);
     }
   };
