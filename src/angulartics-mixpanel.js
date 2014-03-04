@@ -16,7 +16,7 @@ angular.module('angulartics.mixpanel', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
   angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
     $analyticsProvider.registerPageTrack(function (path) {
-      mixpanel.track_pageview(path);
+      mixpanel.track( "Page Viewed", { "page": path } );
     });
   });
 
