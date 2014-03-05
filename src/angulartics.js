@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.8.5
+ * @license Angulartics v0.12.12
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -22,17 +22,17 @@ angulartics.waitForVendorApi = function (objectName, delay, registerFn) {
  */
 angular.module('angulartics', [])
 .provider('$analytics', function () {
-  var settings = { 
-    pageTracking: { 
+  var settings = {
+    pageTracking: {
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
       trackRelativePath: false,
       basePath: '',
-      bufferFlushDelay: 1000 
+      bufferFlushDelay: 1000
     },
     eventTracking: {
       bufferFlushDelay: 1000
-    } 
+    }
   };
 
   var cache = {
