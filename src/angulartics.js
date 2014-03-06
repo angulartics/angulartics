@@ -124,7 +124,7 @@ angular.module('angulartics', [])
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
         var properties = {};
         angular.forEach($attrs.$attr, function(attr, name) {
-            if (isProperty(attr)) {
+            if (isProperty(name)) {
                 properties[name.slice(9).toLowerCase()] = $attrs[name];
             }
         });
