@@ -25,6 +25,7 @@ Done. Open your app, browse across the different routes and check [the realtime 
 ## Supported providers
 
 * Google Analytics
+* Google Tag Manager
 * Kissmetrics
 * Mixpanel
 * Chartbeat
