@@ -33,10 +33,20 @@ angular.module('angulartics.google.analytics', ['angulartics'])
    * @param {object} properties Comprised of the mandatory field 'category' (string) and optional  fields 'label' (string), 'value' (integer) and 'noninteraction' (boolean)
    *
    * @link https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
+   *
+   * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/events
    */
   $analyticsProvider.registerEventTrack(function (action, properties) {
-    if (window._gaq) _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
-    if (window.ga) ga('send', 'event', properties.category, action, properties.label, properties.value, properties.noninteraction);
+    if (window._gaq) {
+      _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
+    }
+    else if (window.ga) {
+      if (properties.noninteraction) {
+        ga('send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
+      } else {
+        ga('send', 'event', properties.category, action, properties.label, properties.value);
+      }
+    }
   });
   
 }]);
