@@ -46,7 +46,8 @@ module.exports = function(grunt) {
                'dist/angulartics-segmentio.min.js': ['src/angulartics-segmentio.js'],
                'dist/angulartics-gtm.min.js': ['src/angulartics-gtm.js'],
                'dist/angulartics-woopra.min.js': ['src/angulartics-woopra.js'],
-               'dist/angulartics-splunk.min.js': ['src/angulartics-splunk.js']
+               'dist/angulartics-splunk.min.js': ['src/angulartics-splunk.js'],
+               'dist/angulartics-flurry.min.js': ['src/angulartics-flurry.js']
             }
          }
       },
