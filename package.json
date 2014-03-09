@@ -1,7 +1,7 @@
 {
   "name": "angulartics",
   "description": "Vendor-agnostic web analytics for AngularJS applications",
-  "version": "0.12.13",
+  "version": "0.14.15",
   "filename": "./src/angulartics.min.js",
   "homepage": "http://luisfarzati.github.io/angulartics",
   "author": {
@@ -24,6 +24,8 @@
     "chartbeat",
 		"woopra",
     "segment.io",
+    "splunk",
+    "flurry",
     "page tracking",
     "event tracking",
     "scroll tracking"
