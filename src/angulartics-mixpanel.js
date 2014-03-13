@@ -14,13 +14,13 @@
  */
 angular.module('angulartics.mixpanel', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+  angulartics.waitForVendorApi('mixpanel', 500, 'track', function (mixpanel) {
     $analyticsProvider.registerPageTrack(function (path) {
       mixpanel.track( "Page Viewed", { "page": path } );
     });
   });
 
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+  angulartics.waitForVendorApi('mixpanel', 500, 'track', function (mixpanel) {
     $analyticsProvider.registerEventTrack(function (action, properties) {
       mixpanel.track(action, properties);
     });
