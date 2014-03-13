@@ -7,9 +7,10 @@
 'use strict';
 
 var angulartics = window.angulartics || (window.angulartics = {});
-angulartics.waitForVendorApi = function (objectName, delay, registerFn) {
-  if (!Object.prototype.hasOwnProperty.call(window, objectName)) {
-    setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, registerFn); }, delay);
+angulartics.waitForVendorApi = function (objectName, delay, containsField, registerFn) {
+  if (!registerFn) { registerFn = containsField; containsField = undefined; }
+  if (!Object.prototype.hasOwnProperty.call(window, objectName) || (containsField !== undefined && window[objectName][containsField] === undefined)) {
+    setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, containsField, registerFn); }, delay);
   }
   else {
     registerFn(window[objectName]);
