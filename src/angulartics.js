@@ -50,7 +50,9 @@ angular.module('angulartics', [])
   var api = {
     settings: settings,
     pageTrack: bufferedPageTrack,
-    eventTrack: bufferedEventTrack
+    eventTrack: bufferedEventTrack,
+    setUsername: function() { console.error('Ignoring setUsername(), not supported by used angulartics module'); },
+    setUserProperties: function() { console.error('Ignoring setProperty(), not supported by used angulartics module'); }
   };
 
   var registerPageTrack = function (fn) {
@@ -65,6 +67,12 @@ angular.module('angulartics', [])
       setTimeout(function () { api.eventTrack(event.name, event.properties); }, index * settings.eventTracking.bufferFlushDelay);
     });
   };
+  var registerSetUsername = function (fn) {
+    api.setUsername = fn;
+  };
+  var registerSetUserProperties = function (fn) {
+    api.setUserProperties = fn;
+  };
 
   return {
     $get: function() { return api; },
@@ -73,7 +81,9 @@ angular.module('angulartics', [])
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
     registerPageTrack: registerPageTrack,
-    registerEventTrack: registerEventTrack
+    registerEventTrack: registerEventTrack,
+    registerSetUsername: registerSetUsername,
+    registerSetUserProperties: registerSetUserProperties
   };
 })
 
