@@ -37,6 +37,14 @@ angular.module('angulartics.google.analytics', ['angulartics'])
    * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/events
    */
   $analyticsProvider.registerEventTrack(function (action, properties) {
+    // GA requires that eventValue be an integer, see:
+    // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
+    // https://github.com/luisfarzati/angulartics/issues/81
+    if(properties.value) {
+      var parsed = parseInt(properties.value, 10);
+      properties.value = isNaN(parsed) ? 0 : parsed;
+    }
+
     if (window._gaq) {
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }

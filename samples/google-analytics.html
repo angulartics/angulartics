@@ -43,7 +43,8 @@
 	<!-- same as analytics-event="Button 3", because is inferred from innerText -->
 	<button analytics-on analytics-category="Commands" class="btn btn-success">Button 3</button>
 
-	<button analytics-on analytics-label="Button4 label" analytics-value="1" class="btn btn-info">Button 4</button>
+	<!-- note that analytics-category is never inferred, and is required by GA... if you leave it out, no event will be tracked -->
+	<button analytics-on analytics-category="Commands"  analytics-label="Button4 label" analytics-value="1" class="btn btn-info">Button 4</button>
 	<hr>
 
 	<p class="alert alert-success">
