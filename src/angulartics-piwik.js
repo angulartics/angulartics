@@ -23,7 +23,7 @@
 
                 $analyticsProvider.registerPageTrack(function(path) {
                     if (window._paq) {
-                        _paq.push(['setCustomUrl'], path);
+                        _paq.push(['setCustomUrl', path]);
                         _paq.push(['trackPageView']);
                     }
                 });
