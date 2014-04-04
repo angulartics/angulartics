@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Angular.Analytics.GA</id>
+        <version>0.14.15</version>
+        <title>Angulartics for Google Analytics</title>
+        <authors>luisfarzati</authors>
+        <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
+        <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Google analytics module for Angulartics. See Angular.Analytics.Core for more details</description>
+        <summary>Google analytics for AngularJS applications</summary>
+        <releaseNotes />
+        <copyright />
+        <tags>angularjs analytics googleanalytics</tags>
+        <dependencies>
+            <dependency id="Angular.Analytics.Core" version="0.14.15" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="src\angulartics-ga.js" target="content\Scripts\angulartics-ga.js" />
+        <file src="dist\angulartics-ga.min.js" target="content\Scripts\angulartics-ga.min.js" />
+        <file src="nuget-tools\common.ps1" target="tools\common.ps1" />
+        <file src="nuget-tools\install.ps1" target="tools\install.ps1" />
+        <file src="nuget-tools\uninstall.ps1" target="tools\uninstall.ps1" />
+    </files>
+</package>
