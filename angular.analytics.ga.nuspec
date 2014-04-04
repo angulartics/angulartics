@@ -20,5 +20,8 @@
     <files>
         <file src="src\angulartics-ga.js" target="content\Scripts\angulartics-ga.js" />
         <file src="dist\angulartics-ga.min.js" target="content\Scripts\angulartics-ga.min.js" />
+        <file src="nuget-tools\common.ps1" target="tools\common.ps1" />
+        <file src="nuget-tools\install.ps1" target="tools\install.ps1" />
+        <file src="nuget-tools\uninstall.ps1" target="tools\uninstall.ps1" />
     </files>
 </package>
