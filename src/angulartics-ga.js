@@ -22,7 +22,15 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
-    if (window.ga) ga('send', 'pageview', path);
+    if (window.ga) {      
+      ga(function(){
+        // Extending to support multiple trackers
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+        angular.forEach(ga.getAll(),function(t){
+          ga(t.get('name')+'.send', 'pageview', path);
+        });
+      });
+    }
   });
 
   /**
@@ -50,9 +58,15 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     }
     else if (window.ga) {
       if (properties.noninteraction) {
-        ga('send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
+        // Extending to support multiple trackers
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+        angular.forEach(ga.getAll(),function(t){
+          ga(t.get('name')+'.send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
+        });
       } else {
-        ga('send', 'event', properties.category, action, properties.label, properties.value);
+        angular.forEach(ga.getAll(),function(t){
+          ga(t.get('name')+'.send', 'event', properties.category, action, properties.label, properties.value);
+        });
       }
     }
   });
