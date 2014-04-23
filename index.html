@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Angulartics is an AngularJS module that enables web analytics for your application using the vendor of your choice.">
   <meta name="author" content="Luis Farzati">
-  <meta name="google-site-verification" content="-hjukrhf79hZA9uTDhN8gZwzjYoa0WCipxEdDc4gRu0" />  
-  <meta name="robots" content="index,follow" />   
+  <meta name="google-site-verification" content="-hjukrhf79hZA9uTDhN8gZwzjYoa0WCipxEdDc4gRu0" />
+  <meta name="robots" content="index,follow" />
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <style>
     .twitter-follow-button[style], .twitter-share-button[style] { margin-top: 17px; margin-left: 10px; }
@@ -40,18 +40,25 @@
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="plugins-menu" analytics-on analytics-category="Navigation" analytics-event="Plugins">Plugins <span class="caret"></span></a>
       <ul class="dropdown-menu" aria-labelledby="plugins-menu">
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Adobe Analytics">Adobe Analytics (Omniture)</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Chartbeat">Chartbeat</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Flurry">Flurry</a></li>
         <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Google Analytics">Google Analytics</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Google Analytics (Cordova)">Google Analytics (Cordova)</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Google Tag Manager">Google Tag Manager</a></li>
         <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Kissmetrics">Kissmetrics</a></li>
         <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Mixpanel">Mixpanel</a></li>
-        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Chartbeat">Chartbeat</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Piwik">Piwik</a></li>
         <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Segment.io">Segment.io</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Splunk">Splunk</a></li>
+        <li><a tabindex="-1" href="#plugins" analytics-on analytics-category="Navigation" analytics-event="Woopra">Woopra</a></li>
         <li class="divider"></li>
         <li><a tabindex="-1" href="#contribute" analytics-on analytics-category="Navigation" analytics-event="Write your plugin">Write your plugin</a></li>
       </ul>
     </li>
     <li><a href="#contributors" analytics-on analytics-category="Navigation" analytics-event="Contributors">Contributors</a></li>
     <li><a href="//github.com/luisfarzati/angulartics" analytics-on analytics-category="Navigation" analytics-event="Source code">Source code</a></li>
-    <li><a href="//github.com/luisfarzati/angulartics/archive/master.zip" analytics-on analytics-category="Navigation" analytics-event="Download">Download</a></li>
+    <li><a href="//github.com/luisfarzati/angulartics/releases" analytics-on analytics-category="Navigation" analytics-event="Download">Download</a></li>
     <li><a href="#feedback" analytics-on analytics-category="Navigation" analytics-event="Feedback">Feedback</a></li>
   </ul>
   </div>
@@ -73,17 +80,19 @@
   <div class="col-md-4">
     <h4>Ready to use</h4>
     <p>
-      <a href="//google.com/analytics">Google Analytics</a>, 
+      <a href="//google.com/analytics">Google Analytics</a>,
       <a href="//kissmetrics.com">Kissmetrics</a>,
       <a href="//mixpanel.com/">Mixpanel</a>,
-      <a href="//chartbeat.com/">Chartbeat</a> and
-      <a href="//segment.io/">Segment.io</a> are supported out of the box.
+      <a href="//flurry.com/">Flurry</a>,
+      <a href="//piwik.org/">Piwik</a>,
+      <a href="//segment.io/">Segment.io</a> and more are supported out of the box.
     </p>
     <div class="logos">
       <a href="//analytics.google.com"><img src="images/ga.png" alt="Google Analytics" title="Google Analytics"></a>
       <a href="//kissmetrics.com"><img src="images/km.jpg" alt="Kissmetrics" title="Kissmetrics"></a>
       <a href="//mixpanel.com"><img src="images/mp.png" alt="Mixpanel" title="Mixpanel"></a>
       <a href="//chartbeat.com"><img src="images/cb.png" alt="Chartbeat" title="Chartbeat"></a>
+      <a href="//flurry.com"><img src="images/fr.png" alt="Flurry" title="Flurry"></a>
       <a href="//segment.io"><img src="images/sio.png" alt="Segment.io" title="Segment.io"></a>
     </div>
   </div>
@@ -161,7 +170,7 @@
   <section id="scroll-tracking">
     <h4>Scroll tracking</h4>
     <p>In the same way you can track an action by catching any valid DOM event (<em>click</em>, <em>hover</em>, etc), you can also
-      track any element that appears into the viewport while scrolling the page. To achieve this, Angulartics uses 
+      track any element that appears into the viewport while scrolling the page. To achieve this, Angulartics uses
       <strong><a href="http://imakewebthings.com/jquery-waypoints/">jQuery Waypoints</a></strong> and provides you with a <strong><em>scrollby</em></strong> event that you can use for <code>analytics-on</code>.</p>
     <p>First, you need to include the plugin script named <code>angulartics-scroll.js</code>, and inject <code>angulartics.scroll</code> into your module.</p>
     <pre><code>angular.module('myApp', [..., 'angulartics.<strong class="highlighted">scroll</strong>'])</code></pre>
@@ -197,44 +206,100 @@
       <th>Module</th>
     </tr>
     <tr>
-      <th>Google Analytics</th>
+      <th>Adobe Analytics (Omniture)</th>
       <td>Yes</td>
       <td>Yes</td>
-      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-ga.js" analytics-on analytics-category="Sources" analytics-event="angulartics-google-analytics.js">angulartics-google-analytics.js</a></td>
-      <td><code>angulartics.google.analytics</code></td>
-      <td><a href="//angulartics.herokuapp.com/google-analytics.html" analytics-on analytics-category="Samples" analytics-event="GA sample">Sample</a></td>
-    </tr>
-    <tr>
-      <th>Kissmetrics</th>
-      <td><a href="http://support.kissmetrics.com/apis/javascript/javascript-specific/#tracking-individual-page-views">Yes (via event tracking)</a></td>
-      <td>Yes</td>
-      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-kissmetrics.js" analytics-on analytics-category="Sources" analytics-event="angulartics-kissmetrics.js">angulartics-kissmetrics.js</a></td>
-      <td><code>angulartics.kissmetrics</code></td>
-      <td><a href="//angulartics.herokuapp.com/kissmetrics.html" analytics-on analytics-category="Samples" analytics-event="KM sample">Sample</a></td>
-    </tr>
-    <tr>
-      <th>Mixpanel</th>
-      <td><a href="https://mixpanel.com/docs/getting-started/events-vs-page-views">Yes (via event tracking)</a></td>
-      <td>Yes</td>
-      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-mixpanel.js" analytics-on analytics-category="Sources" analytics-event="angulartics-mixpanel.js">angulartics-mixpanel.js</a></td>
-      <td><code>angulartics.mixpanel</code></td>
-      <td><a href="//angulartics.herokuapp.com/mixpanel.html" analytics-on analytics-category="Samples" analytics-event="MP sample">Sample</a></td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-adobe.js">angulartics-adobe</a></td>
+      <td><code>angulartics.adobe.analytics</code></td>
+      <td></td>
     </tr>
     <tr>
       <th>Chartbeat</th>
       <td>Yes</td>
       <td>No</td>
-      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-chartbeat.js" analytics-on analytics-category="Sources" analytics-event="angulartics-chartbeat.js">angulartics-chartbeat.js</a></td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-chartbeat.js" analytics-on analytics-category="Sources" analytics-event="angulartics-chartbeat.js">angulartics-chartbeat</a></td>
       <td><code>angulartics.chartbeat</code></td>
-      <td><a href="//angulartics.herokuapp.com/chartbeat.html" analytics-on analytics-category="Samples" analytics-event="CB sample">Sample</a></td>
+      <td><a href="//angulartics.herokuapp.com/chartbeat.html" analytics-on analytics-category="Samples" analytics-event="Chartbeat sample">Sample</a></td>
+    </tr>
+    <tr>
+      <th>Flurry</th>
+      <td>No</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-flurry.js" analytics-on analytics-category="Sources" analytics-event="angulartics-flurry.js">angulartics-flurry</a></td>
+      <td><code>angulartics.flurry</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Google Analytics</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-ga.js" analytics-on analytics-category="Sources" analytics-event="angulartics-ga.js">angulartics-ga</a></td>
+      <td><code>angulartics.google.analytics</code></td>
+      <td><a href="//angulartics.herokuapp.com/google-analytics.html" analytics-on analytics-category="Samples" analytics-event="Google Analytics sample">Sample</a></td>
+    </tr>
+    <tr>
+      <th>Google Analytics (Cordova)</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-ga-cordova.js" analytics-on analytics-category="Sources" analytics-event="angulartics-ga-cordova.js">angulartics-ga-cordova</a></td>
+      <td><code>angulartics.google.analytics.cordova</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Google Tag Manager</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-gtm.js" analytics-on analytics-category="Sources" analytics-event="angulartics-gtm.js">angulartics-gtm</a></td>
+      <td><code>angulartics.google.tagmanager</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Kissmetrics</th>
+      <td><a href="//support.kissmetrics.com/apis/javascript/javascript-specific/#tracking-individual-page-views">Yes (via event tracking)</a></td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-kissmetrics.js" analytics-on analytics-category="Sources" analytics-event="angulartics-kissmetrics.js">angulartics-kissmetrics</a></td>
+      <td><code>angulartics.kissmetrics</code></td>
+      <td><a href="//angulartics.herokuapp.com/kissmetrics.html" analytics-on analytics-category="Samples" analytics-event="Kissmetrics sample">Sample</a></td>
+    </tr>
+    <tr>
+      <th>Mixpanel</th>
+      <td><a href="//mixpanel.com/docs/getting-started/events-vs-page-views">Yes (via event tracking)</a></td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-mixpanel.js" analytics-on analytics-category="Sources" analytics-event="angulartics-mixpanel.js">angulartics-mixpanel</a></td>
+      <td><code>angulartics.mixpanel</code></td>
+      <td><a href="//angulartics.herokuapp.com/mixpanel.html" analytics-on analytics-category="Samples" analytics-event="Mixpanel sample">Sample</a></td>
+    </tr>
+    <tr>
+      <th>Piwik</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-piwik.js" analytics-on analytics-category="Sources" analytics-event="angulartics-piwik.js">angulartics-piwik</a></td>
+      <td><code>angulartics.piwik</code></td>
+      <td></td>
     </tr>
     <tr>
       <th>Segment.io</th>
       <td>Yes</td>
       <td>Yes</td>
-      <td><a href="https://raw.github.com/luisfarzati/angulartics/master/src/angulartics-segmentio.js" analytics-on analytics-category="Sources" analytics-event="angulartics-segmentio.js">angulartics-segmentio.js</a></td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-segmentio.js" analytics-on analytics-category="Sources" analytics-event="angulartics-segmentio.js">angulartics-segmentio.js</a></td>
       <td><code>angulartics.segment.io</code></td>
       <td><a href="//angulartics.herokuapp.com/segmentio.html" analytics-on analytics-category="Samples" analytics-event="SIO sample">Sample</a></td>
+    </tr>
+    <tr>
+      <th>Splunk</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-splunk.js" analytics-on analytics-category="Sources" analytics-event="angulartics-splunk.js">angulartics-splunk</a></td>
+      <td><code>angulartics.splunk</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Woopra</th>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td><a href="https://github.com/luisfarzati/angulartics/blob/master/src/angulartics-woopra.js" analytics-on analytics-category="Sources" analytics-event="angulartics-woopra.js">angulartics-woopra</a></td>
+      <td><code>angulartics.woopra</code></td>
+      <td></td>
     </tr>
   </table>
 </section>
@@ -242,6 +307,7 @@
 <section id="contributors" analytics-on="scrollby" analytics-category="Scrolling" scrollby-offset="20%">
   <div class="page-header"><h3>Contributors</h3></div>
   <ul>
+    <li><a href="//github.com/timelf123">timelf123</a>: all-time contributor <span style="color:orange">★</span></li>
     <li><a href="//github.com/L42y">L42y</a>: Mixpanel plugin</li>
     <li><a href="//github.com/chechoacosta">chechoacosta</a>: Chartbeat plugin</li>
     <li><a href="//github.com/willmcclellan">willmcclellan</a>: Google Analytics Universal update</li>
