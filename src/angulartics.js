@@ -111,7 +111,7 @@ angular.module('angulartics', [])
   }
 
   function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
+    return name.substr(0, 9) === 'analytics' && ['On', 'Event'].indexOf(name.substr(9)) === -1;
   }
 
   return {
