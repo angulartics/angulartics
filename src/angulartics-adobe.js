@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.14.15
+ * @license Angulartics v0.15.17
  * (c) 2014 Luis Farzati http://luisfarzati.github.io/angulartics
  * Adobe analytics(Omniture) update contributed by http://github.com/ajayk
  * License: MIT
@@ -18,14 +18,14 @@ angular.module('angulartics.adobe.analytics', ['angulartics'])
   $analyticsProvider.settings.trackRelativePath = true;
 
   $analyticsProvider.registerPageTrack(function (path) {
-    if (window.s) s.t([path]);  
+    if (window.s) s.t([path]);
   });
 
   /**
-   * Track Event in Adobe Analytics 
+   * Track Event in Adobe Analytics
    * @name eventTrack
    *
-   * @param {string} action Required 'action' (string) associated with the event 
+   * @param {string} action Required 'action' (string) associated with the event
    *
    *
    */
@@ -36,11 +36,11 @@ angular.module('angulartics.adobe.analytics', ['angulartics'])
          s.tl(this,'d',action);
       else if(action.toUpperCase() === "EXIT")
          s.tl(this,'e',action);
-    }    
+    }
     else
       s.tl(this,'o',action);
     }
   });
-  
+
 }]);
 })(angular);
