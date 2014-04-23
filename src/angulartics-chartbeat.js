@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.14.15
+ * @license Angulartics v0.14.17
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/chechoacosta
  * License: MIT
@@ -24,6 +24,6 @@ angular.module('angulartics.chartbeat', ['angulartics'])
   $analyticsProvider.registerEventTrack(function () {
     console.warn('Chartbeat doesn\'t support event tracking -- silently ignored.');
   });
-  
+
 }]);
 })(angular);

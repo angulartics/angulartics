@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.14.15
+ * @license Angulartics v0.14.17
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Universal Analytics update contributed by http://github.com/willmcclellan
  * License: MIT
@@ -56,6 +56,6 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       }
     }
   });
-  
+
 }]);
 })(angular);
