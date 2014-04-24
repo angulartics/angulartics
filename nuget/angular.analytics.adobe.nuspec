@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>Angular.Analytics.GA.Cordova</id>
+        <id>Angular.Analytics.Adobe</id>
         <version>0.15.17</version>
-        <title>Angulartics for Cordova Google Analytics</title>
+        <title>Adobe Analytics for Chartbeat</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
         <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Cordova Google analytics module for Angulartics.
+        <description>Adobe Analytics module for Angulartics.
 See Angular.Analytics.Core for more details
 
 [NuGet packaging by ADAPTByDesign]
 </description>
-        <summary>Cordova Google analytics for AngularJS applications</summary>
+        <summary>Adobe Analytics for AngularJS applications</summary>
         <releaseNotes />
         <copyright />
-        <tags>angularjs analytics cordova googleanalytics</tags>
+        <tags>angularjs analytics adobe</tags>
         <dependencies>
             <dependency id="Angular.Analytics.Core" version="0.15.17" />
         </dependencies>
     </metadata>
     <files>
-        <file src="..\src\angulartics-ga-cordova.js" target="content\Scripts\angulartics-ga-cordova.js" />
-        <file src="..\dist\angulartics-ga-cordova.min.js" target="content\Scripts\angulartics-ga-cordova.min.js" />
+        <file src="..\src\angulartics-adobe.js" target="content\Scripts\angulartics-adobe.js" />
+        <file src="..\dist\angulartics-adobe.min.js" target="content\Scripts\angulartics-adobe.min.js" />
     </files>
 </package>
