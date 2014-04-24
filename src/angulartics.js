@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.14.15
+ * @license Angulartics v0.15.17
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -111,7 +111,7 @@ angular.module('angulartics', [])
   }
 
   function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['on', 'event'].indexOf(name.substr(10)) === -1;
+    return name.substr(0, 9) === 'analytics' && ['On', 'Event'].indexOf(name.substr(9)) === -1;
   }
 
   return {

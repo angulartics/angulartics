@@ -1,4 +1,6 @@
 describe('Module: angulartics', function() {
+  'use strict';
+
   beforeEach(module('angulartics'));
 
   it('should be configurable', function() {
@@ -33,6 +35,39 @@ describe('Module: angulartics', function() {
       rootScope.$emit('$locationChangeSuccess');
       expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
     });
-    
+
   });
+
+  describe('Directive: analyticsOn', function () {
+    var analytics,
+      elem,
+      scope;
+
+    function compileElem() {
+      inject(function ($compile) {
+        $compile(elem)(scope);
+      });
+      scope.$digest();
+    }
+
+    beforeEach(inject(function(_$analytics_, _$rootScope_) {
+      analytics = _$analytics_;
+      scope = _$rootScope_.$new();
+    }));
+
+    it('should not send on and event fields to the eventTrack function', function () {
+      elem = angular.element('<div>').attr({
+        'analytics-on': 'click',
+        'analytics-event': 'InitiateSearch',
+        'analytics-category': 'Search'
+      });
+      spyOn(analytics, 'eventTrack');
+      expect(analytics.eventTrack).not.toHaveBeenCalled();
+
+      compileElem();
+      elem.triggerHandler('click');
+      expect(analytics.eventTrack).toHaveBeenCalledWith('InitiateSearch', {category : 'Search'});
+    });
+  });
+
 });

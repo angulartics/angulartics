@@ -1,7 +1,7 @@
 {
   "name": "angulartics",
   "description": "Vendor-agnostic web analytics for AngularJS applications",
-  "version": "0.14.15",
+  "version": "0.15.17",
   "filename": "./src/angulartics.min.js",
   "homepage": "http://luisfarzati.github.io/angulartics",
   "author": {
@@ -18,14 +18,17 @@
     "analytics",
     "tracking",
     "google analytics",
-		"google tag manager",
+    "google tag manager",
     "mixpanel",
     "kissmetrics",
     "chartbeat",
-		"woopra",
+    "woopra",
     "segment.io",
     "splunk",
     "flurry",
+    "piwik",
+    "adobe analytics",
+    "omniture",
     "page tracking",
     "event tracking",
     "scroll tracking"
@@ -33,15 +36,17 @@
   "bugs": {
     "url": "http://github.com/luisfarzati/angulartics/issues"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "grunt": "latest",
-    "grunt-karma": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-uglify": "latest",
-    "grunt-contrib-clean": "latest",
-    "phantomjs": "latest"
+    "grunt": "^0.4.4",
+    "grunt-karma": "^0.8.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "karma": "^0.12.9",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "phantomjs": "^1.9.7-4"
   }
 }

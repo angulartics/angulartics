@@ -1,6 +1,6 @@
 {
   "name": "angulartics",
-  "version": "0.14.15",
+  "version": "0.15.17",
   "main": "./src/angulartics.js",
   "dependencies": {
     "angular": ">= 1.0.7",
