@@ -3,7 +3,7 @@
     <metadata>
         <id>Angular.Analytics.Scroll</id>
         <version>0.14.15</version>
-        <title>Scroll tracking for Angulartics
+        <title>Scroll tracking for Angulartics</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
         <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
@@ -22,7 +22,7 @@ See Angular.Analytics.Core for more details
         </dependencies>
     </metadata>
     <files>
-        <file src="..\src\angulartics-scroll.js" target="content\Scripts\angulartics-ga.js" />
-        <file src="..\dist\angulartics-scroll.min.js" target="content\Scripts\angulartics-ga.min.js" />
+        <file src="..\src\angulartics-scroll.js" target="content\Scripts\angulartics-scroll.js" />
+        <file src="..\dist\angulartics-scroll.min.js" target="content\Scripts\angulartics-scroll.min.js" />
     </files>
 </package>

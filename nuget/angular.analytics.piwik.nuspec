@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>Angular.Analytics.Chartbeat</id>
+        <id>Angular.Analytics.Piwik</id>
         <version>0.14.15</version>
-        <title>Angulartics for Chartbeat</title>
+        <title>Angulartics for Piwik</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
         <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Chartbeat module for Angulartics.
+        <description>Piwik module for Angulartics.
 See Angular.Analytics.Core for more details
 
 [NuGet packaging by ADAPTByDesign]
 </description>
-        <summary>Chartbeat for AngularJS applications</summary>
+        <summary>Piwik for AngularJS applications</summary>
         <releaseNotes />
         <copyright />
-        <tags>angularjs analytics chartbeat</tags>
+        <tags>angularjs analytics piwik</tags>
         <dependencies>
             <dependency id="Angular.Analytics.Core" version="0.14.15" />
         </dependencies>
     </metadata>
     <files>
-        <file src="..\src\angulartics-chartbeat.js" target="content\Scripts\angulartics-chartbeat.js" />
-        <file src="..\dist\angulartics-chartbeat.min.js" target="content\Scripts\angulartics-chartbeat.min.js" />
+        <file src="..\src\angulartics-piwik.js" target="content\Scripts\angulartics-piwik.js" />
+        <file src="..\dist\angulartics-piwik.min.js" target="content\Scripts\angulartics-piwik.min.js" />
     </files>
 </package>
