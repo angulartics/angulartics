@@ -64,7 +64,8 @@ angular.module('angulartics', [])
     pageTrack: bufferedPageTrack,
     eventTrack: bufferedEventTrack,
     setUsername: bufferedSetUsername,
-    setUserProperties: bufferedSetUserProperties
+    setUserProperties: bufferedSetUserProperties,
+    setUserPropertiesOnce: bufferedSetUserPropertiesOnce
   };
 
   var registerPageTrack = function (fn) {
