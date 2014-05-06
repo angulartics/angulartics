@@ -37,5 +37,11 @@ angular.module('angulartics.mixpanel', ['angulartics'])
       mixpanel.people.set(properties);
     });
   });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUserPropertiesOnce(function (properties) {
+      mixpanel.people.set_once(properties);
+    });
+  });
 }]);
 })(angular);

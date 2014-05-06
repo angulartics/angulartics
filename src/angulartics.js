@@ -39,7 +39,8 @@ angular.module('angulartics', [])
     pageviews: [],
     events: [],
     setUsername: [],
-    setUserProperties: []
+    setUserProperties: [],
+    setUserPropertiesOnce: []
   };
 
   var bufferedPageTrack = function (path) {
@@ -53,6 +54,9 @@ angular.module('angulartics', [])
   };
   var bufferedSetUserProperties = function (properties) {
     cache.setUserProperties.push(properties);
+  };
+  var bufferedSetUserPropertiesOnce = function (properties) {
+    cache.setUserPropertiesOnce.push(properties);
   };
 
   var api = {
@@ -87,6 +91,12 @@ angular.module('angulartics', [])
       setTimeout(function () { api.setUserProperties(properties); }, index * settings.pageTracking.bufferFlushDelay);
     });
   };
+  var registerSetUserPropertiesOnce = function (fn) {
+    api.setUserPropertiesOnce = fn;
+    angular.forEach(cache.setUserPropertiesOnce, function (properties, index) {
+      setTimeout(function () { api.setUserPropertiesOnce(properties); }, index * settings.pageTracking.bufferFlushDelay);
+    });
+  };
 
   return {
     $get: function() { return api; },
@@ -97,7 +107,8 @@ angular.module('angulartics', [])
     registerPageTrack: registerPageTrack,
     registerEventTrack: registerEventTrack,
     registerSetUsername: registerSetUsername,
-    registerSetUserProperties: registerSetUserProperties
+    registerSetUserProperties: registerSetUserProperties,
+    registerSetUserPropertiesOnce: registerSetUserPropertiesOnce
   };
 })
 
