@@ -13,27 +13,53 @@ describe('Module: angulartics', function() {
   });
 
   describe('Provider: analytics', function() {
-    var analytics,
-      rootScope,
-      location;
-    beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
-      analytics = _$analytics_;
-      location = _$location_;
-      rootScope = _$rootScope_;
-
-      spyOn(analytics, 'pageTrack');
-    }));
 
     describe('initialize', function() {
-      it('should tracking pages by default', function() {
-        expect(analytics.settings.pageTracking.autoTrackVirtualPages).toBe(true);
+      it('should track pages by default', function() {
+        inject(function(_$analytics_) {
+          expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(true);
+        });
       });
     });
 
-    it('should tracking pages on location change', function() {
-      location.path('/abc');
-      rootScope.$emit('$locationChangeSuccess');
-      expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
+    describe('ngRoute support', function () {
+      var analytics,
+        rootScope,
+        location;
+      beforeEach(module('ngRoute'));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+      }));
+
+      it('should track pages on route change', function() {
+        location.path('/abc');
+        rootScope.$emit('$routeChangeSuccess');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
+      });
+    });
+
+    describe('ui-router support', function () {
+      var analytics,
+        rootScope,
+        location;
+      beforeEach(module('ui.router'));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+      }));
+
+      it('should track pages on route change', function() {
+        location.path('/abc');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
+      });
     });
 
   });

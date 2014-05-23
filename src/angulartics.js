@@ -77,7 +77,7 @@ angular.module('angulartics', [])
   };
 })
 
-.run(['$rootScope', '$location', '$analytics', function ($rootScope, $location, $analytics) {
+.run(['$rootScope', '$location', '$analytics', '$injector', function ($rootScope, $location, $analytics, $injector) {
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
     if ($analytics.settings.trackRelativePath) {
         $analytics.pageTrack($location.url());
@@ -86,11 +86,19 @@ angular.module('angulartics', [])
     }
   }
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
-    $rootScope.$on('$locationChangeSuccess', function (event, current) {
-      if (current && (current.$$route||current).redirectTo) return;
-      var url = $analytics.settings.pageTracking.basePath + $location.url();
-      $analytics.pageTrack(url);
-    });
+    if ($injector.has('$route')) {
+      $rootScope.$on('$routeChangeSuccess', function (event, current) {
+        if (current && (current.$$route||current).redirectTo) return;
+        var url = $analytics.settings.pageTracking.basePath + $location.url();
+        $analytics.pageTrack(url);
+      });
+    }
+    if ($injector.has('$state')) {
+      $rootScope.$on('$stateChangeSuccess', function (event, current) {
+        var url = $analytics.settings.pageTracking.basePath + $location.url();
+        $analytics.pageTrack(url);
+      });
+    }
   }
 }])
 
