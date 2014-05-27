@@ -11,7 +11,7 @@ Download complete package from http://github.com/luisfarzati/angulartics/archive
 
 ## NuGet
 
-Manage the NuGet Packages for your project and search for  Angular.Analytics. Select the module for the analytics package you wish to use and the Angular.Analytics.Core package will be included. Also install any additional modules you require such as Angular.Analytics.Scroll.
+Manage the NuGet Packages for your project and search for Angular.Analytics. Select the module for the analytics package you wish to use and the Angular.Analytics.Core package will be included. Also install any additional modules you require such as Angular.Analytics.Scroll.
 
 Alternatively, at the Package Manager Console type:
 	Install-Package Angular.Analytics.[ModuleName]
