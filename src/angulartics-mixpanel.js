@@ -25,5 +25,23 @@ angular.module('angulartics.mixpanel', ['angulartics'])
       mixpanel.track(action, properties);
     });
   });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUsername(function (userId) {
+      mixpanel.identify(userId);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUserProperties(function (properties) {
+      mixpanel.people.set(properties);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUserPropertiesOnce(function (properties) {
+      mixpanel.people.set_once(properties);
+    });
+  });
 }]);
 })(angular);
