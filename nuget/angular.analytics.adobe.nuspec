@@ -3,7 +3,7 @@
     <metadata>
         <id>Angular.Analytics.Adobe</id>
         <version>0.15.18</version>
-        <title>Adobe Analytics for Chartbeat</title>
+        <title>Angulartics for Adobe Analytics</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
         <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
