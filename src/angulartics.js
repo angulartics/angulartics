@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.15.18
+ * @license Angulartics v0.15.19
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -211,6 +211,3 @@ angular.module('angulartics', [])
   };
 }]);
 })(angular);
-
-exports = module.exports = angular.module('angulartics');
-exports.name = 'angulartics';

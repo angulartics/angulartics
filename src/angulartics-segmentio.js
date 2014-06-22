@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.15.18
+ * @license Angulartics v0.15.19
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -15,7 +15,7 @@ angular.module('angulartics.segment.io', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
   $analyticsProvider.registerPageTrack(function (path) {
     try {
-        analytics.pageview(path);
+        analytics.page(path);
     } catch (e) {
         if (!(e instanceof ReferenceError)) {
             throw e;
