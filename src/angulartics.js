@@ -28,6 +28,7 @@ angular.module('angulartics', [])
       autoTrackFirstPage: true,
       autoTrackVirtualPages: true,
       trackRelativePath: false,
+      autoBasePath: false,
       basePath: '',
       bufferFlushDelay: 1000
     },
@@ -106,6 +107,7 @@ angular.module('angulartics', [])
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
     registerPageTrack: registerPageTrack,
     registerEventTrack: registerEventTrack,
     registerSetUsername: registerSetUsername,
@@ -114,15 +116,44 @@ angular.module('angulartics', [])
   };
 })
 
-.run(['$rootScope', '$location', '$analytics', '$injector', function ($rootScope, $location, $analytics, $injector) {
+.run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
+  
+    
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
-    if ($analytics.settings.trackRelativePath) {
-        $analytics.pageTrack($location.url());
+    /* Only track the 'first page' if there are no routes or states on the page */
+    var noRoutesOrStates = true;
+    if ($injector.has('$route')) {
+       var $route = $injector.get('$route');
+       for (var route in $route.routes) {
+         noRoutesOrStates = false;
+         break;
+       }
+    } else if ($injector.has('$state')) {
+      var $state = $injector.get('$state');
+      for (var state in $state.states) {
+        noRoutesOrStates = false;
+        break;
+      }
     } else {
-	$analytics.pageTrack($location.absUrl());
+      noRoutesOrStates = false;
+    }
+    if (noRoutesOrStates) {
+      if ($analytics.settings.pageTracking.autoBasePath) {
+        $analytics.settings.pageTracking.basePath = $window.location.pathname;
+      }
+      if ($analytics.settings.trackRelativePath) {
+        var url = $analytics.settings.pageTracking.basePath + $location.url();
+        $analytics.pageTrack(url);
+      } else {
+   $analytics.pageTrack($location.absUrl());
+      }
     }
   }
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
+    if ($analytics.settings.pageTracking.autoBasePath) {
+      /* Add the full route to the base. */
+      $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
+    }
     if ($injector.has('$route')) {
       $rootScope.$on('$routeChangeSuccess', function (event, current) {
         if (current && (current.$$route||current).redirectTo) return;
