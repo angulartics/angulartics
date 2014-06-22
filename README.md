@@ -24,13 +24,29 @@ Or, in a command line (with nuget.exe in your path):
 To install all available modules:
 	bower install angulartics
 
+# Full path tracking
+We now support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
+
+ - **Viewing page `http://host.com/routes#/route` will be tracked as `/routes#/route`.** The original version would only track the page as `/route`
+ - **Viewing page `http://host.com/noroutes` will be tracked as `/noroutes`.**  This is useful for pages that do not contain Angular code besides initializing the base module.
+ - **Viewing page `http://host.com/routes2` that loads a default route and changes the path to `http://host.com/routes2#/` will be tracked as `/routes2#/`.** This will only fire one pageview, whereas earlier versions would have fired two.
+
+To enable this behavior, add the following to your configuration:
+
+		...
+		var yourApp = angular.module('YourApp', ['angulartics', 'angulartics.google.analytics'])
+		    .config(function ($analyticsProvider) {
+		        $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
+		        $analyticsProvider.withAutoBase(true);  /* Records full path */
+		});
+
 # Minimal setup
 
 ## for Google Analytics ##
 
     angular.module('myApp', ['angulartics', 'angulartics.google.analytics'])
 
-Delete the automatic pageview tracking line in the snippet code provided by Google Analytics:
+Delete the automatic pageview tracking line in the snippet code provided by Google Analytics (because Angulartics will automatically track pages for you):
 
       ...
       ga('create', '{YOUR GA CODE}', '{YOUR DOMAIN}');
