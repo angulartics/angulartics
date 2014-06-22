@@ -211,6 +211,3 @@ angular.module('angulartics', [])
   };
 }]);
 })(angular);
-
-exports = module.exports = angular.module('angulartics');
-exports.name = 'angulartics';
