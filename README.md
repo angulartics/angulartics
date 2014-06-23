@@ -25,7 +25,7 @@ To install all available modules:
 	bower install angulartics
 
 # Full path tracking
-We now support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
+Introduced in 0.15.19 - support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
 
  - **Viewing page `http://host.com/routes#/route` will be tracked as `/routes#/route`.** The original version would only track the page as `/route`
  - **Viewing page `http://host.com/noroutes` will be tracked as `/noroutes`.**  This is useful for pages that do not contain Angular code besides initializing the base module.
