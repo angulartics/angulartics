@@ -29,20 +29,16 @@
                 });
 
                 $analyticsProvider.registerEventTrack(function(action, properties) {
-                    // GA requires that eventValue be an integer, see:
-                    // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
-                    // https://github.com/luisfarzati/angulartics/issues/81
-                    if (properties.value) {
+                    // PAQ requires that eventValue be an integer, see:
+                    // http://piwik.org/docs/event-tracking/
+                    if(properties.value) {
                         var parsed = parseInt(properties.value, 10);
                         properties.value = isNaN(parsed) ? 0 : parsed;
                     }
-                    console.warn('Piwik doesn\'t support event tracking -- silently ignored.');
-                    console.warn('\t action\t[%s]', action);
-                    console.warn('\t category\t[%s]', properties.category);
-                    console.warn('\t label\t[%s]', properties.label);
-                    console.warn('\t value\t[%s]', properties.value);
-                    console.warn('\t noninteraction\t[%s]', properties.noninteraction);
-                    console.warn('');
+
+                    if (window._paq) {
+                        _paq.push(['trackEvent', properties.category, action, properties.label, properties.value]);
+                    }
                 });
 
             }
