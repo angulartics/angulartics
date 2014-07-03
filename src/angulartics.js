@@ -34,11 +34,11 @@ angular.module('angulartics', [])
       autoBasePath: false,
       basePath: ''
     },
-    eventTracking: {
-    },
-    bufferFlushDelay: 1000
+    eventTracking: {},
+    bufferFlushDelay: 1000 // Support only one configuration for buffer flush delay to simplify buffering
   };
   
+  // List of known handlers that plugins can register themselves for
   var knownHandlers = [
     'pageTrack',
     'eventTrack',
@@ -48,9 +48,11 @@ angular.module('angulartics', [])
     'setSuperProperties',
     'setSuperPropertiesOnce'
   ];
+  // Cache and handler properties will match values in 'knownHandlers' as the buffering functons are installed.
   var cache = {};
   var handlers = {};
 
+  // General buffering handler
   var bufferedHandler = function(handlerName){
     return function(){
       if(angulartics.waitForVendorCount){
@@ -60,6 +62,7 @@ angular.module('angulartics', [])
     };
   };
   
+  // As handlers are installed by plugins, they get pushed into a list and invoked in order.
   var updateHandlers = function(handlerName, fn){
     if(!handlers[handlerName]){
       handlers[handlerName] = [];
@@ -73,13 +76,14 @@ angular.module('angulartics', [])
     };
   };
 
+  // The api (returned by this provider) gets populated with handlers below.
   var api = {
     settings: settings
   };
 
   // Will run setTimeout if delay is > 0
-  // Runs immediately if no delay to make sure cache/buffer
-  // is flushed before anything else.
+  // Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
+  // Plugins should take care to register handlers by order of precedence.
   var onTimeout = function(fn, delay){
     if(delay){
       setTimeout(fn, delay);
@@ -98,38 +102,34 @@ angular.module('angulartics', [])
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
   };
 
+  // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
   var register = function(handlerName, fn){
     api[handlerName] = updateHandlers(handlerName, fn);
     var handlerSettings = settings[handlerName];
-    var delay = (handlerSettings) ? handlerSettings.bufferFlushDelay : settings.bufferFlushDelay;
+    var handlerDelay = (handlerSettings) ? handlerSettings.bufferFlushDelay : null;
+    var delay = (handlerDelay !== null) ? handlerDelay : settings.bufferFlushDelay;
     angular.forEach(cache[handlerName], function (args, index) {
       onTimeout(function () { fn.apply(this, args); }, index * delay);
     });
   };
 
-  // Set up register functions for each known handler
   var capitalize = function (input) {
       return input.replace(/^./, function (match) {
           return match.toUpperCase();
       });
   };
 
-  var installHandler = function(handlerName){
+  // Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
+  var installHandlerRegisterFunction = function(handlerName){
     var registerName = 'register'+capitalize(handlerName);
     provider[registerName] = function(fn){
       register(handlerName, fn);
     };
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
   };
-  angular.forEach(knownHandlers, installHandler);
-
-  settings.addHandler = function(handlerName){
-    if(knownHandlers.indexOf(handlerName)){
-      knownHandlers.push(handlerName);
-      installHandler(handlerName);
-    }
-  };
-
+  
+  // Set up register functions for each known handler
+  angular.forEach(knownHandlers, installHandlerRegisterFunction);
   return provider;
 })
 
