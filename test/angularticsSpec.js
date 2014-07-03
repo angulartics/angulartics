@@ -1,3 +1,33 @@
+describe('window.angulartics', function(){
+  beforeEach(function(){
+    jasmine.Clock.useMock();
+  });
+  afterEach(function(){
+    delete window.angularticsTestVendor;
+  });
+
+  it('should manage vendor wait count', function(){  
+    spy = jasmine.createSpy('vendorCallback');
+    spyWhenLoaded = jasmine.createSpy('vendorCallbackWhenLoaded');
+    angulartics.waitForVendorApi('angularticsTestVendor', 1, 'loaded', spy);
+    angulartics.waitForVendorApi('angularticsTestVendor', 1, spyWhenLoaded);
+    expect(window.angulartics.waitForVendorCount).toEqual(2);
+
+    jasmine.Clock.tick(1);
+    expect(window.angulartics.waitForVendorCount).toEqual(2);
+
+    window.angularticsTestVendor = {};
+    jasmine.Clock.tick(1);
+    expect(angulartics.waitForVendorCount).toEqual(1);
+
+    window.angularticsTestVendor.loaded = true;
+    jasmine.Clock.tick(1);
+    expect(window.angulartics.waitForVendorCount).toEqual(0);
+    expect(spyWhenLoaded).toHaveBeenCalledWith(window.angularticsTestVendor);
+  });
+
+});
+
 describe('Module: angulartics', function() {
   'use strict';
 
