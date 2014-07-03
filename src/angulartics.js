@@ -35,7 +35,8 @@ angular.module('angulartics', [])
       basePath: ''
     },
     eventTracking: {
-    }
+    },
+    bufferFlushDelay: 0
   };
   
   var knownHandlers = [
@@ -100,7 +101,7 @@ angular.module('angulartics', [])
   provider.register = function(handlerName, fn){
     api[handlerName] = updateHandlers(handlerName, fn);
     var handlerSettings = settings[handlerName];
-    var delay = (handlerSettings) ? handlerSettings.bufferFlushDelay : 0;
+    var delay = (handlerSettings) ? handlerSettings.bufferFlushDelay : settings.bufferFlushDelay;
     angular.forEach(cache[handlerName], function (args, index) {
       onTimeout(function () { fn.apply(this, args); }, index * delay);
     });
