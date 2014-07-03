@@ -98,7 +98,7 @@ angular.module('angulartics', [])
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
   };
 
-  provider.register = function(handlerName, fn){
+  var register = function(handlerName, fn){
     api[handlerName] = updateHandlers(handlerName, fn);
     var handlerSettings = settings[handlerName];
     var delay = (handlerSettings) ? handlerSettings.bufferFlushDelay : settings.bufferFlushDelay;
@@ -117,7 +117,7 @@ angular.module('angulartics', [])
   var installHandler = function(handlerName){
     var registerName = 'register'+capitalize(handlerName);
     provider[registerName] = function(fn){
-      provider.register(handlerName, fn);
+      register(handlerName, fn);
     };
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
   };
