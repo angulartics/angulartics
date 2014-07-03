@@ -48,7 +48,7 @@ angular.module('angulartics', [])
     'setSuperProperties',
     'setSuperPropertiesOnce'
   ];
-  var cache = angulartics.cache = {};
+  var cache = {};
   var handlers = {};
 
   var bufferedHandler = function(handlerName){
