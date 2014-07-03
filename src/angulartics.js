@@ -36,7 +36,7 @@ angular.module('angulartics', [])
     },
     eventTracking: {
     },
-    bufferFlushDelay: 0
+    bufferFlushDelay: 1000
   };
   
   var knownHandlers = [
