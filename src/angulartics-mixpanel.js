@@ -14,6 +14,37 @@
  */
 angular.module('angulartics.mixpanel', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUsername(function (userId) {
+      mixpanel.identify(userId);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetSuperPropertiesOnce(function (properties) {
+      mixpanel.register_once(properties);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetSuperProperties(function (properties) {
+      mixpanel.register(properties);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUserPropertiesOnce(function (properties) {
+      mixpanel.people.set_once(properties);
+    });
+  });
+
+  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+    $analyticsProvider.registerSetUserProperties(function (properties) {
+      mixpanel.people.set(properties);
+    });
+  });
+
   angulartics.waitForVendorApi('mixpanel', 500, '__loaded', function (mixpanel) {
     $analyticsProvider.registerPageTrack(function (path) {
       mixpanel.track( "Page Viewed", { "page": path } );
@@ -26,22 +57,5 @@ angular.module('angulartics.mixpanel', ['angulartics'])
     });
   });
 
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
-    $analyticsProvider.registerSetUsername(function (userId) {
-      mixpanel.identify(userId);
-    });
-  });
-
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
-    $analyticsProvider.registerSetUserProperties(function (properties) {
-      mixpanel.people.set(properties);
-    });
-  });
-
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
-    $analyticsProvider.registerSetUserPropertiesOnce(function (properties) {
-      mixpanel.people.set_once(properties);
-    });
-  });
 }]);
 })(angular);
