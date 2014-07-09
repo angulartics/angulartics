@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.15.19
+ * @license Angulartics v0.15.20
  * (c) 2014 Luis Farzati http://luisfarzati.github.io/angulartics
  * Adobe analytics(Omniture) update contributed by http://github.com/ajayk
  * License: MIT

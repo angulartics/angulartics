@@ -1,7 +1,7 @@
 {
   "name": "angulartics",
   "description": "Vendor-agnostic web analytics for AngularJS applications",
-  "version": "0.15.19",
+  "version": "0.15.20",
   "filename": "./src/angulartics.min.js",
   "homepage": "http://luisfarzati.github.io/angulartics",
   "author": {
@@ -39,11 +39,12 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.4",
-    "grunt-karma": "^0.8.2",
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.4.0",
+    "grunt-conventional-changelog": "^1.1.0",
+    "grunt-karma": "^0.8.2",
     "karma": "^0.12.9",
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
