@@ -57,7 +57,7 @@ Done. Open your app, browse across the different routes and check [the realtime 
 
 ## for Google Tag Manager
 
-    angular.module('myApp', ['angulartics', 'angulartics.google.analytics'])
+    angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
     
 Add the full tracking code from Google Tag Manager to the beginning of your body tag.
 
