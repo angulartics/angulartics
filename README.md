@@ -55,6 +55,58 @@ Delete the automatic pageview tracking line in the snippet code provided by Goog
     
 Done. Open your app, browse across the different routes and check [the realtime GA dashboard](http://google.com/analytics/web) to see the hits. 
 
+## for Google Tag Manager
+
+    angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
+    
+Add the full tracking code from Google Tag Manager to the beginning of your body tag.
+
+Setup listeners in Google Tag Manager
+
+* 6 Macros
+    - Macro Name: angulartics page path
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: content-name
+    - Macro Name: angulartics event category
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: target
+    - Macro Name: angulartics event action
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: action
+    - Macro Name: angulartics event label
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: target-properties
+    - Macro Name: angulartics event value
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: value
+    - Macro Name: angulartics event interaction type
+        - Macro Type: Data Layer Variable
+        - Data Layer Variable Name: interaction-type
+* 2 Rules
+    - Rule Name: Angulartics events
+        - Condition: {{event}} equals interaction
+    - Rule Name: Angulartics pageviews
+        - Condition: {{event}} equals content-view
+* 2 Tags
+    - Tag Name: Angulartics Events
+        - Tag Type: Universal Analytics
+        - Tracking ID: YourGoogleAnalyticsID
+        - Track Type: Event
+        - Category: {{angulartics event category}}
+        - Action: {{angulartics event action}}
+        - Label: {{angulartics event label}}
+        - Value: {{angulartics event value}}
+        - Non-Interaction Hit: {{angulartics event interaction type}}
+        - Firing Rules: Angulartics events
+    - Tag Name: Angulartics Pageviews
+        - Tag Type: Universal Analytics
+        - Tracking ID: YourGoogleAnalyticsID
+        - Track Type: Page View
+        - More settings
+            - Basic Confiruration
+                - Document Path: {{angulartics page path}}
+        - Firing Rules: Angulartics pageviews
+
 ## for other providers
 
 [Browse the website for detailed instructions.](http://luisfarzati.github.io/angulartics)
