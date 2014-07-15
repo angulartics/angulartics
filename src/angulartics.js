@@ -231,7 +231,7 @@ angular.module('angulartics', [])
     restrict: 'A',
     scope: false,
     link: function($scope, $element, $attrs) {
-      var timeout = $attrs.analyticsTrackLink || 300;
+      var timeout = $attrs.analyticsLinkTimeout || 300;
 
       angular.element($element[0]).bind('click', function (event) {
         if (this.href && this.target !== '_blank' && !isMeta(event)) {
