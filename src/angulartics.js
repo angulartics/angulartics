@@ -187,7 +187,7 @@ angular.module('angulartics', [])
   }
 
   function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['On', 'Event'].indexOf(name.substr(9)) === -1;
+    return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'LinkTimeout'].indexOf(name.substr(9)) === -1;
   }
 
   return {
@@ -209,5 +209,40 @@ angular.module('angulartics', [])
       });
     }
   };
+}])
+
+.directive('analyticsLinkTimeout', ['$analytics', '$timeout', function ($analytics, $timeout) {
+  function isMeta (e) {
+    if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return true;
+
+    // Logic that handles checks for the middle mouse button, based
+    // on [jQuery](https://github.com/jquery/jquery/blob/master/src/event.js#L466).
+    var which = e.which, button = e.button;
+    if (!which && button !== undefined) {
+      return (!button & 1) && (!button & 2) && (button & 4);
+    } else if (which === 2) {
+      return true;
+    }
+
+    return false;
+  };
+
+  return {
+    restrict: 'A',
+    scope: false,
+    link: function($scope, $element, $attrs) {
+      var timeout = $attrs.analyticsLinkTimeout || 300;
+
+      angular.element($element[0]).bind('click', function (event) {
+        if (this.href && this.target !== '_blank' && !isMeta(event)) {
+          event.preventDefault();
+          var redirect = function (href) {
+            $timeout(function() { window.location.href = href; }, timeout);
+          }
+          redirect(this.href)
+        }
+      });
+    }
+  }
 }]);
 })(angular);
