@@ -236,7 +236,7 @@ angular.module('angulartics', [])
       angular.element($element[0]).bind(eventType, function ($event) {
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
         var properties = {};
-        $scope.$analytics.eventtype = $event.type;
+        $scope.$analytics.eventType = $event.type;
 
         if($attrs.analyticsIf){
           if(! $scope.$eval($attrs.analyticsIf)){
