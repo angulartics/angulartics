@@ -204,7 +204,7 @@ angular.module('angulartics', [])
   }
 
   function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['On', 'Event'].indexOf(name.substr(9)) === -1;
+    return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'If'].indexOf(name.substr(9)) === -1;
   }
 
   return {
@@ -221,7 +221,11 @@ angular.module('angulartics', [])
                 properties[name.slice(9).toLowerCase()] = $attrs[name];
             }
         });
-
+        if($attrs.analyticsIf){
+          if(! $scope.$eval($attrs.analyticsIf)){
+            return; // Don't event track if we don't pass the if statement
+          }
+        }
         $analytics.eventTrack(eventName, properties);
       });
     }
