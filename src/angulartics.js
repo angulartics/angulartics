@@ -48,8 +48,8 @@ angular.module('angulartics', [])
   var bufferedPageTrack = function (path) {
     cache.pageviews.push(path);
   };
-  var bufferedEventTrack = function (event, properties) {
-    cache.events.push({name: event, properties: properties});
+  var bufferedEventTrack = function (event, properties, callback) {
+    cache.events.push({name: event, properties: properties, callback: callback});
   };
   var bufferedSetUsername = function (name) {
     cache.setUsername.push(name);
@@ -79,7 +79,7 @@ angular.module('angulartics', [])
   var registerEventTrack = function (fn) {
     api.eventTrack = fn;
     angular.forEach(cache.events, function (event, index) {
-      setTimeout(function () { api.eventTrack(event.name, event.properties); }, index * settings.eventTracking.bufferFlushDelay);
+      setTimeout(function () { api.eventTrack(event.name, event.properties, event.callback); }, index * settings.eventTracking.bufferFlushDelay);
     });
   };
   var registerSetUsername = function (fn) {
@@ -117,8 +117,8 @@ angular.module('angulartics', [])
 })
 
 .run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
-  
-    
+
+
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
     /* Only track the 'first page' if there are no routes or states on the page */
     var noRoutesOrStates = true;
