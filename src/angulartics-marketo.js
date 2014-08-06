@@ -18,7 +18,7 @@
  *
  * for event tracking email is a required attribute
  */
-angular.module('angulartics.mixpanel', ['angulartics'])
+angular.module('angulartics.marketo', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
   angulartics.waitForVendorApi('Munchkin', 500, 'sKey', function (Munchkin) {
     $analyticsProvider.registerPageTrack(function (path) {
