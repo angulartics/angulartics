@@ -1,6 +1,6 @@
 /**
  * @license Angulartics v0.15.20
- * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
+ * (c) 2014 Carl Thorner http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/L42y
  * License: MIT
  */
@@ -55,7 +55,7 @@ angular.module('angulartics.mixpanel', ['angulartics'])
     }
   }
 
-  angulartics.waitForVendorApi('mixpanel', 500, function (mixpanel) {
+  angulartics.waitForVendorApi('Munchkin', 500, function (Munchkin) {
     $analyticsProvider.registerSetUsername(function (userId) {
       if(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/.test(userId)){
        associateLead({'Email': userId});
