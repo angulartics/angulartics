@@ -7,12 +7,15 @@
 'use strict';
 
 var angulartics = window.angulartics || (window.angulartics = {});
-angulartics.waitForVendorApi = function (objectName, delay, containsField, registerFn) {
+angulartics.waitForVendorCount = 0;
+angulartics.waitForVendorApi = function (objectName, delay, containsField, registerFn, onTimeout) {
+  if (!onTimeout) { angulartics.waitForVendorCount++; }
   if (!registerFn) { registerFn = containsField; containsField = undefined; }
   if (!Object.prototype.hasOwnProperty.call(window, objectName) || (containsField !== undefined && window[objectName][containsField] === undefined)) {
-    setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, containsField, registerFn); }, delay);
+    setTimeout(function () { angulartics.waitForVendorApi(objectName, delay, containsField, registerFn, true); }, delay);
   }
   else {
+    angulartics.waitForVendorCount--;
     registerFn(window[objectName]);
   }
 };
@@ -29,91 +32,105 @@ angular.module('angulartics', [])
       autoTrackVirtualPages: true,
       trackRelativePath: false,
       autoBasePath: false,
-      basePath: '',
-      bufferFlushDelay: 1000
+      basePath: ''
     },
-    eventTracking: {
-      bufferFlushDelay: 1000
+    eventTracking: {},
+    bufferFlushDelay: 1000 // Support only one configuration for buffer flush delay to simplify buffering
+  };
+  
+  // List of known handlers that plugins can register themselves for
+  var knownHandlers = [
+    'pageTrack',
+    'eventTrack',
+    'setUsername',
+    'setUserProperties',
+    'setUserPropertiesOnce',
+    'setSuperProperties',
+    'setSuperPropertiesOnce'
+  ];
+  // Cache and handler properties will match values in 'knownHandlers' as the buffering functons are installed.
+  var cache = {};
+  var handlers = {};
+
+  // General buffering handler
+  var bufferedHandler = function(handlerName){
+    return function(){
+      if(angulartics.waitForVendorCount){
+        if(!cache[handlerName]){ cache[handlerName] = []; }
+        cache[handlerName].push(arguments);
+      }
+    };
+  };
+  
+  // As handlers are installed by plugins, they get pushed into a list and invoked in order.
+  var updateHandlers = function(handlerName, fn){
+    if(!handlers[handlerName]){
+      handlers[handlerName] = [];
+    }
+    handlers[handlerName].push(fn);
+    return function(){
+      var handlerArgs = arguments;
+      angular.forEach(handlers[handlerName], function(handler){
+        handler.apply(this, handlerArgs);
+      }, this);
+    };
+  };
+
+  // The api (returned by this provider) gets populated with handlers below.
+  var api = {
+    settings: settings
+  };
+
+  // Will run setTimeout if delay is > 0
+  // Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
+  // Plugins should take care to register handlers by order of precedence.
+  var onTimeout = function(fn, delay){
+    if(delay){
+      setTimeout(fn, delay);
+    } else {
+      fn();
     }
   };
 
-  var cache = {
-    pageviews: [],
-    events: [],
-    setUsername: [],
-    setUserProperties: [],
-    setUserPropertiesOnce: []
-  };
-
-  var bufferedPageTrack = function (path) {
-    cache.pageviews.push(path);
-  };
-  var bufferedEventTrack = function (event, properties) {
-    cache.events.push({name: event, properties: properties});
-  };
-  var bufferedSetUsername = function (name) {
-    cache.setUsername.push(name);
-  };
-  var bufferedSetUserProperties = function (properties) {
-    cache.setUserProperties.push(properties);
-  };
-  var bufferedSetUserPropertiesOnce = function (properties) {
-    cache.setUserPropertiesOnce.push(properties);
-  };
-
-  var api = {
-    settings: settings,
-    pageTrack: bufferedPageTrack,
-    eventTrack: bufferedEventTrack,
-    setUsername: bufferedSetUsername,
-    setUserProperties: bufferedSetUserProperties,
-    setUserPropertiesOnce: bufferedSetUserPropertiesOnce
-  };
-
-  var registerPageTrack = function (fn) {
-    api.pageTrack = fn;
-    angular.forEach(cache.pageviews, function (path, index) {
-      setTimeout(function () { api.pageTrack(path); }, index * settings.pageTracking.bufferFlushDelay);
-    });
-  };
-  var registerEventTrack = function (fn) {
-    api.eventTrack = fn;
-    angular.forEach(cache.events, function (event, index) {
-      setTimeout(function () { api.eventTrack(event.name, event.properties); }, index * settings.eventTracking.bufferFlushDelay);
-    });
-  };
-  var registerSetUsername = function (fn) {
-    api.setUsername = fn;
-    angular.forEach(cache.setUsername, function (name, index) {
-      setTimeout(function () { api.setUsername(name); }, index * settings.pageTracking.bufferFlushDelay);
-    });
-  };
-  var registerSetUserProperties = function (fn) {
-    api.setUserProperties = fn;
-    angular.forEach(cache.setUserProperties, function (properties, index) {
-      setTimeout(function () { api.setUserProperties(properties); }, index * settings.pageTracking.bufferFlushDelay);
-    });
-  };
-  var registerSetUserPropertiesOnce = function (fn) {
-    api.setUserPropertiesOnce = fn;
-    angular.forEach(cache.setUserPropertiesOnce, function (properties, index) {
-      setTimeout(function () { api.setUserPropertiesOnce(properties); }, index * settings.pageTracking.bufferFlushDelay);
-    });
-  };
-
-  return {
+  var provider = {
     $get: function() { return api; },
+    api: api,
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
-    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
-    registerPageTrack: registerPageTrack,
-    registerEventTrack: registerEventTrack,
-    registerSetUsername: registerSetUsername,
-    registerSetUserProperties: registerSetUserProperties,
-    registerSetUserPropertiesOnce: registerSetUserPropertiesOnce
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
   };
+
+  // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
+  var register = function(handlerName, fn){
+    api[handlerName] = updateHandlers(handlerName, fn);
+    var handlerSettings = settings[handlerName];
+    var handlerDelay = (handlerSettings) ? handlerSettings.bufferFlushDelay : null;
+    var delay = (handlerDelay !== null) ? handlerDelay : settings.bufferFlushDelay;
+    angular.forEach(cache[handlerName], function (args, index) {
+      onTimeout(function () { fn.apply(this, args); }, index * delay);
+    });
+  };
+
+  var capitalize = function (input) {
+      return input.replace(/^./, function (match) {
+          return match.toUpperCase();
+      });
+  };
+
+  // Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
+  var installHandlerRegisterFunction = function(handlerName){
+    var registerName = 'register'+capitalize(handlerName);
+    provider[registerName] = function(fn){
+      register(handlerName, fn);
+    };
+    api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
+  };
+  
+  // Set up register functions for each known handler
+  angular.forEach(knownHandlers, installHandlerRegisterFunction);
+  return provider;
 })
 
 .run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
@@ -170,7 +187,7 @@ angular.module('angulartics', [])
   }
 }])
 
-.directive('analyticsOn', ['$analytics', function ($analytics) {
+.directive('analyticsOn', ['$analytics', '$timeout', function ($analytics, $timeout) {
   function isCommand(element) {
     return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
       element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
@@ -187,25 +204,51 @@ angular.module('angulartics', [])
   }
 
   function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['On', 'Event'].indexOf(name.substr(9)) === -1;
+    return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'If', 'Properties', 'EventType'].indexOf(name.substr(9)) === -1;
+  }
+
+  function propertyName(name) {
+    var s = name.slice(9); // slice off the 'analytics' prefix
+    if (typeof s !== 'undefined' && s!==null && s.length > 0) {
+      return s.substring(0, 1).toLowerCase() + s.substring(1);
+    }
+    else {
+      return s;
+    }
   }
 
   return {
     restrict: 'A',
-    scope: false,
+    scope: true,
     link: function ($scope, $element, $attrs) {
       var eventType = $attrs.analyticsOn || inferEventType($element[0]);
+      
+      $scope.$analytics = {};
 
-      angular.element($element[0]).bind(eventType, function () {
+      angular.forEach($attrs.$attr, function(attr, name) {
+        if (isProperty(name)) {
+          $attrs.$observe(name, function(value){
+            $scope.$analytics[propertyName(name)] = value;
+          });
+        }
+      });
+
+      angular.element($element[0]).bind(eventType, function ($event) {
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
         var properties = {};
-        angular.forEach($attrs.$attr, function(attr, name) {
-            if (isProperty(name)) {
-                properties[name.slice(9).toLowerCase()] = $attrs[name];
-            }
-        });
+        $scope.$analytics.eventType = $event.type;
 
-        $analytics.eventTrack(eventName, properties);
+        if($attrs.analyticsIf){
+          if(! $scope.$eval($attrs.analyticsIf)){
+            return; // Cancel this event if we don't pass the analytics-if condition
+          }
+        }
+        // Allow components to pass through an expression that gets merged on to the event properties
+        // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties' 
+        if($attrs.analyticsProperties){
+          angular.extend($scope.$analytics, $scope.$eval($attrs.analyticsProperties));
+        }
+        $analytics.eventTrack(eventName, $scope.$analytics);
       });
     }
   };
