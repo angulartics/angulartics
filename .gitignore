@@ -2,3 +2,4 @@
 /components
 /*.sublime-*
 npm-debug.log
+.idea
