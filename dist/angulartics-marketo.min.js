@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.15.20
+ * @license Angulartics v0.16.2
  * (c) 2014 Carl Thorner http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/L42y
  * License: MIT
