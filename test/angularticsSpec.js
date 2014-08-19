@@ -6,7 +6,7 @@ describe('window.angulartics', function(){
     delete window.angularticsTestVendor;
   });
 
-  it('should manage vendor wait count', function(){  
+  it('should manage vendor wait count', function(){
     spy = jasmine.createSpy('vendorCallback');
     spyWhenLoaded = jasmine.createSpy('vendorCallbackWhenLoaded');
     angulartics.waitForVendorApi('angularticsTestVendor', 1, 'loaded', spy);
@@ -157,7 +157,7 @@ describe('Module: angulartics', function() {
         angulartics.waitForVendorCount++; // Mock that we're waiting for a vendor api
         $analytics.eventTrack('foo'); // These events should be buffered
         $analytics.eventTrack('bar'); // This event should be buffered
-        
+
         $analyticsProvider.registerEventTrack(eventTrackSpy); // This should immediately flush
         expect(eventTrackSpy.calls.length).toEqual(2);
         expect(eventTrackSpy.calls[0].args).toEqual(['foo']);
@@ -174,7 +174,7 @@ describe('Module: angulartics', function() {
       it('should continue to buffer events until all vendors are resolved', function(){
         angulartics.waitForVendorCount = 2; // Mock that we're waiting for a vendor api
         $analytics.eventTrack('foo'); // These events should be buffered
-        
+
         $analyticsProvider.registerEventTrack(eventTrackSpy); // This should immediately flush
         expect(eventTrackSpy).toHaveBeenCalledWith('foo');
 
@@ -187,7 +187,7 @@ describe('Module: angulartics', function() {
         expect(secondVendor.calls.length).toEqual(2);
         expect(secondVendor.calls[0].args).toEqual(['foo']);
         expect(secondVendor.calls[1].args).toEqual(['bar']);
-        
+
       });
     });
   });
@@ -220,7 +220,7 @@ describe('Module: angulartics', function() {
 
       compileElem();
       elem.triggerHandler('click');
-      expect(analytics.eventTrack).toHaveBeenCalledWith('InitiateSearch', {category : 'Search'});
+      expect(analytics.eventTrack).toHaveBeenCalledWith('InitiateSearch', {category : 'Search', eventType : 'click'});
     });
   });
 
