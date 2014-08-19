@@ -3,6 +3,29 @@ module.exports = function(grunt) {
 
    grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
+      bower: grunt.file.readJSON('bower.json'),
+
+      shell: {
+         publish: {
+            command: 'npm publish'
+         }
+      },
+
+      bump: {
+         options: {
+            files: ['package.json', 'bower.json'],
+            updateConfigs: ['pkg', 'bower'],
+            commit: true,
+            commitMessage: 'Release v%VERSION%',
+            commitFiles: ['package.json'],
+            createTag: true,
+            tagName: 'v%VERSION%',
+            tagMessage: 'Version %VERSION%',
+            push: true,
+            pushTo: 'upstream',
+            gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+         }
+      },
 
       karma: {
          unit: {
@@ -38,7 +61,7 @@ module.exports = function(grunt) {
          dist: {
             files: {
                'dist/angulartics.min.js': ['src/angulartics.js'],
-			   'dist/angulartics-adobe.min.js': ['src/angulartics-adobe.js'],
+			      'dist/angulartics-adobe.min.js': ['src/angulartics-adobe.js'],
                'dist/angulartics-chartbeat.min.js': ['src/angulartics-chartbeat.js'],
                'dist/angulartics-piwik.min.js': ['src/angulartics-piwik.js'],
                'dist/angulartics-ga.min.js': ['src/angulartics-ga.js'],
@@ -57,12 +80,16 @@ module.exports = function(grunt) {
       clean: ['dist']
    });
 
-   grunt.loadNpmTasks('grunt-contrib-jshint');
-   grunt.loadNpmTasks('grunt-karma');
-   grunt.loadNpmTasks('grunt-contrib-concat');
-   grunt.loadNpmTasks('grunt-contrib-uglify');
-   grunt.loadNpmTasks('grunt-contrib-clean');
+   require('load-grunt-tasks')(grunt);
 
    grunt.registerTask('test', ['jshint', 'karma']);
    grunt.registerTask('default', ['jshint', 'karma', 'uglify:predist', 'concat:dist', 'uglify:dist']);
+
+   grunt.registerTask('release', 'Release a new version, push it and publish it', function(target) {
+     if (!target) {
+       target = 'patch';
+     }
+     return grunt.task.run('bump-only:' + target, 'default', 'bump-commit', 'shell:publish');
+   });
+
 };

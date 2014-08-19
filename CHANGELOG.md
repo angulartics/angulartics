@@ -1,3 +1,11 @@
+<a name="0.16.1"></a>
+### 0.16.1 (2014-08-19)
+
+#### Features
+* **analytics-if** - Analytics call will only be made if the `analytic-if` condition passes. Example: `<button analytics-on analytics-if="user.isLoggedIn">` 
+* Better buffering
+* Support for multiple providers
+
 <a name="v0.15.20"></a>
 ### v0.15.20 (2014-07-09)
 
