@@ -1,5 +1,12 @@
+<a name="0.16.2"></a>
+### 0.16.2 (2014-08-19)
+
+#### Features
+* Add marketo plugin. Thanks https://github.com/cthorner
+* Better releasing with grunt-bump
+
 <a name="0.16.1"></a>
-### 0.16.1 (2014-08-19)
+### 0.16.1 (2014-08-06)
 
 #### Features
 * **analytics-if** - Analytics call will only be made if the `analytic-if` condition passes. Example: `<button analytics-on analytics-if="user.isLoggedIn">` 
