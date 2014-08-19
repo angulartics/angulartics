@@ -31,7 +31,7 @@ angular.module('angulartics.marketo', ['angulartics'])
    $analyticsProvider.registerEventTrack(function (action, properties) {
     if(properties.path !== undefined) {
      var params = [];
-     for(prop in properties){
+     for(var prop in properties){
       if(prop !== 'path') {
        params.push(prop + "=" + properties[prop]);
       }
@@ -50,10 +50,10 @@ angular.module('angulartics.marketo', ['angulartics'])
     if(properties.email !== undefined) {
       email = properties.email;
       email_sha = sha1(Munckin.sKey + email);
-      properties['Email'] = properties.email;
+      properties.Email = properties.email;
       Munchkin.munchkinFunction('associateLead', properties, email_sha);
     }
-  }
+  };
 
   angulartics.waitForVendorApi('Munchkin', 500, function (Munchkin) {
     $analyticsProvider.registerSetUsername(function (userId) {

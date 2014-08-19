@@ -36,7 +36,9 @@
   "bugs": {
     "url": "http://github.com/luisfarzati/angulartics/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "load-grunt-tasks": "^0.6.0"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-bump": "0.0.15",
