@@ -1,6 +1,6 @@
 {
   "name": "angulartics",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "main": [
     "src/angulartics.js",
     "src/angulartics-adobe.js",
@@ -19,12 +19,12 @@
     "src/angulartics-marketo.js"
   ],
   "dependencies": {
-    "angular": ">= 1.0.7",
+    "angular": ">= 1.1.5",
     "jquery-waypoints": "~v2.0.3",
     "SHA-1": "*"
   },
   "devDependencies": {
-    "angular-mocks": ">= 1.0.7",
+    "angular-mocks": ">= 1.1.5",
     "angular-route": "~1.2",
     "angular-ui-router": "~0.2"
   }
