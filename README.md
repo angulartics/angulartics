@@ -24,7 +24,7 @@ Or, in a command line (with nuget.exe in your path):
 To install all available modules:
 	bower install angulartics
 
-# Full path tracking
+# Full path tracking (for pages without a router)
 Introduced in 0.15.19 - support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
 
  - **Viewing page `http://host.com/routes#/route` will be tracked as `/routes#/route`.** The original version would only track the page as `/route`
@@ -113,12 +113,19 @@ Setup listeners in Google Tag Manager
 
 ## Supported providers
 
+* Adobe Analytics
+* Chartbeat
+* Flurry
 * Google Analytics
 * Google Tag Manager
 * Kissmetrics
+* Marketo
 * Mixpanel
-* Chartbeat
+* Piwik
+* Scroll tracking
 * Segment.io
+* Splunk
+* Woopra
 
 If there's no Angulartics plugin for your analytics vendor of choice, please feel free to write yours and PR' it! Here's how to do it.
 
@@ -129,7 +136,7 @@ It's very easy to write your own plugin. First, create your module and inject `$
 	angular.module('angulartics.myplugin', ['angulartics'])
 	  .config(['$analyticsProvider', function ($analyticsProvider) {
 
-The module name can be anything of course, but it would be convenient to follow the style `angulartics.{vendorname}`.
+Please follow the style `angulartics.{vendorname}`.
 
 Next, you register either the page track function, event track function, or both. You do it by calling the `registerPageTrack` and `registerEventTrack` methods. Let's take a look at page tracking first:
 
@@ -137,7 +144,7 @@ Next, you register either the page track function, event track function, or both
 		// your implementation here
 	}
 
-By calling `registerPageTrack`, you tell Angulartics to invoke your function on `$routeChangeSuccess`. Angulartics will send the new path as an argument.
+By calling `registerPageTrack`, you tell Angulartics to invoke your function on `$routeChangeSuccess` or `$stateChangeSuccess`. Angulartics will send the new path as an argument.
 
     $analyticsProvider.registerEventTrack(function (action, properties) {
 		// your implementation here
@@ -176,10 +183,13 @@ Use the `$analytics` service to emit pageview and event tracking:
 Use `analytics-on` and `analytics-event` attributes for enabling event tracking on a specific HTML element:
 
 	<a href="file.pdf" 
-		analytics-on="click" 
+		analytics-on="click"
+        analytics-if="myScope.shouldTrack"
 		analytics-event="Download">Download</a>
 
-`analytics-on` lets you specify the DOM event that triggers the event tracking; `analytics-event` is the event name to be sent. 
+`analytics-on` lets you specify the DOM event that triggers the event tracking; `analytics-event` is the event name to be sent.
+
+`analytics-if` is a conditional check. If the attribute value evaluates to a falsey, the event will NOT be fired. Useful for user tracking opt-out, etc.
 
 Additional properties (for example, category as required by GA) may be specified by adding `analytics-*` attributes:
 
