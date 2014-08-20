@@ -1,3 +1,11 @@
+<a name="0.16.3"></a>
+### 0.16.3 (2014-08-20)
+
+#### Bug Fixes
+- Due to changes in routing logic, Angular 1.1.5 is now the minimum supported version.
+- Update all samples to Angular 1.1.5
+- Fix Adobe analytics sample
+
 <a name="0.16.2"></a>
 ### 0.16.2 (2014-08-19)
 

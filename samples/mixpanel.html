@@ -5,7 +5,7 @@
 	<title>Mixpanel sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
 
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-mixpanel.js"></script>
 <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
@@ -54,10 +54,10 @@ mixpanel.init("82846d4a839f20a2a616b30ca30b6298", { track_pageview: false });</s
 	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
 			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })
-	  	.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
-		  .when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
-		  .when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
-		  .otherwise({ redirectTo: '/' });
+			.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
+			.when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
+			.when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
+			.otherwise({ redirectTo: '/' });
 	})
 	.controller('SampleCtrl', function () {});
 </script>

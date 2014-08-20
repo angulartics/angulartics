@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.2
+ * @license Angulartics v0.16.3
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/chechoacosta
  * License: MIT

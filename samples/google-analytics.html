@@ -4,7 +4,7 @@
 	<meta charset="utf8">
 	<title>Google Analytics sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-ga.js"></script>
 	<script>
@@ -58,10 +58,10 @@
 	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
 			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })
-	  	.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
-		  .when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
-		  .when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
-		  .otherwise({ redirectTo: '/' });
+			.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
+			.when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
+			.when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
+			.otherwise({ redirectTo: '/' });
 	})
 	.controller('SampleCtrl', function () {});
 </script>
