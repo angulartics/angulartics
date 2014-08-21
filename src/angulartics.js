@@ -147,7 +147,7 @@ angular.module('angulartics', [])
        }
     } else if ($injector.has('$state')) {
       var $state = $injector.get('$state');
-      for (var state in $state.states) {
+      for (var state in $state.get()) {
         noRoutesOrStates = false;
         break;
       }
@@ -162,7 +162,7 @@ angular.module('angulartics', [])
         var url = $analytics.settings.pageTracking.basePath + $location.url();
         $analytics.pageTrack(url);
       } else {
-   $analytics.pageTrack($location.absUrl());
+        $analytics.pageTrack($location.absUrl());
       }
     }
   }
