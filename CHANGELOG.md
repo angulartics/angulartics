@@ -1,3 +1,12 @@
+<a name="0.16.4"></a>
+### 0.16.4 (2014-08-21)
+
+#### Bug Fixes
+Fixed #182 double pageview tracking with ui-router
+
+#### Features
+Added basic debugging provider angulartics.debug.js that uses console.log to dump page and event tracking
+
 <a name="0.16.3"></a>
 ### 0.16.3 (2014-08-20)
 
