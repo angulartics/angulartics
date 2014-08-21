@@ -59,22 +59,13 @@ module.exports = function(grunt) {
             }
          },
          dist: {
-            files: {
-               'dist/angulartics.min.js': ['src/angulartics.js'],
-			      'dist/angulartics-adobe.min.js': ['src/angulartics-adobe.js'],
-               'dist/angulartics-chartbeat.min.js': ['src/angulartics-chartbeat.js'],
-               'dist/angulartics-piwik.min.js': ['src/angulartics-piwik.js'],
-               'dist/angulartics-ga.min.js': ['src/angulartics-ga.js'],
-               'dist/angulartics-ga-cordova.min.js': ['src/angulartics-ga-cordova.js'],
-               'dist/angulartics-kissmetrics.min.js': ['src/angulartics-kissmetrics.js'],
-               'dist/angulartics-mixpanel.min.js': ['src/angulartics-mixpanel.js'],
-               'dist/angulartics-segmentio.min.js': ['src/angulartics-segmentio.js'],
-               'dist/angulartics-gtm.min.js': ['src/angulartics-gtm.js'],
-               'dist/angulartics-woopra.min.js': ['src/angulartics-woopra.js'],
-               'dist/angulartics-splunk.min.js': ['src/angulartics-splunk.js'],
-               'dist/angulartics-flurry.min.js': ['src/angulartics-flurry.js'],
-               'dist/angulartics-marketo.min.js': ['src/angulartics-marketo.js']
-            }
+            files: [{
+               expand: true,
+               cwd: 'src/',
+               src: ['*.js', '!angulartics-scroll.js'],
+               dest: 'dist/',
+               ext: '.min.js'
+            }]
          }
       },
 
