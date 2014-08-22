@@ -15,6 +15,12 @@
 angular.module('angulartics.intercom', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
 
+  $analyticsProvider.registerSetUsername(function (userId) {
+    if(window.Intercom) {
+      window.Intercom('update', { user_id: userId });
+    }
+  });
+
   /**
    * Track Event in Intercom
    * @name eventTrack
@@ -28,11 +34,9 @@ angular.module('angulartics.intercom', ['angulartics'])
    *   Intercom('trackEvent', 'invited-friend');
    */
   $analyticsProvider.registerEventTrack(function (action, properties) {
-
     if(window.Intercom) {
       window.Intercom('trackEvent', action, properties);
     }
-
   });
 
 }]);
