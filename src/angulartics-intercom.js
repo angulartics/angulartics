@@ -30,7 +30,7 @@ angular.module('angulartics.intercom', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     if(window.Intercom) {
-      Intercom('trackEvent', action, properties);
+      window.Intercom('trackEvent', action, properties);
     }
 
   });
