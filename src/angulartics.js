@@ -37,7 +37,7 @@ angular.module('angulartics', [])
     eventTracking: {},
     bufferFlushDelay: 1000 // Support only one configuration for buffer flush delay to simplify buffering
   };
-  
+
   // List of known handlers that plugins can register themselves for
   var knownHandlers = [
     'pageTrack',
@@ -61,7 +61,7 @@ angular.module('angulartics', [])
       }
     };
   };
-  
+
   // As handlers are installed by plugins, they get pushed into a list and invoked in order.
   var updateHandlers = function(handlerName, fn){
     if(!handlers[handlerName]){
@@ -99,7 +99,7 @@ angular.module('angulartics', [])
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
-    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
@@ -127,15 +127,15 @@ angular.module('angulartics', [])
     };
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
   };
-  
+
   // Set up register functions for each known handler
   angular.forEach(knownHandlers, installHandlerRegisterFunction);
   return provider;
 })
 
 .run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
-  
-    
+
+
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
     /* Only track the 'first page' if there are no routes or states on the page */
     var noRoutesOrStates = true;
@@ -181,7 +181,7 @@ angular.module('angulartics', [])
     if ($injector.has('$state')) {
       $rootScope.$on('$stateChangeSuccess', function (event, current) {
         var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
+        $analytics.pageTrack(url, current.name);
       });
     }
   }
@@ -222,7 +222,7 @@ angular.module('angulartics', [])
     scope: true,
     link: function ($scope, $element, $attrs) {
       var eventType = $attrs.analyticsOn || inferEventType($element[0]);
-      
+
       $scope.$analytics = {};
 
       angular.forEach($attrs.$attr, function(attr, name) {
@@ -244,7 +244,7 @@ angular.module('angulartics', [])
           }
         }
         // Allow components to pass through an expression that gets merged on to the event properties
-        // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties' 
+        // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties'
         if($attrs.analyticsProperties){
           angular.extend($scope.$analytics, $scope.$eval($attrs.analyticsProperties));
         }
