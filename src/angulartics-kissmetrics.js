@@ -21,8 +21,8 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
   // Useful if you want to load angulartics before kissmetrics
   window._kmq = _kmq || [];
 
-  $analyticsProvider.registerPageTrack(function (path) {
-    window._kmq.push(['record', 'Pageview', { 'Page': path }]);
+  $analyticsProvider.registerPageTrack(function (path, name) {
+    window._kmq.push(['record', 'Pageview', { 'Page': path, 'Name': name }]);
   });
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
