@@ -227,6 +227,7 @@ angular.module('angulartics', [])
 
       angular.forEach($attrs.$attr, function(attr, name) {
         if (isProperty(name)) {
+          $scope.$analytics[propertyName(name)] = $attrs[name];
           $attrs.$observe(name, function(value){
             $scope.$analytics[propertyName(name)] = value;
           });
