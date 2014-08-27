@@ -19,14 +19,16 @@
       throw "Define sp ";
     };
 
-    var _sp = window.sp || { pageview: errorFunction, track :errorFunction};
+    var _getSp = function () {
+        return window.sp || { pageview: errorFunction, track: errorFunction };
+    };
 
     $analyticsProvider.registerPageTrack(function (path) {
-      _sp.pageview(path);
+        _getSp().pageview(path);
     });
 
     $analyticsProvider.registerEventTrack(function (action, properties) {
-      _sp.track(action, properties);
+        _getSp().track(action, properties);
     });
 
   }]);
