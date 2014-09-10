@@ -187,7 +187,7 @@ angular.module('angulartics', [])
   }
 }])
 
-.directive('analyticsOn', ['$analytics', '$timeout', function ($analytics, $timeout) {
+.directive('analyticsOn', ['$analytics', function ($analytics) {
   function isCommand(element) {
     return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
       element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
