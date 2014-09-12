@@ -35,7 +35,8 @@ angular.module('angulartics', [])
       basePath: ''
     },
     eventTracking: {},
-    bufferFlushDelay: 1000 // Support only one configuration for buffer flush delay to simplify buffering
+    bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
+    namingRule:null
   };
   
   // List of known handlers that plugins can register themselves for
@@ -92,6 +93,21 @@ angular.module('angulartics', [])
     }
   };
 
+  //naming rule that the final property can adapt
+  var namingRules = {
+      'titleCaseNamingRule':function(str){
+          var s = str.replace(/^\s*/, "");  // strip leading spaces
+          s = s.replace(/^[a-z]|[^\s][A-Z]/g, function(str, offset) {
+              if (offset == 0) {
+                  return(str.toUpperCase());
+              } else {
+                  return(str.substr(0,1) + " " + str.substr(1).toUpperCase());
+              }
+          });
+          return(s);
+      }
+  };
+
   var provider = {
     $get: function() { return api; },
     api: api,
@@ -100,6 +116,13 @@ angular.module('angulartics', [])
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
+    setNamingRule:function(namingRule){
+      if(typeof namingRule==='string'){
+          this.settings.namingRule = namingRules[namingRule];
+      }else if(typeof namingRule === 'function'){
+          this.settings.namingRule = namingRule;
+      }
+    }
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
@@ -207,14 +230,22 @@ angular.module('angulartics', [])
     return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'If', 'Properties', 'EventType'].indexOf(name.substr(9)) === -1;
   }
 
-  function propertyName(name) {
+  function removePrefixToCamelCase(name){
     var s = name.slice(9); // slice off the 'analytics' prefix
     if (typeof s !== 'undefined' && s!==null && s.length > 0) {
-      return s.substring(0, 1).toLowerCase() + s.substring(1);
+        return s.substring(0, 1).toLowerCase() + s.substring(1);
     }
     else {
-      return s;
+        return s;
     }
+  }
+
+  function propertyName(name) {
+    name = removePrefixToCamelCase(name);
+    if($analytics.settings.namingRule){
+        return $analytics.settings.namingRule(name);
+    }
+    return name;
   }
 
   return {
