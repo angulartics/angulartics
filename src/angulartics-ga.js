@@ -13,7 +13,7 @@
  * Enables analytics support for Google Analytics (http://google.com/analytics)
  */
 angular.module('angulartics.google.analytics', ['angulartics'])
-.config(['$analyticsProvider', function ($analyticsProvider) {
+.config(['$analyticsProvider', '$log', function ($analyticsProvider, $log) {
 
   // GA already supports buffered invocations so we don't need
   // to wrap these inside angulartics.waitForVendorApi
@@ -39,8 +39,10 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     // do nothing if there is no category (it's required by GA)
-    if(!properties.category) { return; }
-
+    if (!properties || !properties.category) { 
+		$log.debug('angulartics-google-analytics: GA requires a category property, ignoring.');
+		return; 
+	}
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
     // https://github.com/luisfarzati/angulartics/issues/81
