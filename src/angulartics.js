@@ -151,8 +151,6 @@ angular.module('angulartics', [])
         noRoutesOrStates = false;
         break;
       }
-    } else {
-      noRoutesOrStates = false;
     }
     if (noRoutesOrStates) {
       if ($analytics.settings.pageTracking.autoBasePath) {
