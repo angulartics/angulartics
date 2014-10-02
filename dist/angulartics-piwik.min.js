@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.0
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Piwik 2.1.x update contributed by http://github.com/highskillz
  * License: MIT
