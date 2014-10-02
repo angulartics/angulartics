@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Angular.Analytics.Core</id>
-        <version>0.16.5</version>
+        <version>0.16.6</version>
         <title>Angulartics Core</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
