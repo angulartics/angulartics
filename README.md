@@ -127,6 +127,7 @@ Setup listeners in Google Tag Manager
 * Segment.io
 * Splunk
 * Woopra
+* HubSpot
 
 If there's no Angulartics plugin for your analytics vendor of choice, please feel free to write yours and PR' it! Here's how to do it.
 
