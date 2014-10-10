@@ -31,14 +31,14 @@ angular.module('angulartics.adobe.analytics', ['angulartics'])
    */
   $analyticsProvider.registerEventTrack(function (action) {
     if (window.s) {
-    if(action) {
-      if(action.toUpperCase() === "DOWNLOAD")
-         s.tl(this,'d',action);
-      else if(action.toUpperCase() === "EXIT")
-         s.tl(this,'e',action);
-    }
-    else
-      s.tl(this,'o',action);
+      if(action) {
+        if(action.toUpperCase() === "DOWNLOAD")
+          s.tl(this,'d',action);
+        else if(action.toUpperCase() === "EXIT")
+          s.tl(this,'e',action);
+        else
+          s.tl(this,'o',action);
+      }
     }
   });
 
