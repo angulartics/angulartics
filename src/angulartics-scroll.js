@@ -28,7 +28,7 @@ angular.module('angulartics.scroll', ['angulartics'])
     restrict: 'A',
     priority: 5,
     scope: false,
-    link:['$scope','$element','$attrs',function ($scope, $element, $attrs) {
+    link: function ($scope, $element, $attrs) {
       if ($attrs.analyticsOn !== 'scrollby') return;
 
       var properties = { continuous: false, triggerOnce: true };
@@ -41,7 +41,7 @@ angular.module('angulartics.scroll', ['angulartics'])
       $element.waypoint(function () {
         $element.triggerHandler('scrollby');
       }, properties);
-    }]
+    }
   };
 }]);
 })(angular);
