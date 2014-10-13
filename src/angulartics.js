@@ -133,55 +133,58 @@ angular.module('angulartics', [])
   return provider;
 })
 
-.run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
-
-
+.run(['$rootScope', '$window', '$analytics', '$injector', function ($rootScope, $window, $analytics, $injector) {
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
-    /* Only track the 'first page' if there are no routes or states on the page */
-    var noRoutesOrStates = true;
-    if ($injector.has('$route')) {
-       var $route = $injector.get('$route');
-       for (var route in $route.routes) {
-         noRoutesOrStates = false;
-         break;
-       }
-    } else if ($injector.has('$state')) {
-      var $state = $injector.get('$state');
-      for (var state in $state.get()) {
-        noRoutesOrStates = false;
-        break;
+    $injector.invoke(['$location', function ($location) {
+      /* Only track the 'first page' if there are no routes or states on the page */
+      var noRoutesOrStates = true;
+      if ($injector.has('$route')) {
+         var $route = $injector.get('$route');
+         for (var route in $route.routes) {
+           noRoutesOrStates = false;
+           break;
+         }
+      } else if ($injector.has('$state')) {
+        var $state = $injector.get('$state');
+        for (var state in $state.get()) {
+          noRoutesOrStates = false;
+          break;
+        }
       }
-    }
-    if (noRoutesOrStates) {
-      if ($analytics.settings.pageTracking.autoBasePath) {
-        $analytics.settings.pageTracking.basePath = $window.location.pathname;
+      if (noRoutesOrStates) {
+        if ($analytics.settings.pageTracking.autoBasePath) {
+          $analytics.settings.pageTracking.basePath = $window.location.pathname;
+        }
+        if ($analytics.settings.trackRelativePath) {
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url);
+        } else {
+          $analytics.pageTrack($location.absUrl());
+        }
       }
-      if ($analytics.settings.trackRelativePath) {
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      } else {
-        $analytics.pageTrack($location.absUrl());
-      }
-    }
+    }]);
   }
+
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
-    if ($analytics.settings.pageTracking.autoBasePath) {
-      /* Add the full route to the base. */
-      $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
-    }
-    if ($injector.has('$route')) {
-      $rootScope.$on('$routeChangeSuccess', function (event, current) {
-        if (current && (current.$$route||current).redirectTo) return;
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      });
-    }
-    if ($injector.has('$state')) {
-      $rootScope.$on('$stateChangeSuccess', function (event, current) {
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      });
-    }
+    $injector.invoke(['$location', function ($location) {
+      if ($analytics.settings.pageTracking.autoBasePath) {
+        /* Add the full route to the base. */
+        $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
+      }
+      if ($injector.has('$route')) {
+        $rootScope.$on('$routeChangeSuccess', function (event, current) {
+          if (current && (current.$$route||current).redirectTo) return;
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url);
+        });
+      }
+      if ($injector.has('$state')) {
+        $rootScope.$on('$stateChangeSuccess', function (event, current) {
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url);
+        });
+      }
+    }]);
   }
 }])
 
