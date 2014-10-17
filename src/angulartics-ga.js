@@ -55,9 +55,9 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     }
     else if (window.ga) {
       if (properties.noninteraction) {
-        ga('send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
+        ga('send', 'event', properties.category, action, properties.label, parseInt(properties.value), {nonInteraction: 1});
       } else {
-        ga('send', 'event', properties.category, action, properties.label, properties.value);
+        ga('send', 'event', properties.category, action, properties.label, parseInt(properties.value));
       }
     }
   });
