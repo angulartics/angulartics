@@ -20,6 +20,12 @@ angular.module('angulartics.mixpanel', ['angulartics'])
       mixpanel.identify(userId);
     });
   });
+  
+  angulartics.waitForVendorApi('mixpanel', 500, '__loaded', function (mixpanel) {
+    $analyticsProvider.registerSetAlias(function (userId) {
+      mixpanel.alias(userId);
+    });
+  });
 
   angulartics.waitForVendorApi('mixpanel', 500, '__loaded', function (mixpanel) {
     $analyticsProvider.registerSetSuperPropertiesOnce(function (properties) {
