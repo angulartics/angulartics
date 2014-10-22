@@ -2,6 +2,11 @@
   This is a plugin written for angulartics (http://luisfarzati.github.io/angulartics/) that 
   utilizes danwilson's google analytic plugin for cordova app (https://github.com/danwilson/google-analytics-plugin)
 */
+
+// MAKE sure to put in your .config() of your app:
+//    googleAnalyticsPluginProvider.debug = true;
+//    googleAnalyticsPluginProvider.trackingId = GA_TRACKING_ID;
+
 (function(angular) {
   'use strict';
 
