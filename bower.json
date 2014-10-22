@@ -1,6 +1,6 @@
 {
   "name": "angulartics",
-  "version": "0.16.4",
+  "version": "0.17.0",
   "main": [
     "src/angulartics.js",
     "src/angulartics-adobe.js",
@@ -16,7 +16,8 @@
     "src/angulartics-segmentio.js",
     "src/angulartics-splunk.js",
     "src/angulartics-woopra.js",
-    "src/angulartics-marketo.js"
+    "src/angulartics-marketo.js",
+    "src/angulartics-intercom.js"
   ],
   "dependencies": {
     "angular": ">= 1.1.5",

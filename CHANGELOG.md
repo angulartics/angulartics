@@ -1,3 +1,26 @@
+<a name="0.17.0"></a>
+### 0.17.0 (2014-10-02)
+
+#### Bug Fixes
+- Fix double page tracking - (don't set noRoutesorState to false if conditionals fail)
+- Clean up dependency injections
+- Angular-scroll now minification safe
+
+#### Features
+- Add Intercom vendor plugin
+
+<a name="0.16.5"></a>
+### 0.16.5 (2014-08-28)
+
+#### Bug Fixes
+- Google Analytics - do nothing if there is no event category (required)
+- Mixpanel - look for the field __loaded before sending events
+- Splunk - look for _sp with a dynamic function for anyone wanting to run setup in the module.config or not pull/compile the html of their app when running a testing framework like Karma
+
+#### Features
+Evaluate initial attribute values for properties.
+- This is so that events that get fired immediately have an initial value for event properties.
+
 <a name="0.16.4"></a>
 ### 0.16.4 (2014-08-21)
 
