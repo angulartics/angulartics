@@ -8,8 +8,9 @@
  	<script type="text/javascript" src="//web.localytics.com/latest/localytics.min.js"></script>
 	<script>
 		var key = '758b4899aef4adc4d7bbe9c-0953a2cc-5afc-11e4-2710-004a77f8b47f';
-		var opt = {logger: true, namespace: 'websdk'};
-		localytics = LocalyticsSession(key, opt);
+		// Enable logging and a short timeout for testing purposes
+		var opt = {logger: true, sessionTimeoutSeconds: 1};
+		window.localytics = LocalyticsSession(key, opt);
 	</script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-localytics.js"></script>
