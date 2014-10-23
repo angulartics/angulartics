@@ -54,11 +54,24 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
     else if (window.ga) {
-      if (properties.noninteraction) {
-        ga('send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
-      } else {
-        ga('send', 'event', properties.category, action, properties.label, properties.value);
-      }
+	  var eventOptions = {
+		eventCategory: properties.category || null,
+		eventAction: action || null,
+		eventLabel: properties.label ||  null,
+		eventValue: properties.value || null,
+		nonInteraction: properties.noninteraction || null
+	  };
+
+	  // add custom dimensions and metrics
+	  for(var idx = 1; idx<=20;idx++) {
+		if(properties['dimension' +idx.toString()]) {
+		  eventOptions['dimension' +idx.toString()] = properties['dimension' +idx.toString()];
+		}
+		if(properties['metric' +idx.toString()]) {
+		  eventOptions['metric' +idx.toString()] = properties['metric' +idx.toString()];
+	    }
+	  }
+	  ga('send', 'event', eventOptions);
     }
   });
 
