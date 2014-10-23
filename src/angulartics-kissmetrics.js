@@ -19,7 +19,12 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
 
   // Creates the _kqm array if it doesn't exist already
   // Useful if you want to load angulartics before kissmetrics
-  window._kmq = _kmq || [];
+  
+  if (typeof(_kmq) == "undefined") {
+    window._kmq = [];
+  } else {
+    window._kmq = _kmq;
+  };
 
   $analyticsProvider.registerPageTrack(function (path) {
     window._kmq.push(['record', 'Pageview', { 'Page': path }]);
