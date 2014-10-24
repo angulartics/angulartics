@@ -120,6 +120,7 @@ Setup listeners in Google Tag Manager
 * Google Analytics
 * Google Tag Manager
 * Kissmetrics
+* Loggly
 * Marketo
 * Mixpanel
 * Piwik
