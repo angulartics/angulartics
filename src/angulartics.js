@@ -43,6 +43,7 @@ angular.module('angulartics', [])
     'pageTrack',
     'eventTrack',
     'setUsername',
+    'setAlias',
     'setUserProperties',
     'setUserPropertiesOnce',
     'setSuperProperties',
