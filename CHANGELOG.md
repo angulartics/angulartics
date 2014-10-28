@@ -1,3 +1,20 @@
+<a name="0.17.1"></a>
+### 0.17.1 (2014-10-28)
+
+#### Bug Fixes
+- Adobe event tracking - download and exit events now sent (thanks to alexismartin)
+- Fix angular-scroll directive (thanks to eshaham)
+- Fix for Kissmetrics to allow Karma testing
+
+#### Features
+- Add Loggly support (thanks to zoellner)
+- Add Localytics support (thanks to joehalliwell)
+- Add CNZZ support (thanks to L42y)
+- Add Hubspot support (thanks to asafdav)
+- Add main attr to package.json to enable browserify support (thanks to adamscybot)
+- Updates GA provider to support custom metrics and dimensions for universal GA on a per-event basis (thanks to Philo)
+- Add `mixpanel.alias` support to call event after user signs up (thanks to tomasescobar)
+
 <a name="0.17.0"></a>
 ### 0.17.0 (2014-10-02)
 
