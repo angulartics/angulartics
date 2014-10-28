@@ -24,7 +24,7 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
     window._kmq = [];
   } else {
     window._kmq = _kmq;
-  };
+  }
 
   $analyticsProvider.registerPageTrack(function (path) {
     window._kmq.push(['record', 'Pageview', { 'Page': path }]);
