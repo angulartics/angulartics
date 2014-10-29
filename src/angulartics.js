@@ -35,7 +35,8 @@ angular.module('angulartics', [])
       basePath: ''
     },
     eventTracking: {},
-    bufferFlushDelay: 1000 // Support only one configuration for buffer flush delay to simplify buffering
+    bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
+    developerMode: false // Prevent sending data in local/development environment
   };
 
   // List of known handlers that plugins can register themselves for
@@ -44,6 +45,7 @@ angular.module('angulartics', [])
     'eventTrack',
     'setAlias',
     'setUsername',
+    'setAlias',
     'setUserProperties',
     'setUserPropertiesOnce',
     'setSuperProperties',
@@ -101,6 +103,7 @@ angular.module('angulartics', [])
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
+    developerMode: function(value) { this.settings.developerMode = value; }
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
@@ -183,6 +186,13 @@ angular.module('angulartics', [])
         $analytics.pageTrack(url);
       });
     }
+  }
+  if ($analytics.settings.developerMode) {
+    angular.forEach($analytics, function(attr, name) {
+      if (typeof attr === 'function') {
+        $analytics[name] = function(){};
+      }
+    });
   }
 }])
 
