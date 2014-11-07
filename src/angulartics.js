@@ -228,25 +228,22 @@ angular.module('angulartics', [])
 
   return {
     restrict: 'A',
-    scope: true,
     link: function ($scope, $element, $attrs) {
       var eventType = $attrs.analyticsOn || inferEventType($element[0]);
-
-      $scope.$analytics = {};
+      var trackingData = {};
 
       angular.forEach($attrs.$attr, function(attr, name) {
         if (isProperty(name)) {
-          $scope.$analytics[propertyName(name)] = $attrs[name];
+          trackingData[propertyName(name)] = $attrs[name];
           $attrs.$observe(name, function(value){
-            $scope.$analytics[propertyName(name)] = value;
+            trackingData[propertyName(name)] = value;
           });
         }
       });
 
       angular.element($element[0]).bind(eventType, function ($event) {
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
-        var properties = {};
-        $scope.$analytics.eventType = $event.type;
+        trackingData.eventType = $event.type;
 
         if($attrs.analyticsIf){
           if(! $scope.$eval($attrs.analyticsIf)){
@@ -256,9 +253,9 @@ angular.module('angulartics', [])
         // Allow components to pass through an expression that gets merged on to the event properties
         // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties'
         if($attrs.analyticsProperties){
-          angular.extend($scope.$analytics, $scope.$eval($attrs.analyticsProperties));
+          angular.extend(trackingData, $scope.$eval($attrs.analyticsProperties));
         }
-        $analytics.eventTrack(eventName, $scope.$analytics);
+        $analytics.eventTrack(eventName, trackingData);
       });
     }
   };
