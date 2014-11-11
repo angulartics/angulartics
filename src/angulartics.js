@@ -161,9 +161,9 @@ angular.module('angulartics', [])
         }
         if ($analytics.settings.trackRelativePath) {
           var url = $analytics.settings.pageTracking.basePath + $location.url();
-          $analytics.pageTrack(url);
+          $analytics.pageTrack(url, $location);
         } else {
-          $analytics.pageTrack($location.absUrl());
+          $analytics.pageTrack($location.absUrl(), $location);
         }
       }
     }]);
@@ -179,13 +179,13 @@ angular.module('angulartics', [])
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
           if (current && (current.$$route||current).redirectTo) return;
           var url = $analytics.settings.pageTracking.basePath + $location.url();
-          $analytics.pageTrack(url);
+          $analytics.pageTrack(url, $location);
         });
       }
       if ($injector.has('$state')) {
         $rootScope.$on('$stateChangeSuccess', function (event, current) {
           var url = $analytics.settings.pageTracking.basePath + $location.url();
-          $analytics.pageTrack(url);
+          $analytics.pageTrack(url, $location);
         });
       }
     }]);
