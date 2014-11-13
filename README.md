@@ -15,15 +15,21 @@ Download complete package from http://github.com/luisfarzati/angulartics/archive
 Manage the NuGet Packages for your project and search for Angular.Analytics. Select the module for the analytics package you wish to use and the Angular.Analytics.Core package will be included. Also install any additional modules you require such as Angular.Analytics.Scroll.
 
 Alternatively, at the Package Manager Console type:
-	Install-Package Angular.Analytics.[ModuleName]
+```sh
+Install-Package Angular.Analytics.[ModuleName]
+````
 
 Or, in a command line (with nuget.exe in your path):
-	nuget.exe install Angular.Analytics.[ModuleName]
+```sh
+nuget.exe install Angular.Analytics.[ModuleName]
+```
 
 ## Bower
 
 To install all available modules:
-	bower install angulartics
+```sh
+$ bower install angulartics
+```
 
 # Full path tracking (for pages without a router)
 Introduced in 0.15.19 - support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
