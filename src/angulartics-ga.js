@@ -60,7 +60,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 		eventLabel: properties.label ||  null,
 		eventValue: properties.value || null,
 		nonInteraction: properties.noninteraction || null,
-    hitCallback: properties.hitcallback || null
+		hitCallback: properties.hitcallback || null
 	  };
 
 	  // add custom dimensions and metrics
