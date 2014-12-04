@@ -19,7 +19,7 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
 
   // Creates the _kqm array if it doesn't exist already
   // Useful if you want to load angulartics before kissmetrics
-  
+
   if (typeof(_kmq) == "undefined") {
     window._kmq = [];
   } else {
@@ -32,6 +32,14 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
     window._kmq.push(['record', action, properties]);
+  });
+
+  $analyticsProvider.registerSetUsername(function (uuid) {
+    window._kmq.push(['identify', uuid]);
+  });
+
+  $analyticsProvider.registerSetUserProperties(function (properties) {
+    window._kmq.push(['set', properties]);
   });
 
 }]);
