@@ -34,11 +34,11 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
     window._kmq.push(['record', action, properties]);
   });
 
-  $analyticsProvider.setUsername(function (uuid) {
+  $analyticsProvider.registerSetUsername(function (uuid) {
     window._kmq.push(['identify', uuid]);
   });
 
-  $analyticsProvider.setUserProperties(function (properties) {
+  $analyticsProvider.registerSetUserProperties(function (properties) {
     window._kmq.push(['set', properties]);
   });
 
