@@ -61,6 +61,9 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       properties.value = isNaN(parsed) ? 0 : parsed;
     }
 
+    if (window._gaq) {
+      _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
+    }
     if (window.ga) {
 	  var eventOptions = {
 		eventCategory: properties.category || null,
@@ -83,9 +86,6 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 	  angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
             ga(accountName +'.send', 'event', eventOptions);
           });
-    }
-    else if (window._gaq) {
-      _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
   });
 
