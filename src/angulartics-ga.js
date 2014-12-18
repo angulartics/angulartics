@@ -64,7 +64,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     if (window._gaq) {
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
-    else if (window.ga) {
+    if (window.ga) {
 	  var eventOptions = {
 		eventCategory: properties.category || null,
 		eventAction: action || null,
