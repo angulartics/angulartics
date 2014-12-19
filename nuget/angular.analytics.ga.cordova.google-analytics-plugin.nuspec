@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Angular.Analytics.GA.Cordova</id>
+        <version>0.17.1</version>
+        <title>Angulartics for Cordova Google Analytics Plugin</title>
+        <authors>luisfarzati,ADAPTByDesign</authors>
+        <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
+        <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Cordova Google Analytics Plugin (https://github.com/danwilson/google-analytics-plugin)
+        module for Angulartics.
+See Angular.Analytics.Core for more details.
+
+[NuGet packaging by ADAPTByDesign]
+</description>
+        <summary>Cordova Google analytics (https://github.com/danwilson/google-analytics-plugin) for AngularJS applications</summary>
+        <releaseNotes />
+        <copyright />
+        <tags>angularjs analytics cordova googleanalytics</tags>
+        <dependencies>
+            <dependency id="Angular.Analytics.Core" version="0.17.1" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\src\angulartics-ga-cordova-google-analytics-plugin.js" target="content\Scripts\angulartics-ga-cordova-google-analytics-plugin.js" />
+        <file src="..\dist\angulartics-ga-cordova-google-analytics-plugin.min.js" target="content\Scripts\angulartics-ga-cordova-google-analytics-plugin.min.js" />
+    </files>
+</package>
