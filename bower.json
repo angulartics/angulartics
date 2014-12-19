@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "angular": ">= 1.1.5",
-    "jquery-waypoints": "~v2.0.3",
+    "waypoints": "git@github.com:imakewebthings/waypoints.git",
     "SHA-1": "*"
   },
   "devDependencies": {
