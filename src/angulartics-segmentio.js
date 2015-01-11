@@ -35,5 +35,26 @@ angular.module('angulartics.segment.io', ['angulartics'])
         }
     }
   });
+  
+  $analyticsProvider.registerSetUserProperties(function (id, properties) {
+    try {
+      analytics.identify(id, properties);
+    } catch (e) {
+      if (!(e instanceof ReferenceError)) {
+        throw e;
+      }
+    }
+  });
+    
+  $analyticsProvider.registerSetUserPropertiesOnce(function (id, properties) {
+    try {
+      analytics.identify(id, properties);
+    } catch (e) {
+      if (!(e instanceof ReferenceError)) {
+        throw e;
+      }
+    }
+  });
+  
 }]);
 })(angular);
