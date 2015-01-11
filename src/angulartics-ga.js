@@ -41,7 +41,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
    * @name eventTrack
    *
    * @param {string} action Required 'action' (string) associated with the event
-   * @param {object} properties Comprised of the mandatory field 'category' (string) and optional  fields 'label' (string), 'value' (integer) and 'noninteraction' (boolean)
+   * @param {object} properties Comprised of the mandatory field 'category' (string) and optional fields 'label' (string), 'value' (integer), 'noninteraction' (boolean), and 'hitcallback' (function) (Note: hitcallback is ignored in some versions of Google Analytics)
    *
    * @link https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
    *
@@ -50,8 +50,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     // do nothing if there is no category (it's required by GA)
-    if (!properties || !properties.category) { 
-		return; 
+    if (!properties || !properties.category) {
+		return;
 	}
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
@@ -70,7 +70,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 		eventAction: action || null,
 		eventLabel: properties.label ||  null,
 		eventValue: properties.value || null,
-		nonInteraction: properties.noninteraction || null
+		nonInteraction: properties.noninteraction || null,
+		hitCallback: properties.hitcallback || null
 	  };
 
 	  // add custom dimensions and metrics
