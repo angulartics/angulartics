@@ -36,19 +36,23 @@ angular.module('angulartics.segment.io', ['angulartics'])
     }
   });
   
-  $analyticsProvider.registerSetUserProperties(function (id, properties) {
+  // Segment Identify Method
+  // https://segment.com/docs/api/tracking/identify/
+  $analyticsProvider.registerSetUserProperties(function (userId, traits) {
     try {
-      analytics.identify(id, properties);
+      analytics.identify(userId, traits);
     } catch (e) {
       if (!(e instanceof ReferenceError)) {
         throw e;
       }
     }
   });
-    
-  $analyticsProvider.registerSetUserPropertiesOnce(function (id, properties) {
+
+  // Segment Identify Method
+  // https://segment.com/docs/api/tracking/identify/
+  $analyticsProvider.registerSetUserPropertiesOnce(function (userId, traits) {
     try {
-      analytics.identify(id, properties);
+      analytics.identify(userId, traits);
     } catch (e) {
       if (!(e instanceof ReferenceError)) {
         throw e;
