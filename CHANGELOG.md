@@ -1,3 +1,51 @@
+<a name="0.17.2"></a>
+### 0.17.2 (2015-01-15)
+
+#### Bug Fixes
+- Added missing nuspec files (https://github.com/markvp) 8134f82e43d04c8ae6dd95731151ad81ab7aabc0
+- Remove scope from analytics-on directive. Closes #195 (https://github.com/jantimon) e8bc48eea9c0aa47cd3201d36b02ea802b5b4194
+- Inline injection of $location dependency (only load $location service if needed). Closes #29 (https://github.com/elegantcoder) cb20f5caf02d00fd942315520a18491168fae73f 
+- Segment - manually set the path and url becuase segment's JS lib always reports the path as '/' in `hashbang` mode 8543ef8d8cf6a933af78d9a5737c327042913a34
+- Google Analytics - check for GA before _gaq (https://github.com/mkolodny) c3b33a464547a4bed39541584f93cf9542a46f5f
+- Fix jquery-waypoints doesn't exist (may need to run `bower cache clean `) e68531de81526101aedca91e9721c9f0d2de322f
+	- Big thanks to:
+		- https://github.com/kentcdodds
+		- https://github.com/imakewebthings
+		- https://github.com/luisfarzati
+
+#### Features
+- Segment - identify user. Registered setUserProperties / setUserPropertiesOnce with an API to match the identify method from segment.com: https://segment.com/docs/api/tracking/identify/ (https://github.com/Normalised) 66e66f0a5a229390d1b2469ad997f13e7417c42e
+	- Add optional parameters for event tracking `event, properties, options, callback`
+- Add support for Google Tag Manager on Cordova resolves #258 using Tag Manager plugin. (https://github.com/kraihn) c77833d7608e865bd6b0879055c84c8b1b149735
+- Add a plugin for http://tongji.baidu.com (https://github.com/miller) efbcac271ee673a11d755c2f1c387d2378b3ce98
+- Google Cordova support with https://github.com/danwilson/google-analytics-plugin (https://github.com/emaV) d74387def225e49b6d6ab278d6882b14e38d79a9
+- New developer mode to prevent sending data. Set `developerMode: true` in `$analyticsProvider` to stop sending data (https://github.com/tomasescobar) a0cce769f569dfb46f765eda1a97eccc2748c3f9
+- Kissmetrics - enable setUsername and setUserProperties (https://github.com/jminuscula) d74387def225e49b6d6ab278d6882b14e38d79a9
+- GA multi-account modification (https://github.com/robertbak) 047815f1891e7b2dfc4a4ec666b25afaca65c70d
+Uses a ```$analyticsProvider.settings.ga``` object for configuration, which after initing multiple analytics accounts like this:
+
+```javascript
+    ga('create', 'UA-XXXXXX-XX');
+    ga('create', 'UA-XXXXXX-XY', 'auto', {'name': 'additionalTracker1'});
+    ga('create', 'UA-XXXXXX-XZ', 'auto', {'name': 'additionalTracker2'});
+```
+
+allows to configure the additional providers on startup:
+
+```javascript
+config(function ($analyticsProvider) {
+    $analyticsProvider.settings.ga.additionalAccountNames = ['additionalTracker1', 'additionalTracker2'];
+  });
+```
+
+You can also change the configuration while running the app which, while not the most elegant solution, allows sending only some events to multiple accounts by:
+
+```javascript
+ $analyticsProvider.settings.ga.additionalAccountNames = ['additionalTracker1'];
+ $analytics.eventTrack('eventName');
+ $analyticsProvider.settings.ga.additionalAccountNames = [];
+```
+
 <a name="0.17.1"></a>
 ### 0.17.1 (2014-10-28)
 
