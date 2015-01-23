@@ -23,16 +23,27 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {
     // array of additional account names (only works for analyticsjs)
-    additionalAccountNames: undefined
+    additionalAccountNames: undefined,
+    isApp: false
   };
 
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
     if (window.ga) {
-      ga('send', 'pageview', path);
-      angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
-        ga(accountName +'.send', 'pageview', path);
-      });
+      if( $analyticsProvider.settings.ga.isApp )
+      {
+        ga('send', 'screenview', {'screenName':path});
+        angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
+          ga(accountName +'.send', 'screenview', {'screenName':path});
+        });
+      }
+      else
+      {
+        ga('send', 'pageview', path);
+        angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
+          ga(accountName +'.send', 'pageview', path);
+        });
+      }
     }
   });
 
@@ -91,6 +102,5 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     }
 
   });
-
 }]);
 })(angular);
