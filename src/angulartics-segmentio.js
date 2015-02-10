@@ -71,7 +71,7 @@
       
       // Segment Alias Method
       // https://segment.com/docs/libraries/analytics.js/#alias
-      // analytics.alias([userId], [callback]);
+      // analytics.alias(userId, previousId, options, callback);
       $analyticsProvider.registerSetAlias(function (userId, previousId, options, callback) {
         try {
           analytics.alias(userId, previousId, options, callback);
