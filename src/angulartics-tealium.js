@@ -12,7 +12,7 @@
 /**
  * @ngdoc overview
  * @name angulartics.tealium
- * Enables angulartics native intergration with Tealium's utag.js
+ * Enables angulartics native integration with the Tealium utag.js
  */
 
 angular.module('angulartics.tealium', ['angulartics'])
@@ -46,7 +46,7 @@ angular.module('angulartics.tealium', ['angulartics'])
   /**
   *   Trigger virtual page view within Tealium
   *   @params {string} path Optional. 'pathname / hash' changes will automatically be recorded within the latest versions of utag.js.
-  *   Intergrate the the utag_data object into the view call.
+  *   Integrate the the utag_data object into the view call.
   */
 
   $analyticsProvider.registerPageTrack(function(path){
