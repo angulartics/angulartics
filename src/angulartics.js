@@ -177,7 +177,9 @@ angular.module('angulartics', [])
       }
       if ($injector.has('$route')) {
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
-          if (current && (current.$$route||current).redirectTo) return;
+          if (current && (current.$$route||current).redirectTo && typeof (current.$$route||current).redirectTo() === 'string') {
+            return;
+          }
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           $analytics.pageTrack(url, $location);
         });
