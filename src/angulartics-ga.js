@@ -28,7 +28,12 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   };
 
   $analyticsProvider.registerPageTrack(function (path) {
-    if (window._gaq) _gaq.push(['_trackPageview', path]);
+    if (window._gaq) {
+      _gaq.push(['_trackPageview', path]);
+      angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
+        _gaq.push([accountName + '._trackPageview', path]);
+      });
+    }
     if (window.ga) {
       if ($analyticsProvider.settings.ga.userId) {
         ga('set', '&uid', $analyticsProvider.settings.ga.userId);
@@ -55,9 +60,9 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 
     // Google Analytics requires an Event Category
     if (!properties || !properties.category) {
-    	properties = properties || {};
-		properties.category = 'Event';
-	}
+      properties = properties || {};
+      properties.category = 'Event';
+    }
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
     // https://github.com/luisfarzati/angulartics/issues/81
