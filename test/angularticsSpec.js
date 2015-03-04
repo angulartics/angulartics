@@ -92,6 +92,45 @@ describe('Module: angulartics', function() {
       });
     });
 
+    describe('exception support', function () {
+      var analytics;
+
+      beforeEach(inject(function(_$analytics_,_$httpBackend_) {
+        var analytics = _$analytics_;
+
+        spyOn(analytics, 'pageException');
+      }));
+
+      it('should console a message reporting "fatal" property absense', function() {
+         analytics.exception({
+            description: 'exception test message'
+        });
+
+        expect(console.log).toHaveBeenCalledWith('No "fatal" provided, sending with fatal=true');
+      });
+
+      it('should call ga with transformed parameters', function() {
+        analytics.exception({
+                description: 'another message test',
+                fatal: true,
+                appId: 'id.app',
+                appName: 'TestException',
+                appVersion: '0.0.1'
+            });
+
+        expect(ga).toHaveBeenCalledWith('exception', {
+                exDescription: 'another message test',
+                exFatal: true,
+                dimension1: 'appId',
+                metric1: 'id.app',
+                dimension2: 'appName',
+                metric2: 'TestException',
+                dimension3: 'appVersion',
+                metric3: '0.0.1'
+            });
+      });
+    });
+
   });
 
   describe('$analyticsProvider', function(){
@@ -100,6 +139,7 @@ describe('Module: angulartics', function() {
       var expectedHandler = [
         'pageTrack',
         'eventTrack',
+        'exception',
         'setUsername',
         'setUserProperties',
         'setUserPropertiesOnce',

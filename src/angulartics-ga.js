@@ -19,7 +19,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // to wrap these inside angulartics.waitForVendorApi
 
   $analyticsProvider.settings.trackRelativePath = true;
-  
+
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {
     // array of additional account names (only works for analyticsjs)
@@ -50,9 +50,9 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     // do nothing if there is no category (it's required by GA)
-    if (!properties || !properties.category) { 
-		return; 
-	}
+    if (!properties || !properties.category) {
+        return;
+    }
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
     // https://github.com/luisfarzati/angulartics/issues/81
@@ -90,6 +90,22 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
 
+  });
+
+  $analyticsProvider.registerException(function (properties) {
+    if (!properties || !properties.appId || !properties.appName || !properties.appVersion) {
+        console.error('Must set appId, appName and appVersion.');
+        return;
+    }
+
+    if(!properties.fatal) {
+        console.log('No "fatal" provided, sending with fatal=true');
+        properties.exFatal = true;
+    }
+
+    properties.exDescription = properties.description;
+
+    ga('send', 'exception', properties);
   });
 
 }]);
