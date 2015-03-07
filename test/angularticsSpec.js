@@ -68,7 +68,7 @@ describe('Module: angulartics', function() {
       it('should track pages on route change', function() {
         location.path('/abc');
         rootScope.$emit('$routeChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
       });
     });
 
@@ -88,7 +88,7 @@ describe('Module: angulartics', function() {
       it('should track pages on route change', function() {
         location.path('/abc');
         rootScope.$emit('$stateChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
       });
     });
 

@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -36,14 +36,17 @@ angular.module('angulartics', [])
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
-    namingRule:null
+    namingRule:null,
+    developerMode: false // Prevent sending data in local/development environment
   };
   
   // List of known handlers that plugins can register themselves for
   var knownHandlers = [
     'pageTrack',
     'eventTrack',
+    'setAlias',
     'setUsername',
+    'setAlias',
     'setUserProperties',
     'setUserPropertiesOnce',
     'setSuperProperties',
@@ -62,7 +65,7 @@ angular.module('angulartics', [])
       }
     };
   };
-  
+
   // As handlers are installed by plugins, they get pushed into a list and invoked in order.
   var updateHandlers = function(handlerName, fn){
     if(!handlers[handlerName]){
@@ -115,7 +118,8 @@ angular.module('angulartics', [])
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
-    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
+    developerMode: function(value) { this.settings.developerMode = value; },
     setNamingRule:function(namingRule){
       if(typeof namingRule==='string'){
           this.settings.namingRule = namingRules[namingRule];
@@ -150,67 +154,75 @@ angular.module('angulartics', [])
     };
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
   };
-  
+
   // Set up register functions for each known handler
   angular.forEach(knownHandlers, installHandlerRegisterFunction);
   return provider;
 })
 
-.run(['$rootScope', '$location', '$window', '$analytics', '$injector', function ($rootScope, $location, $window, $analytics, $injector) {
-  
-    
+.run(['$rootScope', '$window', '$analytics', '$injector', function ($rootScope, $window, $analytics, $injector) {
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
-    /* Only track the 'first page' if there are no routes or states on the page */
-    var noRoutesOrStates = true;
-    if ($injector.has('$route')) {
-       var $route = $injector.get('$route');
-       for (var route in $route.routes) {
-         noRoutesOrStates = false;
-         break;
-       }
-    } else if ($injector.has('$state')) {
-      var $state = $injector.get('$state');
-      for (var state in $state.get()) {
-        noRoutesOrStates = false;
-        break;
+    $injector.invoke(['$location', function ($location) {
+      /* Only track the 'first page' if there are no routes or states on the page */
+      var noRoutesOrStates = true;
+      if ($injector.has('$route')) {
+         var $route = $injector.get('$route');
+         for (var route in $route.routes) {
+           noRoutesOrStates = false;
+           break;
+         }
+      } else if ($injector.has('$state')) {
+        var $state = $injector.get('$state');
+        for (var state in $state.get()) {
+          noRoutesOrStates = false;
+          break;
+        }
       }
-    } else {
-      noRoutesOrStates = false;
-    }
-    if (noRoutesOrStates) {
-      if ($analytics.settings.pageTracking.autoBasePath) {
-        $analytics.settings.pageTracking.basePath = $window.location.pathname;
+      if (noRoutesOrStates) {
+        if ($analytics.settings.pageTracking.autoBasePath) {
+          $analytics.settings.pageTracking.basePath = $window.location.pathname;
+        }
+        if ($analytics.settings.trackRelativePath) {
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url, $location);
+        } else {
+          $analytics.pageTrack($location.absUrl(), $location);
+        }
       }
-      if ($analytics.settings.trackRelativePath) {
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      } else {
-        $analytics.pageTrack($location.absUrl());
-      }
-    }
+    }]);
   }
+
   if ($analytics.settings.pageTracking.autoTrackVirtualPages) {
-    if ($analytics.settings.pageTracking.autoBasePath) {
-      /* Add the full route to the base. */
-      $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
-    }
-    if ($injector.has('$route')) {
-      $rootScope.$on('$routeChangeSuccess', function (event, current) {
-        if (current && (current.$$route||current).redirectTo) return;
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      });
-    }
-    if ($injector.has('$state')) {
-      $rootScope.$on('$stateChangeSuccess', function (event, current) {
-        var url = $analytics.settings.pageTracking.basePath + $location.url();
-        $analytics.pageTrack(url);
-      });
-    }
+    $injector.invoke(['$location', function ($location) {
+      if ($analytics.settings.pageTracking.autoBasePath) {
+        /* Add the full route to the base. */
+        $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
+      }
+      if ($injector.has('$route')) {
+        $rootScope.$on('$routeChangeSuccess', function (event, current) {
+          if (current && (current.$$route||current).redirectTo) return;
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url, $location);
+        });
+      }
+      if ($injector.has('$state')) {
+        $rootScope.$on('$stateChangeSuccess', function (event, current) {
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          $analytics.pageTrack(url, $location);
+        });
+      }
+    }]);
+  }
+  if ($analytics.settings.developerMode) {
+    angular.forEach($analytics, function(attr, name) {
+      if (typeof attr === 'function') {
+        $analytics[name] = function(){};
+      }
+    });
   }
 }])
 
-.directive('analyticsOn', ['$analytics', '$timeout', function ($analytics, $timeout) {
+.directive('analyticsOn', ['$analytics', function ($analytics) {
   function isCommand(element) {
     return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
       element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
@@ -250,25 +262,22 @@ angular.module('angulartics', [])
 
   return {
     restrict: 'A',
-    scope: true,
     link: function ($scope, $element, $attrs) {
       var eventType = $attrs.analyticsOn || inferEventType($element[0]);
-      
-      $scope.$analytics = {};
+      var trackingData = {};
 
       angular.forEach($attrs.$attr, function(attr, name) {
         if (isProperty(name)) {
-          $scope.$analytics[propertyName(name)] = $attrs[name];
+          trackingData[propertyName(name)] = $attrs[name];
           $attrs.$observe(name, function(value){
-            $scope.$analytics[propertyName(name)] = value;
+            trackingData[propertyName(name)] = value;
           });
         }
       });
 
       angular.element($element[0]).bind(eventType, function ($event) {
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
-        var properties = {};
-        $scope.$analytics.eventType = $event.type;
+        trackingData.eventType = $event.type;
 
         if($attrs.analyticsIf){
           if(! $scope.$eval($attrs.analyticsIf)){
@@ -276,11 +285,11 @@ angular.module('angulartics', [])
           }
         }
         // Allow components to pass through an expression that gets merged on to the event properties
-        // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties' 
+        // eg. analytics-properites='myComponentScope.someConfigExpression.$analyticsProperties'
         if($attrs.analyticsProperties){
-          angular.extend($scope.$analytics, $scope.$eval($attrs.analyticsProperties));
+          angular.extend(trackingData, $scope.$eval($attrs.analyticsProperties));
         }
-        $analytics.eventTrack(eventName, $scope.$analytics);
+        $analytics.eventTrack(eventName, trackingData);
       });
     }
   };

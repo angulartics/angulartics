@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/L42y
  * License: MIT
@@ -18,6 +18,12 @@ angular.module('angulartics.mixpanel', ['angulartics'])
   angulartics.waitForVendorApi('mixpanel', 500, '__loaded', function (mixpanel) {
     $analyticsProvider.registerSetUsername(function (userId) {
       mixpanel.identify(userId);
+    });
+  });
+  
+  angulartics.waitForVendorApi('mixpanel', 500, '__loaded', function (mixpanel) {
+    $analyticsProvider.registerSetAlias(function (userId) {
+      mixpanel.alias(userId);
     });
   });
 

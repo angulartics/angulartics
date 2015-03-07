@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * License: MIT
  */
@@ -19,7 +19,12 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
 
   // Creates the _kqm array if it doesn't exist already
   // Useful if you want to load angulartics before kissmetrics
-  window._kmq = _kmq || [];
+
+  if (typeof(_kmq) == "undefined") {
+    window._kmq = [];
+  } else {
+    window._kmq = _kmq;
+  }
 
   $analyticsProvider.registerPageTrack(function (path) {
     window._kmq.push(['record', 'Pageview', { 'Page': path }]);
@@ -27,6 +32,14 @@ angular.module('angulartics.kissmetrics', ['angulartics'])
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
     window._kmq.push(['record', action, properties]);
+  });
+
+  $analyticsProvider.registerSetUsername(function (uuid) {
+    window._kmq.push(['identify', uuid]);
+  });
+
+  $analyticsProvider.registerSetUserProperties(function (properties) {
+    window._kmq.push(['set', properties]);
   });
 
 }]);

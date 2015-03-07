@@ -1,10 +1,11 @@
 {
   "name": "angulartics",
-  "version": "0.16.5",
+  "version": "0.17.2",
   "main": [
     "src/angulartics.js",
     "src/angulartics-adobe.js",
     "src/angulartics-chartbeat.js",
+    "src/angulartics-cnzz.js",
     "src/angulartics-flurry.js",
     "src/angulartics-ga-cordova.js",
     "src/angulartics-ga.js",
@@ -21,7 +22,7 @@
   ],
   "dependencies": {
     "angular": ">= 1.1.5",
-    "jquery-waypoints": "~v2.0.3",
+    "waypoints": "~2.0.3",
     "SHA-1": "*"
   },
   "devDependencies": {

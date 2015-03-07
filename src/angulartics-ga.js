@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Universal Analytics update contributed by http://github.com/willmcclellan
  * License: MIT
@@ -19,10 +19,21 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // to wrap these inside angulartics.waitForVendorApi
 
   $analyticsProvider.settings.trackRelativePath = true;
+  
+  // Set the default settings for this module
+  $analyticsProvider.settings.ga = {
+    // array of additional account names (only works for analyticsjs)
+    additionalAccountNames: undefined
+  };
 
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
-    if (window.ga) ga('send', 'pageview', path);
+    if (window.ga) {
+      ga('send', 'pageview', path);
+      angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
+        ga(accountName +'.send', 'pageview', path);
+      });
+    }
   });
 
   /**
@@ -39,26 +50,46 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     // do nothing if there is no category (it's required by GA)
-    if(!properties.category) { return; }
-
+    if (!properties || !properties.category) { 
+		return; 
+	}
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
     // https://github.com/luisfarzati/angulartics/issues/81
-    if(properties.value) {
+    if (properties.value) {
       var parsed = parseInt(properties.value, 10);
       properties.value = isNaN(parsed) ? 0 : parsed;
     }
 
-    if (window._gaq) {
+    if (window.ga) {
+
+      var eventOptions = {
+        eventCategory: properties.category || null,
+        eventAction: action || null,
+        eventLabel: properties.label ||  null,
+        eventValue: properties.value || null,
+        nonInteraction: properties.noninteraction || null
+      };
+
+      // add custom dimensions and metrics
+      for(var idx = 1; idx<=20;idx++) {
+      if (properties['dimension' +idx.toString()]) {
+        eventOptions['dimension' +idx.toString()] = properties['dimension' +idx.toString()];
+      }
+      if (properties['metric' +idx.toString()]) {
+        eventOptions['metric' +idx.toString()] = properties['metric' +idx.toString()];
+        }
+      }
+      ga('send', 'event', eventOptions);
+      angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
+        ga(accountName +'.send', 'event', eventOptions);
+      });
+    }
+
+    else if (window._gaq) {
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
-    else if (window.ga) {
-      if (properties.noninteraction) {
-        ga('send', 'event', properties.category, action, properties.label, properties.value, {nonInteraction: 1});
-      } else {
-        ga('send', 'event', properties.category, action, properties.label, properties.value);
-      }
-    }
+
   });
 
 }]);

@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.16.3
+ * @license Angulartics v0.17.2
  * (c) 2014 Luis Farzati http://luisfarzati.github.io/angulartics
  * Adobe analytics(Omniture) update contributed by http://github.com/ajayk
  * License: MIT
@@ -31,14 +31,14 @@ angular.module('angulartics.adobe.analytics', ['angulartics'])
    */
   $analyticsProvider.registerEventTrack(function (action) {
     if (window.s) {
-    if(action) {
-      if(action.toUpperCase() === "DOWNLOAD")
-         s.tl(this,'d',action);
-      else if(action.toUpperCase() === "EXIT")
-         s.tl(this,'e',action);
-    }
-    else
-      s.tl(this,'o',action);
+      if(action) {
+        if(action.toUpperCase() === "DOWNLOAD")
+          s.tl(this,'d',action);
+        else if(action.toUpperCase() === "EXIT")
+          s.tl(this,'e',action);
+        else
+          s.tl(this,'o',action);
+      }
     }
   });
 

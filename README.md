@@ -1,5 +1,6 @@
 angulartics
 ===========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/luisfarzati/angulartics?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Vendor-agnostic analytics for AngularJS applications. [luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "Go to the website")
 
@@ -118,7 +119,10 @@ Setup listeners in Google Tag Manager
 * Flurry
 * Google Analytics
 * Google Tag Manager
+* HubSpot
 * Kissmetrics
+* Localytics
+* Loggly
 * Marketo
 * Mixpanel
 * Piwik
