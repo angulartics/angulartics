@@ -30,6 +30,9 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
     if (window.ga) {
+      if ($analyticsProvider.settings.ga.userId) {
+        ga('set', '&uid', $analyticsProvider.settings.ga.userId);
+      }
       ga('send', 'pageview', path);
       angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
         ga(accountName +'.send', 'pageview', path);
