@@ -23,7 +23,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {
     // array of additional account names (only works for analyticsjs)
-    additionalAccountNames: undefined
+    additionalAccountNames: undefined,
+    userId: null
   };
 
   $analyticsProvider.registerPageTrack(function (path) {
@@ -68,7 +69,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
         eventAction: action || null,
         eventLabel: properties.label ||  null,
         eventValue: properties.value || null,
-        nonInteraction: properties.noninteraction || null
+        nonInteraction: properties.noninteraction || null,
+        userId: $analyticsProvider.settings.ga.userId || null
       };
 
       // add custom dimensions and metrics
@@ -90,6 +92,10 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
 
+  });
+
+  $analyticsProvider.registerSetUsername(function (userId) {
+    $analyticsProvider.settings.ga.userId = userId;
   });
 
 }]);
