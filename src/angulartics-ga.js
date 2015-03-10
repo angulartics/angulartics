@@ -26,14 +26,23 @@
         additionalAccountNames: undefined
       };
 
+
+      function _sendAllAccounts(eventOptions) {
+        ga('send', eventOptions);
+        angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,
+          function(accountName) {
+            ga(accountName + '.send', eventOptions);
+          });
+      }
+
+
       $analyticsProvider.registerPageTrack(function(path) {
         if (window._gaq) _gaq.push(['_trackPageview', path]);
         if (window.ga) {
-          ga('send', 'pageview', path);
-          angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,
-            function(accountName) {
-              ga(accountName + '.send', 'pageview', path);
-            });
+          _sendAllAccounts({
+            'hitType': 'pageview',
+            'page': path
+          });
         }
       });
 
@@ -92,15 +101,13 @@
             eventOptions['timingValue'] = eventOptions.eventValue;
             eventOptions['timingLabel'] = eventOptions.eventLabel;
 
-            ga('send', eventOptions);
+            _sendAllAccounts(eventOptions);
+
+          } else {
+            eventOptions['hitType'] = 'event';
+            _sendAllAccounts(eventOptions);
+
           }
-
-
-          ga('send', 'event', eventOptions);
-          angular.forEach($analyticsProvider.settings.ga.additionalAccountNames,
-            function(accountName) {
-              ga(accountName + '.send', 'event', eventOptions);
-            });
 
 
         } else if (window._gaq) {
