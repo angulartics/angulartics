@@ -43,7 +43,8 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
 	$analyticsProvider.registerEventTrack(function(action, properties){
 		var dataLayer = window.dataLayer = window.dataLayer || [];
 		dataLayer.push({
-			'event': 'interaction',
+			'event': 'gtmEvent',
+			'event-title': properties.event,
 			'target': properties.category,
 			'action': action,
 			'target-properties': properties.label,
