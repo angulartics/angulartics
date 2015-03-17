@@ -36,10 +36,13 @@ angular.module('angulartics', [])
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
-    namingRule:null,
+<<<<<<< HEAD
+    namingRule:null
+=======
     developerMode: false // Prevent sending data in local/development environment
+>>>>>>> upstream/master
   };
-  
+
   // List of known handlers that plugins can register themselves for
   var knownHandlers = [
     'pageTrack',
@@ -118,8 +121,8 @@ angular.module('angulartics', [])
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) { this.settings.pageTracking.basePath = (value) ? angular.element('base').attr('href').slice(0, -1) : ''; },
-    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
-    developerMode: function(value) { this.settings.developerMode = value; },
+<<<<<<< HEAD
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },    
     setNamingRule:function(namingRule){
       if(typeof namingRule==='string'){
           this.settings.namingRule = namingRules[namingRule];
@@ -127,6 +130,10 @@ angular.module('angulartics', [])
           this.settings.namingRule = namingRule;
       }
     }
+=======
+    withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
+    developerMode: function(value) { this.settings.developerMode = value; }
+>>>>>>> upstream/master
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
