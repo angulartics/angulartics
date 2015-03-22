@@ -44,6 +44,7 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
 		var dataLayer = window.dataLayer = window.dataLayer || [];
 		dataLayer.push({
 			'event': 'interaction',
+			'event-title': properties.event,
 			'target': properties.category,
 			'action': action,
 			'target-properties': properties.label,
