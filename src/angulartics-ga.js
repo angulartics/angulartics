@@ -92,7 +92,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
 
   });
 
-  $analyticsProvider.registerException(function (properties) {
+  $analyticsProvider.registerExceptionTrack(function (properties) {
     if (!properties || !properties.appId || !properties.appName || !properties.appVersion) {
         console.error('Must set appId, appName and appVersion.');
         return;

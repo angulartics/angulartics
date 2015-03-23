@@ -98,11 +98,11 @@ describe('Module: angulartics', function() {
       beforeEach(inject(function(_$analytics_,_$httpBackend_) {
         var analytics = _$analytics_;
 
-        spyOn(analytics, 'pageException');
+        spyOn(analytics, 'exceptionTrack');
       }));
 
       it('should console a message reporting "fatal" property absense', function() {
-         analytics.exception({
+         analytics.exceptionTrack({
             description: 'exception test message'
         });
 
@@ -110,7 +110,7 @@ describe('Module: angulartics', function() {
       });
 
       it('should call ga with transformed parameters', function() {
-        analytics.exception({
+        analytics.exceptionTrack({
                 description: 'another message test',
                 fatal: true,
                 appId: 'id.app',
@@ -139,7 +139,7 @@ describe('Module: angulartics', function() {
       var expectedHandler = [
         'pageTrack',
         'eventTrack',
-        'exception',
+        'exceptionTrack',
         'setUsername',
         'setUserProperties',
         'setUserPropertiesOnce',
