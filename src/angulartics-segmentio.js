@@ -68,6 +68,19 @@
           }
         }
       });
+      
+      // Segment Alias Method
+      // https://segment.com/docs/libraries/analytics.js/#alias
+      // analytics.alias(userId, previousId, options, callback);
+      $analyticsProvider.registerSetAlias(function (userId, previousId, options, callback) {
+        try {
+          analytics.alias(userId, previousId, options, callback);
+        } catch (e) {
+          if (!(e instanceof ReferenceError)) {
+            throw e;
+          }
+        }
+      });
 
     }]);
 })(angular);
