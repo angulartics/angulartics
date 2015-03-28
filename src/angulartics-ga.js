@@ -98,7 +98,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
         return;
     }
 
-    if(!properties.fatal) {
+    if(properties.fatal === undefined) {
         console.log('No "fatal" provided, sending with fatal=true');
         properties.exFatal = true;
     }
