@@ -159,7 +159,7 @@ angular.module('angulartics', [])
         if ($analytics.settings.pageTracking.autoBasePath) {
           $analytics.settings.pageTracking.basePath = $window.location.pathname;
         }
-        if ($analytics.settings.trackRelativePath) {
+        if ($analytics.settings.pageTracking.trackRelativePath) {
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           $analytics.pageTrack(url, $location);
         } else {
