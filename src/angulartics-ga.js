@@ -23,12 +23,16 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {
     // array of additional account names (only works for analyticsjs)
-    additionalAccountNames: undefined
+    additionalAccountNames: undefined,
+    userId: null
   };
 
   $analyticsProvider.registerPageTrack(function (path) {
     if (window._gaq) _gaq.push(['_trackPageview', path]);
     if (window.ga) {
+      if ($analyticsProvider.settings.ga.userId) {
+        ga('set', '&uid', $analyticsProvider.settings.ga.userId);
+      }
       ga('send', 'pageview', path);
       angular.forEach($analyticsProvider.settings.ga.additionalAccountNames, function (accountName){
         ga(accountName +'.send', 'pageview', path);
@@ -68,7 +72,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
         eventAction: action || null,
         eventLabel: properties.label ||  null,
         eventValue: properties.value || null,
-        nonInteraction: properties.noninteraction || null
+        nonInteraction: properties.noninteraction || null,
+        userId: $analyticsProvider.settings.ga.userId || null
       };
 
       // add custom dimensions and metrics
@@ -90,6 +95,10 @@ angular.module('angulartics.google.analytics', ['angulartics'])
       _gaq.push(['_trackEvent', properties.category, action, properties.label, properties.value, properties.noninteraction]);
     }
 
+  });
+
+  $analyticsProvider.registerSetUsername(function (userId) {
+    $analyticsProvider.settings.ga.userId = userId;
   });
 
 }]);
