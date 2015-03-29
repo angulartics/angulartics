@@ -47,6 +47,8 @@ To enable this behavior, add the following to your configuration:
 		        $analyticsProvider.withAutoBase(true);  /* Records full path */
 		});
 
+You can also use `$analyticsProvider.withBase(true)` instead of `$analyticsProvider.withAutoBase(true)` if you are using a `<base>` HTML tag.
+
 # Minimal setup
 
 ## for Google Analytics ##
@@ -161,6 +163,14 @@ By calling `registerPageTrack`, you tell Angulartics to invoke your function on 
 
 This is very similar to page tracking. Angulartics will invoke your function every time the event (`analytics-on` attribute) is fired, passing the action (`analytics-event` attribute) and an object composed of any `analytics-*` attributes you put in the element.
 
+If the analytics provider is created async, you can wrap you code with:
+
+    angulartics.waitForVendorApi("var", 1000[, "subvar"], function(window.var) {
+      ...
+    });
+
+which will polls every 1000ms for `window.var[.subvar]`, and fire `function(window.var)` once `window.var` is not `undefined`. Calls made by `$analytics` will be buffered until `function(window.var)` fires.
+
 Check out the bundled plugins as reference. If you still have any questions, feel free to email me or post an issue at GitHub!
 
 # Playing around
@@ -208,9 +218,66 @@ Additional properties (for example, category as required by GA) may be specified
 		analytics-event="Download"
 		analytics-category="Content Actions">Download</a>
 
+or setting `analytics-properties`:
+
+	<a href="file.pdf" 
+		analytics-on="click" 
+		analytics-event="Download"
+		analytics-properties="{ category: 'Content Actions' }">Download</a>
+
+## Scroll tracking
+
+You can use:
+
+    <div analytics-on="scrollby">
+
+which will track an event when the element is scrolled to the top of the viewport.
+This relies on [jQuery Waypoints](http://imakewebthings.com/jquery-waypoints/) which must be loaded:
+
+    <script src="waypoints/waypoints.min.js"></script>
+    <script src="angulartics/dist/angulartics-scroll.min.js"></script>
+
+The following module must be enabled as well:
+
+    angular.module('myApp', [..., 'angulartics.scroll'])
+
+You can pass [extra options](http://imakewebthings.com/waypoints/api/waypoint/) to Waypoints with `scrollby-OPTION`. For example, to track an event when the element is in the middle on the viewport:
+
+    <div analytics-on="scrollby" scrollby-offset="50%">
+
+Waypoints is fired with the following options:
+  - `continuous: false`, when jumping (for example with a URL anchor) passed several tracked elements, only the last one will fire an event
+  - `triggerOnce: true`, the tracking event is only fired once for a given page
+
+## User tracking
+
+You can assign user-related properties which will be sent along each page or event tracking thanks to:
+
+    $analytics.setAlias(alias)
+    $analytics.setUsername(username)
+    $analytics.setUserProperties(properties)
+    $analytics.setSuperProperties(properties)
+
+Like `$analytics.pageTrack()` and `$analytics.eventTrack()`, the effect depends on the analytics provider (i.e. `$analytics.register*()`). Not all of them implement those methods.
+
+The Google Analytics module lets you call `$analytics.setUsername(username)` or set up `$analyticsProvider.settings.ga.userId = 'username'`.
+
+
+## Developer mode
+
+You can disable tracking with:
+
+    $analyticsProvider.developerMode(true);
+
+You can also debug Angulartics by adding the following module:
+
+    angular.module('myApp', [..., 'angulartics.debug'])
+
+which will call `console.log('Page|Event tracking: ', ...)` accordingly.
+
 # What else?
 
-See full docs and more samples at [http://luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "http://luisfarzati.github.io/angulartics").
+See more docs and samples at [http://luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "http://luisfarzati.github.io/angulartics").
 
 # License
 
