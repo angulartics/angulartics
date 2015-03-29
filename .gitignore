@@ -1,5 +1,17 @@
-/node_modules
-/components
 /*.sublime-*
-npm-debug.log
 .idea
+
+# Logs
+npm-debug.log
+
+# Dependencies
+node_modules
+components
+bower_components
+
+# Temp files
+*~
+*.swp
+
+# Merge original files
+*.orig
