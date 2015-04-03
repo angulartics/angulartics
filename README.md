@@ -127,6 +127,7 @@ Setup listeners in Google Tag Manager
 * Flurry
 * Google Analytics
 * Google Tag Manager
+* GoSquared
 * HubSpot
 * Kissmetrics
 * Localytics
