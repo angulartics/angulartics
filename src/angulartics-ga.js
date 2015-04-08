@@ -53,9 +53,10 @@ angular.module('angulartics.google.analytics', ['angulartics'])
    */
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
-    // do nothing if there is no category (it's required by GA)
+    // Google Analytics requires an Event Category
     if (!properties || !properties.category) {
-		return;
+    	properties = properties || {};
+		properties.category = 'Event';
 	}
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
