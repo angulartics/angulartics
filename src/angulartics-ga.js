@@ -19,7 +19,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // to wrap these inside angulartics.waitForVendorApi
 
   $analyticsProvider.settings.trackRelativePath = true;
-  
+
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {
     // array of additional account names (only works for analyticsjs)
@@ -54,8 +54,8 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   $analyticsProvider.registerEventTrack(function (action, properties) {
 
     // do nothing if there is no category (it's required by GA)
-    if (!properties || !properties.category) { 
-		return; 
+    if (!properties || !properties.category) {
+		return;
 	}
     // GA requires that eventValue be an integer, see:
     // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventValue
@@ -68,12 +68,12 @@ angular.module('angulartics.google.analytics', ['angulartics'])
     if (window.ga) {
 
       var eventOptions = {
-        eventCategory: properties.category || null,
-        eventAction: action || null,
-        eventLabel: properties.label ||  null,
-        eventValue: properties.value || null,
-        nonInteraction: properties.noninteraction || null,
-        userId: $analyticsProvider.settings.ga.userId || null
+        eventCategory: properties.category,
+        eventAction: action,
+        eventLabel: properties.label,
+        eventValue: properties.value,
+        nonInteraction: properties.noninteraction,
+        userId: $analyticsProvider.settings.ga.userId
       };
 
       // add custom dimensions and metrics
