@@ -211,7 +211,7 @@ angular.module('angulartics', [])
   }
 
   function inferEventName(element) {
-    if (isCommand(element)) return element.innerText || element.value;
+    if (isCommand(element)) return element.textContent || element.value;
     return element.id || element.name || element.tagName;
   }
 
