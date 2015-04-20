@@ -25,7 +25,7 @@ angular.module('angulartics.gosquared', ['angulartics'])
 
   angulartics.waitForVendorApi('_gs', 500, function (_gs) {
     $analyticsProvider.registerPageTrack(function (path) {
-      _gs('track')
+      _gs('track');
     });
   });
 
@@ -40,7 +40,7 @@ angular.module('angulartics.gosquared', ['angulartics'])
    */
   angulartics.waitForVendorApi('_gs', 500, function (_gs) {
     $analyticsProvider.registerEventTrack(function (action, properties) {
-      properties['details'] = $analyticsProvider.settings.gosquared.sendPersonDetailsWithEvents;
+      properties.details = $analyticsProvider.settings.gosquared.sendPersonDetailsWithEvents;
       _gs('event', action, properties);
     });
   });
