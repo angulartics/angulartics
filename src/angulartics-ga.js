@@ -74,6 +74,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
         eventLabel: properties.label,
         eventValue: properties.value,
         nonInteraction: properties.noninteraction,
+        page: properties.page || window.location.hash.substring(1),
         userId: $analyticsProvider.settings.ga.userId
       };
 
