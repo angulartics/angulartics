@@ -17,13 +17,13 @@
 
 angular.module('angulartics.tealium', ['angulartics'])
 .config(['$analyticsProvider', function($analyticsProvider){
-  var dataCheck;
+  var convertHashToSnakeCase;
   
   /**
-  * dataCheck function to convert data sources into Tealium proposed standard. i.e. 'page_name'.
+  * convertHashToSnakeCase function to convert data sources into Tealium proposed standard. i.e. 'page_name'.
   */
 
-  dataCheck = function(data){
+  convertHashToSnakeCase = function(data){
     var key,result ={},res,prop; 
     for (key in data) {
       if(!data.hasOwnProperty(key)){
@@ -71,7 +71,7 @@ angular.module('angulartics.tealium', ['angulartics'])
       if(!properties){
         return;
       }
-      utag_data = dataCheck(properties);
+      utag_data = convertHashToSnakeCase(properties);
       utag_data.event_source = source;
       window.utag.link(utag_data);
     }
