@@ -18,7 +18,7 @@ angular.module('angulartics.adobe.analytics', ['angulartics'])
   $analyticsProvider.settings.trackRelativePath = true;
 
   $analyticsProvider.registerPageTrack(function (path) {
-    if (window.s) s.t([path]);
+    if (window.s) s.t({pageName:path});
   });
 
   /**
