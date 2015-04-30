@@ -1,7 +1,7 @@
 // package metadata file for Meteor.js
 var packageName = 'urigo:angulartics'; // https://atmospherejs.com/urigo/angulartics
 var where = 'client'; // where to install: 'client' or 'server'. For both, pass nothing.
-var version = '0.17.2';
+var version = '0.17.2_1';
 
 Package.describe({
   name: packageName,
@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom(['METEOR@0.9.0', 'METEOR@1.0']);
 
-  api.use('angularjs:angular@1.1.5', where);
+  api.use('angular:angular@1.1.5', where);
   api.use('jquery-waypoints@1.0.3', where);
 
   api.addFiles('dist/angulartics.min.js', where);
