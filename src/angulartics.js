@@ -20,6 +20,28 @@ angulartics.waitForVendorApi = function (objectName, delay, containsField, regis
   }
 };
 
+
+/**
+ * @function interpolate
+ * @description Interpolates redirect path. Lifted from ngRoute.
+ * @returns {string} interpolation of the redirect path with the parameters
+ */
+function interpolate(string, params) {
+  var result = [];
+  angular.forEach((string || '').split(':'), function(segment, i) {
+    if (i === 0) {
+      result.push(segment);
+    } else {
+      var segmentMatch = segment.match(/(\w+)(?:[?*])?(.*)/);
+      var key = segmentMatch[1];
+      result.push(params[key]);
+      result.push(segmentMatch[2] || '');
+      delete params[key];
+    }
+  });
+  return result.join('');
+}
+
 /**
  * @ngdoc overview
  * @name angulartics
@@ -177,7 +199,14 @@ angular.module('angulartics', [])
       }
       if ($injector.has('$route')) {
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
-          if (current && (current.$$route||current).redirectTo) return;
+          var redirectTo = current && (current.$$route||current).redirectTo;
+          if (redirectTo) {
+            if (angular.isString(redirectTo) && interpolate(redirectTo, current.params)) {
+              return;
+            } else if (angular.isString(redirectTo(current.params, $location.path(), $location.search()))) {
+              return;
+            }
+          }
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           $analytics.pageTrack(url, $location);
         });
