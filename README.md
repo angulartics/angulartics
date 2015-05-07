@@ -64,7 +64,7 @@ Delete the automatic pageview tracking line in the snippet code provided by Goog
     
 Done. Open your app, browse across the different routes and check [the realtime GA dashboard](http://google.com/analytics/web) to see the hits. 
 
-## for Google Tag Manager
+## for Google Tag Manager v1
 
     angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
     
@@ -115,6 +115,71 @@ Setup listeners in Google Tag Manager
             - Basic Confiruration
                 - Document Path: {{angulartics page path}}
         - Firing Rules: Angulartics pageviews
+
+## for Google Tag Manager v2
+
+    angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
+    
+Add the full tracking code from Google Tag Manager to the beginning of your body tag.
+
+Setup listeners in Google Tag Manager
+
+* 6 Variables
+    - Variable Name: angulartics page path
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: content-name
+        - Data Layer Version: Version 2
+    - Variable Name: angulartics event category
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: target
+        - Data Layer Version: Version 2
+    - Variable Name: angulartics event action
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: action
+        - Data Layer Version: Version 2
+    - Variable Name: angulartics event label
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: target-properties
+        - Data Layer Version: Version 2
+    - Variable Name: angulartics event value
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: value
+        - Data Layer Version: Version 2
+    - Variable Name: angulartics event interaction type
+        - Choose Type: Data Layer Variable
+        - Data Layer Variable Name: interaction-type
+        - Data Layer Version: Version 2
+* 2 Triggers
+    - Trigger Name: Angulartics events
+        - Choose Event: Custom Event
+        - Event Name: interaction
+    - Trigger Name: Angulartics pageviews
+        - Choose Event: Custom Event
+        - Event Name: content-view
+* 2 Tags
+    - Tag Name: Angulartics Events
+        - Choose Product: Google Analytics
+        - Choose a Tag Type: Universal Analytics
+        - Tracking ID: YourGoogleAnalyticsID
+        - Track Type: Event
+        - Category: {{angulartics event category}}
+        - Action: {{angulartics event action}}
+        - Label: {{angulartics event label}}
+        - Value: {{angulartics event value}}
+        - Non-Interaction Hit: {{angulartics event interaction type}}
+        - Fire on: More
+            - Choose from existing Triggers: Angulartics events
+    - Tag Name: Angulartics Pageviews
+        - Choose Product: Google Analytics
+        - Choose a Tag Type: Universal Analytics
+        - Tracking ID: YourGoogleAnalyticsID
+        - Track Type: Page View
+        - More settings
+            - Fields to Set
+                - Field Name: page
+                - Value: {{angulartics page path}}
+        - Fire on: More
+            - Choose from existing Triggers: Angulartics pageviews
 
 ## for other providers
 
