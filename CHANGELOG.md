@@ -1,4 +1,27 @@
 <a name="0.17.2"></a>
+
+### 0.18.0 (Unreleased)
+
+#### Bug Fixes
+
+- Omniture page tracking now correctly sends page path (@SuperheroicCoding)
+- Google Analytics plugin now properly sends properties with falsy values
+  (i.e. 0) (@birge)
+- trackRelativePath option is now properly honoured by angulartics. (@0xR)
+
+#### Features
+- Adding page property to Google Analytics (@ormagomy)
+- Google Analytics plugin now sends events to a default category 'Event' so you
+  don't need to set this if you don't want to. (@trolleycrash)
+- GoSquared support. See the appropriate plugin for options. (@pjkelly)
+- Google Analytics plugin now has support for username tracking.
+  (@ravishivt)
+- Woopra plugin now can identify the user and set user properties.
+  (@alfaproject)
+- Segment plugin now has support for the registerSetAlias method.
+  (@leore)
+
+
 ### 0.17.2 (2015-01-15)
 
 #### Bug Fixes
