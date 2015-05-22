@@ -1,6 +1,5 @@
-<a name="0.17.2"></a>
-
-### 0.18.0 (Unreleased)
+<a name="0.18.0"></a>
+### 0.18.0 (2015-05-22)
 
 #### Bug Fixes
 
@@ -21,7 +20,7 @@
 - Segment plugin now has support for the registerSetAlias method.
   (@leore)
 
-
+<a name="0.17.2"></a>
 ### 0.17.2 (2015-01-15)
 
 #### Bug Fixes
