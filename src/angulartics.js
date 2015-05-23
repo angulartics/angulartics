@@ -45,7 +45,6 @@ angular.module('angulartics', [])
     'eventTrack',
     'setAlias',
     'setUsername',
-    'setAlias',
     'setUserProperties',
     'setUserPropertiesOnce',
     'setSuperProperties',
