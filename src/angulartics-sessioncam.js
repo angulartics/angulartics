@@ -16,10 +16,9 @@
 
     // Notify SessionCam on route change
     $analyticsProvider.registerPageTrack(function (path) {
-      if(window.sessionCamRecorder) {
-        if(window.sessionCamRecorder.createVirtualPageLoad) {
-          window.sessionCamRecorder.createVirtualPageLoad(path);
-        }
+      var sessionCamRecorder = window.sessionCamRecorder;
+      if(sessionCamRecorder && sessionCamRecorder.createVirtualPageLoad) {
+        sessionCamRecorder.createVirtualPageLoad(path);
       }
     });
   }]);
