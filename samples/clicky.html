@@ -39,9 +39,9 @@
 
   <button analytics-on analytics-title="Button4 label" analytics-value="1" class="btn btn-info">Button 4</button>
 
+  <!-- uses analytics-goal with analytics-revenue to send a goal event to Clicky -->
   <button analytics-on analytics-goal="Campaign 1" analytics-revenue="1.50" analytics-no-queue class="btn btn-info">Button 5</button>
   <hr>
-  <div analytics-on="contextmenu" analytics-title="Use this title for Context Menu" analytics-type="Commands" class="">Context Menu</div>
 
   <p class="alert alert-success">
     Open the network inspector or console in your browser, click any of the nav options or buttons above and you'll see the analyticsrequest being executed.</a>.
@@ -73,16 +73,7 @@
             .when('/c', {templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl'})
             .otherwise({redirectTo: '/'});
       })
-      .controller('SampleCtrl', function ($analytics) {
-        activate();
-
-        function activate() {
-          $analytics.pageTrack('/documents/brochure.pdf', {
-            title: 'Download brochure.pdf',
-            type: 'download'
-          });
-        }
-      });
+      .controller('SampleCtrl', function ($analytics) { });
 </script>
 </body>
 
