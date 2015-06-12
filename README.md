@@ -124,6 +124,7 @@ Setup listeners in Google Tag Manager
 
 * Adobe Analytics
 * Chartbeat
+* Clicky
 * Flurry
 * Google Analytics
 * Google Tag Manager
