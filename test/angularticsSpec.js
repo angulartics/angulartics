@@ -33,13 +33,16 @@ describe('Module: angulartics', function() {
 
   beforeEach(module('angulartics'));
 
-  it('should be configurable', function() {
-    module(function(_$analyticsProvider_) {
-      _$analyticsProvider_.virtualPageviews(false);
+  describe('Configuration', function () {
+    it('should configure virtualPageviews', function() {
+      module(function(_$analyticsProvider_) {
+        _$analyticsProvider_.virtualPageviews(false);
+      });
+      inject(function(_$analytics_) {
+        expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
+      });
     });
-    inject(function(_$analytics_) {
-      expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
-    });
+
   });
 
   describe('Provider: analytics', function() {
