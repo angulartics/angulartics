@@ -5,6 +5,7 @@
     "src/angulartics.js",
     "src/angulartics-adobe.js",
     "src/angulartics-chartbeat.js",
+    "src/angulartics-clicky.js",
     "src/angulartics-cnzz.js",
     "src/angulartics-flurry.js",
     "src/angulartics-ga-cordova.js",
