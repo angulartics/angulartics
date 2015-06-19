@@ -15,7 +15,7 @@
 angular.module('angulartics.localytics', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
 
-  $analyticsProvider.settings.trackRelativePath = true;
+  $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
   /**
    * Register the page tracking function.

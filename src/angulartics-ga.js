@@ -18,7 +18,7 @@ angular.module('angulartics.google.analytics', ['angulartics'])
   // GA already supports buffered invocations so we don't need
   // to wrap these inside angulartics.waitForVendorApi
 
-  $analyticsProvider.settings.trackRelativePath = true;
+  $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
   // Set the default settings for this module
   $analyticsProvider.settings.ga = {

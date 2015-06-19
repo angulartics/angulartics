@@ -19,7 +19,7 @@
                 // Piwik seems to suppors buffered invocations so we don't need
                 // to wrap these inside angulartics.waitForVendorApi
 
-                $analyticsProvider.settings.trackRelativePath = true;
+                $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
                 $analyticsProvider.registerPageTrack(function(path) {
                     if (window._paq) {
