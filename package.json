@@ -32,7 +32,8 @@
     "omniture",
     "page tracking",
     "event tracking",
-    "scroll tracking"
+    "scroll tracking",
+    "inspectlet"
   ],
   "bugs": {
     "url": "http://github.com/luisfarzati/angulartics/issues"
