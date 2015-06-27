@@ -22,7 +22,7 @@ angular.module('angulartics.inspectlet', ['angulartics'])
 
 		if(path){
 			pageTrackArray.push({url : path});
-		};
+		}
 
 	  __insp.push(pageTrackArray);
 
@@ -41,7 +41,7 @@ angular.module('angulartics.inspectlet', ['angulartics'])
 
 		var eventTrackArray = [];
 		eventTrackArray.push(action);
-		eventTrackArray.push(properties)
+		eventTrackArray.push(properties);
 
 		__insp.push(eventTrackArray);
 
