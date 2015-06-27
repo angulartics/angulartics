@@ -1,4 +1,17 @@
 <a name="0.18.0"></a>
+### 0.19.0 (2015-06-27)
+
+#### Features
+- Added support for Inspectlet (@geordie--)
+- Added New Relic Insights support (@gampleman)
+- Added Clicky support (@corinna000)
+- Added additional account names config option for Google Analytics (@ignigena)
+
+#### Bug Fixes
+
+- Changed GTM tag to generic tag (@Nickdouille)
+- Updated to Waypoints 3.1.1 and removed jQuery dependency (@corinna000)
+
 ### 0.18.0 (2015-05-22)
 
 #### Bug Fixes
