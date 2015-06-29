@@ -176,7 +176,13 @@ angular.module('angulartics', [])
         /* Add the full route to the base. */
         $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
       }
+      var noRoutesOrStates = true;
       if ($injector.has('$route')) {
+        var $route = $injector.get('$route');
+        for (var route in $route.routes) {
+          noRoutesOrStates = false;
+          break;
+        }
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
           if (current && (current.$$route||current).redirectTo) return;
           var url = $analytics.settings.pageTracking.basePath + $location.url();
@@ -184,9 +190,21 @@ angular.module('angulartics', [])
         });
       }
       if ($injector.has('$state')) {
+        noRoutesOrStates = false;
         $rootScope.$on('$stateChangeSuccess', function (event, current) {
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           $analytics.pageTrack(url, $location);
+        });
+      }
+      if (noRoutesOrStates) {
+        $rootScope.$on('$locationChangeSuccess', function (event, current) {
+          if (current && (current.$$route || current).redirectTo) return;
+          if ($analytics.settings.pageTracking.trackRelativePath) {
+            var url = $analytics.settings.pageTracking.basePath + $location.url();
+            $analytics.pageTrack(url, $location);
+          } else {
+            $analytics.pageTrack($location.absUrl(), $location);
+          }
         });
       }
     }]);
