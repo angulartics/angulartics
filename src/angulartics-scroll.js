@@ -13,15 +13,23 @@
  * for use as a valid DOM event in analytics-on.
  */
 angular.module('angulartics.scroll', ['angulartics'])
-.directive('analyticsOn', ['$analytics', function ($analytics) {
-  function isProperty(name) {
+.factory('$waypoint', function () {
+  return function(options) {
+    return new Waypoint(options);
+  };
+})
+.directive('analyticsOn', ['$analytics', '$waypoint', function ($analytics, $waypoint) {
+  function isProperty (name) {
     return name.substr(0, 8) === 'scrollby';
   }
-  function cast(value) {
-    if (['', 'true', 'false'].indexOf(value) > -1) {
-      return value.replace('', 'true') === 'true';
+  function cast (value) {
+    if (value === '' || value === 'true') {
+      return true;
+    } else if (value === 'false') {
+      return false;
+    } else {
+      return value;
     }
-    return value;
   }
 
   return {
@@ -31,16 +39,24 @@ angular.module('angulartics.scroll', ['angulartics'])
     link: function ($scope, $element, $attrs) {
       if ($attrs.analyticsOn !== 'scrollby') return;
 
-      var properties = { continuous: false, triggerOnce: true };
-      angular.forEach($attrs.$attr, function(attr, name) {
+      var properties = {
+        handler: function () {
+          $element.triggerHandler('scrollby');
+          if (this.options.triggeronce) {
+            this.destroy();
+          }
+        },
+        element: $element[0],
+        continuous: false,
+        triggeronce: true
+      };
+      angular.forEach($attrs.$attr, function (attr, name) {
         if (isProperty(attr)) {
           properties[name.slice(8,9).toLowerCase()+name.slice(9)] = cast($attrs[name]);
         }
       });
 
-      $element.waypoint(function () {
-        $element.triggerHandler('scrollby');
-      }, properties);
+      $waypoint(properties);
     }
   };
 }]);
