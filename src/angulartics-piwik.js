@@ -19,7 +19,7 @@
         .config(['$analyticsProvider',
             function($analyticsProvider) {
 
-                $analyticsProvider.settings.trackRelativePath = true;
+                $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
                 // Add piwik specific trackers to angulartics API
 

@@ -15,7 +15,7 @@
 angular.module('angulartics.gosquared', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
 
-  $analyticsProvider.settings.trackRelativePath = true;
+  $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
   // Set the default settings for this module
   $analyticsProvider.settings.gosquared = {

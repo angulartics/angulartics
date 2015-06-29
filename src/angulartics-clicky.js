@@ -19,7 +19,7 @@
       var clickyApi;
       var $document = $documentProvider.$get;
 
-      $analyticsProvider.settings.trackRelativePath = true;
+      $analyticsProvider.settings.pageTracking.trackRelativePath = true;
 
       angulartics.waitForVendorApi('clicky', 100, registerEvents);
 
