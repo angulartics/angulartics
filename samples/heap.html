@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Heap sample | Angulartics</title>
+	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+	<script src="../src/angulartics.js"></script>
+	<script src="../src/angulartics-heap.js"></script>
+    <script type="text/javascript">window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+t+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};heap.load("<heap_id>");</script>
+</head>
+<body ng-app="sample">
+
+<div class="navbar navbar-default">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#/">My App</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="#/a">Page A</a></li>
+			<li><a href="#/b">Page B</a></li>
+			<li><a href="#/c">Page C</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="container">
+	<div ng-view></div>
+	<hr>
+
+	<button analytics-on="click" analytics-event="Button 1" analytics-category="Commands" class="btn btn-default">Button 1</button>
+
+	<!-- same as analytics-on="click", because 'click' is the default -->
+	<button analytics-on analytics-event="Button 2" analytics-category="Commands" class="btn btn-primary">Button 2</button>
+
+	<!-- same as analytics-event="Button 3", because is inferred from innerText -->
+	<button analytics-on analytics-category="Commands" class="btn btn-success">Button 3</button>
+
+	<!-- note that analytics-category is never inferred, and is required by GA... if you leave it out, no event will be tracked -->
+	<button analytics-on analytics-category="Commands"  analytics-label="Button4 label" analytics-value="1" class="btn btn-info">Button 4</button>
+	<hr>
+
+	<button ng-click="analytics.setUsername('angulartics2', {handle:'angulartics2', company:'company2'})"
+            class="btn btn-default">Identify</button>
+
+	<button ng-click="analytics.setUserProperties({x: 'y2'})"
+            class="btn btn-default">setUserProperties</button>
+
+    <button ng-click="analytics.eventTrack('someEvent2')"
+             class="btn btn-default">EventTrack</button>
+<hr>
+	<p class="alert alert-success">
+		Open the network inspector in your browser, click any of the nav options or buttons above and you'll see the analytics
+		request being executed. Then check <a class="alert-link" href="https://heapanalytics.com/app/event">your Heap dashboard</a>.
+	</p>
+</div>
+
+<script>
+	angular.module('sample', ['angulartics', 'angulartics.heap'])
+	.config(function ($routeProvider, $analyticsProvider) {
+		$routeProvider
+			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })
+			.when('/a', { templateUrl: '/samples/partials/a.tpl.html', controller: 'SampleCtrl' })
+			.when('/b', { templateUrl: '/samples/partials/b.tpl.html', controller: 'SampleCtrl' })
+			.when('/c', { templateUrl: '/samples/partials/c.tpl.html', controller: 'SampleCtrl' })
+			.otherwise({ redirectTo: '/' });
+	})
+	.controller('SampleCtrl', function ($rootScope, $analytics) {
+        $rootScope.analytics = $analytics;
+    });
+</script>
+</body>
+</html>
