@@ -1,7 +1,7 @@
 {
   "name": "angulartics",
   "description": "Vendor-agnostic web analytics for AngularJS applications",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "filename": "./src/angulartics.min.js",
   "main": "./src/angulartics.js",
   "homepage": "http://luisfarzati.github.io/angulartics",
@@ -32,7 +32,8 @@
     "omniture",
     "page tracking",
     "event tracking",
-    "scroll tracking"
+    "scroll tracking",
+    "inspectlet"
   ],
   "bugs": {
     "url": "http://github.com/luisfarzati/angulartics/issues"

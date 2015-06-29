@@ -1,12 +1,12 @@
-describe('window.angulartics', function(){
-  beforeEach(function(){
+describe('window.angulartics', function() {
+  beforeEach(function() {
     jasmine.Clock.useMock();
   });
-  afterEach(function(){
+  afterEach(function() {
     delete window.angularticsTestVendor;
   });
 
-  it('should manage vendor wait count', function(){
+  it('should manage vendor wait count', function() {
     spy = jasmine.createSpy('vendorCallback');
     spyWhenLoaded = jasmine.createSpy('vendorCallbackWhenLoaded');
     angulartics.waitForVendorApi('angularticsTestVendor', 1, 'loaded', spy);
@@ -33,13 +33,31 @@ describe('Module: angulartics', function() {
 
   beforeEach(module('angulartics'));
 
-  it('should be configurable', function() {
-    module(function(_$analyticsProvider_) {
-      _$analyticsProvider_.virtualPageviews(false);
+  describe('Configuration', function() {
+    it('should configure virtualPageviews', function() {
+      module(function(_$analyticsProvider_) {
+        _$analyticsProvider_.virtualPageviews(false);
+      });
+      inject(function(_$analytics_) {
+        expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
+      });
     });
-    inject(function(_$analytics_) {
-      expect(_$analytics_.settings.pageTracking.autoTrackVirtualPages).toBe(false);
+
+    it('should be configured to use the <base> element', function() {
+      var baseUrl = 'http://my/path';
+
+      module(function($provide, _$analyticsProvider_) {
+        var baseEl = document.createElement('base');
+        baseEl.setAttribute('href', baseUrl);
+        document.getElementsByTagName('body')[0].appendChild(baseEl);
+        _$analyticsProvider_.withBase(true);
+      });
+      inject(function(_$analytics_) {
+        expect(_$analytics_.settings.pageTracking.basePath).toBe(baseUrl);
+      });
+
     });
+
   });
 
   describe('Provider: analytics', function() {
@@ -52,10 +70,10 @@ describe('Module: angulartics', function() {
       });
     });
 
-    describe('ngRoute support', function () {
+    describe('ngRoute support', function() {
       var analytics,
-        rootScope,
-        location;
+          rootScope,
+          location;
       beforeEach(module('ngRoute'));
       beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
         analytics = _$analytics_;
@@ -72,10 +90,10 @@ describe('Module: angulartics', function() {
       });
     });
 
-    describe('ui-router support', function () {
+    describe('ui-router support', function() {
       var analytics,
-        rootScope,
-        location;
+          rootScope,
+          location;
       beforeEach(module('ui.router'));
       beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
         analytics = _$analytics_;
@@ -94,9 +112,9 @@ describe('Module: angulartics', function() {
 
   });
 
-  describe('$analyticsProvider', function(){
+  describe('$analyticsProvider', function() {
 
-    describe('registration', function(){
+    describe('registration', function() {
       var expectedHandler = [
         'pageTrack',
         'eventTrack',
@@ -106,28 +124,28 @@ describe('Module: angulartics', function() {
         'setSuperProperties',
         'setSuperPropertiesOnce'
       ];
-      var capitalize = function (input) {
-          return input.replace(/^./, function (match) {
-              return match.toUpperCase();
-          });
+      var capitalize = function(input) {
+        return input.replace(/^./, function(match) {
+          return match.toUpperCase();
+        });
       };
 
       var $analytics, $analyticsProvider;
-      beforeEach(function(){
-        module(function(_$analyticsProvider_){
+      beforeEach(function() {
+        module(function(_$analyticsProvider_) {
           $analyticsProvider = _$analyticsProvider_;
         });
-        inject(function(_$analytics_){
+        inject(function(_$analytics_) {
           $analytics = _$analytics_;
         });
       });
-      angular.forEach(expectedHandler, function(handlerName){
-        it('should install a register function for "'+handlerName+'" on $analyticsProvider', function(){
-          var fn = $analyticsProvider['register'+capitalize(handlerName)];
+      angular.forEach(expectedHandler, function(handlerName) {
+        it('should install a register function for "' + handlerName + '" on $analyticsProvider', function() {
+          var fn = $analyticsProvider['register' + capitalize(handlerName)];
           expect(fn).toBeDefined();
           expect(typeof fn).toEqual('function');
         });
-        it('should expose a handler "'+handlerName+'" on $analytics', function(){
+        it('should expose a handler "' + handlerName + '" on $analytics', function() {
           var fn = $analytics[handlerName];
           expect(fn).toBeDefined();
           expect(typeof fn).toEqual('function');
@@ -136,24 +154,24 @@ describe('Module: angulartics', function() {
     });
   });
 
-  describe('$analytics', function(){
-    describe('buffering', function(){
+  describe('$analytics', function() {
+    describe('buffering', function() {
       var $analytics, $analyticsProvider, eventTrackSpy;
-      beforeEach(function(){
-        module(function(_$analyticsProvider_){
+      beforeEach(function() {
+        module(function(_$analyticsProvider_) {
           $analyticsProvider = _$analyticsProvider_;
           $analyticsProvider.settings.bufferFlushDelay = 0;
         });
-        inject(function(_$analytics_){
+        inject(function(_$analytics_) {
           $analytics = _$analytics_;
         });
       });
 
-      beforeEach(function(){
+      beforeEach(function() {
         eventTrackSpy = jasmine.createSpy('eventTrackSpy');
       });
 
-      it('should buffer events if waiting on a vendor', function(){
+      it('should buffer events if waiting on a vendor', function() {
         angulartics.waitForVendorCount++; // Mock that we're waiting for a vendor api
         $analytics.eventTrack('foo'); // These events should be buffered
         $analytics.eventTrack('bar'); // This event should be buffered
@@ -164,14 +182,14 @@ describe('Module: angulartics', function() {
         expect(eventTrackSpy.calls[1].args).toEqual(['bar']);
       });
 
-      it('should not buffer events if not waiting on any vendors', function(){
+      it('should not buffer events if not waiting on any vendors', function() {
         angulartics.waitForVendorCount = 0; // Mock that we're waiting for a vendor api
         $analytics.eventTrack('foo'); // These events should be buffered
         $analyticsProvider.registerEventTrack(eventTrackSpy); // This should immediately flush
         expect(eventTrackSpy).not.toHaveBeenCalled();
       });
 
-      it('should continue to buffer events until all vendors are resolved', function(){
+      it('should continue to buffer events until all vendors are resolved', function() {
         angulartics.waitForVendorCount = 2; // Mock that we're waiting for a vendor api
         $analytics.eventTrack('foo'); // These events should be buffered
 
@@ -192,13 +210,13 @@ describe('Module: angulartics', function() {
     });
   });
 
-  describe('Directive: analyticsOn', function () {
+  describe('Directive: analyticsOn', function() {
     var analytics,
-      elem,
-      scope;
+        elem,
+        scope;
 
     function compileElem() {
-      inject(function ($compile) {
+      inject(function($compile) {
         $compile(elem)(scope);
       });
       scope.$digest();
@@ -209,7 +227,7 @@ describe('Module: angulartics', function() {
       scope = _$rootScope_.$new();
     }));
 
-    it('should not send on and event fields to the eventTrack function', function () {
+    it('should not send on and event fields to the eventTrack function', function() {
       elem = angular.element('<div>').attr({
         'analytics-on': 'click',
         'analytics-event': 'InitiateSearch',
@@ -220,7 +238,7 @@ describe('Module: angulartics', function() {
 
       compileElem();
       elem.triggerHandler('click');
-      expect(analytics.eventTrack).toHaveBeenCalledWith('InitiateSearch', {category : 'Search', eventType : 'click'});
+      expect(analytics.eventTrack).toHaveBeenCalledWith('InitiateSearch', {category: 'Search', eventType: 'click'});
     });
   });
 
