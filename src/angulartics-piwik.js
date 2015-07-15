@@ -77,11 +77,9 @@
                 // });
 
                 // locationObj is the angular $location object
-                // TODO: Need a way for this to receive the title for the page
                 $analyticsProvider.registerPageTrack(function(path, locationObj) {
-
                     if ($window._paq) {
-                        // $window._paq.push(['setDocumentTitle', 'TODO']);
+                        $window._paq.push(['setDocumentTitle', $window.document.title]);
                         $window._paq.push(['setCustomUrl', path]);
                         $window._paq.push(['trackPageView']);
                     }
