@@ -29,7 +29,6 @@
                     if ($window._paq) {
                         scope = scope || 'page';
                         $window._paq.push(['setCustomVariable', varIndex, varName, value, scope]);
-                        $window._paq.push(['trackPageView']);
                     }
                 };
 
@@ -62,10 +61,8 @@
 
                 // $analytics.setUsername(username)
                 $analyticsProvider.registerSetUsername(function(username) {
-
                     if ($window._paq) {
                         $window._paq.push(['setUserId', username]);
-                        $window._paq.push(['trackPageView']);
                     }
                 });
 
@@ -92,7 +89,6 @@
 
                 // trackEvent(category, event, [name], [value])
                 $analyticsProvider.registerEventTrack(function(action, properties) {
-
                     if ($window._paq) {
                         // PAQ requires that eventValue be an integer, see: http://piwik.org/docs/event-tracking/
                         if (properties.value) {
