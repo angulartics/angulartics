@@ -119,7 +119,7 @@ Name and case must match
     Value: **{{angulartics event value}}**   
     Non-Interaction Hit: **{{angulartics event interaction type}}**   
     Fire On: **Angulartics events**
-2. **Angulartics Pageviews**
+2. **Angulartics Pageviews**   
     Product: **Google Analytics**   
     Type: **Universal Analytics**   
     Tracking ID: **YourGoogleAnalyticsID**   
@@ -180,7 +180,7 @@ Name and case must match
     Value: **{{angulartics event value}}**   
     Non-Interaction Hit: **{{angulartics event interaction type}}**   
     Firing Rules: **Angulartics events**
-2. **Angulartics Pageviews**
+2. **Angulartics Pageviews**   
     Product: **Google Analytics**   
     Type: **Universal Analytics**   
     Tracking ID: **YourGoogleAnalyticsID**   
