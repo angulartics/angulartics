@@ -192,12 +192,14 @@ Name and case must match
 
     angular.module('myApp', ['angulartics', 'angulartics.piwik'])
 
-Set piwik tracker code as you would normally somewhere on your page
+Set piwik tracker code as you would normally somewhere on your page, but make
+sure that you remove or comment the initial pageview tracking line (Angulartics will track
+the page when the first state is loaded).
 
     <!-- Piwik -->
     <script type="text/javascript">
       var _paq = _paq || [];
-      _paq.push(['trackPageView']);
+      // _paq.push(['trackPageView']);
       _paq.push(['enableLinkTracking']);
       (function() {
         var u="//piwik.yourdomain.com/";
