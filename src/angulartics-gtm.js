@@ -26,10 +26,12 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
 
 	$analyticsProvider.registerPageTrack(function(path){
 		var dataLayer = window.dataLayer = window.dataLayer || [];
+		setTimeout(function() {
 		dataLayer.push({
 			'event': 'content-view',
 			'content-name': path
 		});
+		}, 500);
 	});
 
 	/**
