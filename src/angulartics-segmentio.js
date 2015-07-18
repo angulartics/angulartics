@@ -23,7 +23,7 @@
       // (string, object) is (name, properties)
       $analyticsProvider.registerPageTrack(function (path) {
         try {
-          analytics.page(path);
+          analytics.page(encodeURIComponent(path));
         } catch (e) {
           if (!(e instanceof ReferenceError)) {
             throw e;
