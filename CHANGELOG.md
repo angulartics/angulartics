@@ -1,4 +1,12 @@
-<a name="0.18.0"></a>
+<a name="0.19.1"></a>
+### 0.19.1 (2015-07-17)
+
+#### Organizational changes
+- Core clean-up: all plugins will no longer part of Angulartics core, each one will have its own repo
+- CommonJS: all plugins will be packaged for npm, this means they will be importable à la CommonJS module style
+- Moved Google Analytics plugin to [angulartics-google-analytics](http://github.com/angulartics/angulartics-google-analytics)
+
+<a name="0.19.0"></a>
 ### 0.19.0 (2015-06-27)
 
 #### Features
@@ -39,7 +47,7 @@
 #### Bug Fixes
 - Added missing nuspec files (https://github.com/markvp) 8134f82e43d04c8ae6dd95731151ad81ab7aabc0
 - Remove scope from analytics-on directive. Closes #195 (https://github.com/jantimon) e8bc48eea9c0aa47cd3201d36b02ea802b5b4194
-- Inline injection of $location dependency (only load $location service if needed). Closes #29 (https://github.com/elegantcoder) cb20f5caf02d00fd942315520a18491168fae73f 
+- Inline injection of $location dependency (only load $location service if needed). Closes #29 (https://github.com/elegantcoder) cb20f5caf02d00fd942315520a18491168fae73f
 - Segment - manually set the path and url becuase segment's JS lib always reports the path as '/' in `hashbang` mode 8543ef8d8cf6a933af78d9a5737c327042913a34
 - Google Analytics - check for GA before _gaq (https://github.com/mkolodny) c3b33a464547a4bed39541584f93cf9542a46f5f
 - Fix jquery-waypoints doesn't exist (may need to run `bower cache clean `) e68531de81526101aedca91e9721c9f0d2de322f
@@ -149,7 +157,7 @@ Added basic debugging provider angulartics.debug.js that uses console.log to dum
 ### 0.16.1 (2014-08-06)
 
 #### Features
-* **analytics-if** - Analytics call will only be made if the `analytic-if` condition passes. Example: `<button analytics-on analytics-if="user.isLoggedIn">` 
+* **analytics-if** - Analytics call will only be made if the `analytic-if` condition passes. Example: `<button analytics-on analytics-if="user.isLoggedIn">`
 * Better buffering
 * Support for multiple providers
 

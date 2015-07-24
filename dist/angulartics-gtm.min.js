@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.17.2
+ * @license Angulartics v0.19.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Google Tag Manager Plugin Contributed by http://github.com/danrowe49
  * License: MIT

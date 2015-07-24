@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.17.2
+ * @license Angulartics v0.19.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Heap Analytics update contributed by https://github.com/rgbj
  * License: MIT
@@ -16,7 +16,7 @@ angular.module('angulartics.heap', ['angulartics'])
 .config(['$analyticsProvider', function ($analyticsProvider) {
 
   $analyticsProvider.settings.trackRelativePath = true;
-    
+
   $analyticsProvider.registerEventTrack(function (action, properties) {
     heap.track(action, properties);
   });

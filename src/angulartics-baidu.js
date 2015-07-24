@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.17.2
+ * @license Angulartics v0.19.2
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Contributed by http://github.com/miller
  * License: MIT
@@ -28,8 +28,8 @@ angular.module('angulartics.baidu', ['angulartics'])
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
     // do nothing if there is no category or action (it's required by baidu)
-    if (!window._hmt || !properties || !properties.category || !properties.action) { 
-		return; 
+    if (!window._hmt || !properties || !properties.category || !properties.action) {
+		return;
 	}
 
 	var eventData = [ '_trackEvent', properties.category, properties.action ];

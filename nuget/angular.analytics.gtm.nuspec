@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Angular.Analytics.GoogleTagManager</id>
-        <version>0.17.2</version>        <title>Angulartics for Google Tag Manager</title>
+        <version>0.19.2</version>        <title>Angulartics for Google Tag Manager</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
         <iconUrl>http://luisfarzati.github.io/angulartics/images/angularjs.png</iconUrl>
@@ -17,7 +17,7 @@ See Angular.Analytics.Core for more details
         <copyright />
         <tags>angularjs analytics googletagmanager</tags>
         <dependencies>
-            <dependency id="Angular.Analytics.Core" version="0.17.2" />        </dependencies>
+            <dependency id="Angular.Analytics.Core" version="0.19.2" />        </dependencies>
     </metadata>
     <files>
         <file src="..\src\angulartics-gtm.js" target="content\Scripts\angulartics-gtm.js" />

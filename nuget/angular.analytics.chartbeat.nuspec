@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Angular.Analytics.Chartbeat</id>
-        <version>0.17.2</version>
+        <version>0.19.2</version>
         <title>Angulartics for Chartbeat</title>
         <authors>luisfarzati,ADAPTByDesign</authors>
         <projectUrl>http://luisfarzati.github.io/angulartics/</projectUrl>
@@ -18,7 +18,7 @@ See Angular.Analytics.Core for more details
         <copyright />
         <tags>angularjs analytics chartbeat</tags>
         <dependencies>
-            <dependency id="Angular.Analytics.Core" version="0.17.2" />
+            <dependency id="Angular.Analytics.Core" version="0.19.2" />
         </dependencies>
     </metadata>
     <files>
