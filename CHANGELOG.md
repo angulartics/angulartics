@@ -1,10 +1,22 @@
-<a name="0.19.1"></a>
-### 0.19.1 (2015-07-17)
+<a name="0.20.0"></a>
+### 0.20.0 (unreleased)
 
 #### Organizational changes
 - Core clean-up: all plugins will no longer part of Angulartics core, each one will have its own repo
 - CommonJS: all plugins will be packaged for npm, this means they will be importable à la CommonJS module style
 - Moved Google Analytics plugin to [angulartics-google-analytics](http://github.com/angulartics/angulartics-google-analytics)
+
+<a name="0.19.3"></a>
+### 0.19.3 (2015-07-27)
+
+This is just a maintenance release so people who had their builds broken
+by 0.19.2 can safely upgrade 0.19.x.
+
+<a name="0.19.2"></a>
+### 0.19.2 (2015-07-17) (yanked)
+
+This version was a micro bump but removed several plugins. It has since been
+yanked from npm and bower AFAICT.
 
 <a name="0.19.0"></a>
 ### 0.19.0 (2015-06-27)
