@@ -1,5 +1,5 @@
 <a name="0.20.0"></a>
-### 0.20.0 (unreleased)
+### 0.20.0 (2015-07-27)
 
 #### Organizational changes
 - Core clean-up: all plugins will no longer part of Angulartics core, each one will have its own repo
