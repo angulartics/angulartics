@@ -23,6 +23,10 @@ angular.module('angulartics.woopra', ['angulartics'])
     woopra.track(action, properties);
   });
 
+  $analyticsProvider.registerTrackForm(function (eventName, formName, options) {
+    woopra.trackForm(eventName, formName, options);
+  });
+
   $analyticsProvider.registerSetUsername(function (email) {
     woopra
       .identify('email', email)
