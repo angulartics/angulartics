@@ -12,9 +12,9 @@
  * @name angulartics.marketo
  * Enables analytics support for Marketo (http://www.marketo.com)
  *
- * Will not be considered loaded until the sKey attribute is set on the Munckin object, like so:
+ * Will not be considered loaded until the sKey attribute is set on the Munchkin object, like so:
  *
- * Munckin.skey = 'my-secret-key';
+ * Munchkin.skey = 'my-secret-key';
  *
  * for event tracking email is a required attribute
  */
@@ -49,7 +49,7 @@ angular.module('angulartics.marketo', ['angulartics'])
   var associateLead = function(properties){
     if(properties.email !== undefined) {
       email = properties.email;
-      email_sha = sha1(Munckin.sKey + email);
+      email_sha = sha1(Munchkin.sKey + email);
       properties.Email = properties.email;
       Munchkin.munchkinFunction('associateLead', properties, email_sha);
     }
