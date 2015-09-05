@@ -221,6 +221,7 @@ the page when the first state is loaded).
 * [Adobe Analytics](https://github.com/angulartics/angulartics-adobe-analytics)
 * [Chartbeat](https://github.com/angulartics/angulartics-chartbeat)
 * Clicky
+* [Facebook Pixel] (https://github.com/mooyoul/angulartics-facebook-pixel)
 * [Flurry](https://github.com/angulartics/angulartics-flurry)
 * [Google Analytics](https://github.com/angulartics/angulartics-google-analytics)
 * Google Tag Manager
