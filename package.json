@@ -1,10 +1,10 @@
 {
   "name": "angulartics",
   "description": "Vendor-agnostic web analytics for AngularJS applications",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "filename": "./src/angulartics.min.js",
   "main": "./src/angulartics.js",
-  "homepage": "http://luisfarzati.github.io/angulartics",
+  "homepage": "http://angulartics.github.io/angulartics",
   "author": "Luis Farzati <lfarzati@gmail.com> (http://github.com/luisfarzati)",
   "contributors": [
     "Tim Elfelt <timelf123@gmail.com> (https://github.com/timelf123)",
@@ -37,7 +37,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/luisfarzati/angulartics.git"
+    "url": "git://github.com/angulartics/angulartics.git"
   },
   "keywords": [
     "angular",
@@ -54,7 +54,7 @@
     "inspectlet"
   ],
   "bugs": {
-    "url": "http://github.com/luisfarzati/angulartics/issues"
+    "url": "http://github.com/angulartics/angulartics/issues"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
