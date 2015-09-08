@@ -221,13 +221,13 @@ the page when the first state is loaded).
 * [Adobe Analytics](https://github.com/angulartics/angulartics-adobe-analytics)
 * [Chartbeat](https://github.com/angulartics/angulartics-chartbeat)
 * Clicky
-* [IBM Digital Analytics](https://github.com/cwill747/angulartics-coremetrics)
 * [Facebook Pixel] (https://github.com/mooyoul/angulartics-facebook-pixel)
 * [Flurry](https://github.com/angulartics/angulartics-flurry)
 * [Google Analytics](https://github.com/angulartics/angulartics-google-analytics)
 * Google Tag Manager
 * GoSquared
 * HubSpot
+* [IBM Digital Analytics](https://github.com/cwill747/angulartics-coremetrics)
 * [Kissmetrics](https://github.com/angulartics/angulartics-kissmetrics)
 * [Localytics](https://github.com/angulartics/angulartics-localytics)
 * Loggly
