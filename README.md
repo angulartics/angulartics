@@ -223,6 +223,7 @@ the page when the first state is loaded).
 * Google Tag Manager
 * GoSquared
 * HubSpot
+* [IBM Digital Analytics](https://github.com/cwill747/angulartics-coremetrics)
 * [Kissmetrics](https://github.com/angulartics/angulartics-kissmetrics)
 * [Localytics](https://github.com/angulartics/angulartics-localytics)
 * Loggly
