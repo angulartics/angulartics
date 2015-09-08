@@ -2,11 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-downloads-url] [![Bower version][bower-image]][bower-url] [![Dependencies status][dep-status-image]][dep-status-url] [![MIT license][license-image]][license-url] [![Join the Slack chat][slack-image]][slack-url]
 
-Vendor-agnostic analytics for AngularJS applications. [luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "Go to the website")
-
-## Update 2015-07-23
-
-#### We are in process of migrating all plugins to their own repo under the new organization [Angulartics](http://github.com/angulartics). Once all plugins are splitted off the core, we'll migrate Angulartics as well.
+Vendor-agnostic analytics for AngularJS applications. [angulartics.github.io/angulartics](http://angulartics.github.io/angulartics "Go to the website")
 
 ## Install
 
@@ -25,7 +21,7 @@ bower install angulartics
 
 ### NuGet
 
-> **Note: we are dropping support for NuGet in the short term. If you are interested in taking ownership of this, please [let us know](https://github.com/luisfarzati/angulartics/issues/new?title=I+want+to+take+care+of+NuGet+packaging).**
+> **Note: we are dropping support for NuGet in the short term. If you are interested in taking ownership of this, please [let us know](https://github.com/angulartics/angulartics/issues/new?title=I+want+to+take+care+of+NuGet+packaging).**
 
 Manage the NuGet Packages for your project and search for Angular.Analytics. Select the module for the analytics package you wish to use and the Angular.Analytics.Core package will be included. Also install any additional modules you require such as Angular.Analytics.Scroll.
 
@@ -214,7 +210,7 @@ the page when the first state is loaded).
 
 ### for other providers
 
-[Browse the website for detailed instructions.](http://luisfarzati.github.io/angulartics)
+[Browse the website for detailed instructions.](http://angulartics.github.io/angulartics)
 
 ## Supported providers
 
@@ -242,7 +238,7 @@ If there's no Angulartics plugin for your analytics vendor of choice, please fee
 
 ## Creating your own vendor plugin
 
-> Make sure you follow the [Plugin contribution guidelines](https://github.com/luisfarzati/angulartics/wiki/Plugin-contribution-rules). You can also use [any of the existing plugins](https://github.com/angulartics) as a starter template.
+> Make sure you follow the [Plugin contribution guidelines](https://github.com/angulartics/angulartics/wiki/Plugin-contribution-rules). You can also use [any of the existing plugins](https://github.com/angulartics) as a starter template.
 
 It's very easy to write your own plugin. First, create your module and inject `$analyticsProvider`:
 
@@ -384,7 +380,7 @@ which will call `console.log('Page|Event tracking: ', ...)` accordingly.
 
 ## What else?
 
-See more docs and samples at [http://luisfarzati.github.io/angulartics](http://luisfarzati.github.io/angulartics "http://luisfarzati.github.io/angulartics").
+See more docs and samples at [http://angulartics.github.io/angulartics](http://angulartics.github.io/angulartics "http://angulartics.github.io/angulartics").
 
 ## License
 
