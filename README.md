@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-downloads-url] [![Bower version][bower-image]][bower-url] [![Dependencies status][dep-status-image]][dep-status-url] [![MIT license][license-image]][license-url] [![Join the Slack chat][slack-image]][slack-url]
 
-Vendor-agnostic analytics for AngularJS applications. [angulartics.github.io/angulartics](http://angulartics.github.io/angulartics "Go to the website")
+Vendor-agnostic analytics for AngularJS applications. [angulartics.github.io](http://angulartics.github.io "Go to the website")
 
 ## Install
 
@@ -381,7 +381,7 @@ which will call `console.log('Page|Event tracking: ', ...)` accordingly.
 
 ## What else?
 
-See more docs and samples at [http://angulartics.github.io/angulartics](http://angulartics.github.io/angulartics "http://angulartics.github.io/angulartics").
+See more docs and samples at [http://angulartics.github.io](http://angulartics.github.io "http://angulartics.github.io").
 
 ## License
 
@@ -393,8 +393,8 @@ See more docs and samples at [http://angulartics.github.io/angulartics](http://a
 [npm-downloads-url]: https://npmjs.org/package/angulartics
 [bower-image]: https://img.shields.io/bower/v/angulartics.svg
 [bower-url]: http://bower.io/search/?q=angulartics
-[dep-status-image]: https://img.shields.io/david/luisfarzati/angulartics.svg
-[dep-status-url]: https://david-dm.org/luisfarzati/angulartics
+[dep-status-image]: https://img.shields.io/david/angulartics/angulartics.svg
+[dep-status-url]: https://david-dm.org/angulartics/angulartics
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: LICENSE
 [slack-image]: https://angulartics.herokuapp.com/badge.svg
