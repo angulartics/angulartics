@@ -210,7 +210,7 @@ the page when the first state is loaded).
 
 ### for other providers
 
-[Browse the website for detailed instructions.](http://angulartics.github.io/angulartics)
+[Browse the website for detailed instructions.](http://angulartics.github.io)
 
 ## Supported providers
 
