@@ -130,6 +130,7 @@ Name and case must match
     Value: **{{angulartics event value}}**
     Non-Interaction Hit: **{{angulartics event interaction type}}**
     More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
+    More settings > Field to Set > name: **cookieDomain**, value: **auto**
     Fire On: **Angulartics events**
 2. **Angulartics Pageviews**
     Product: **Google Analytics**
@@ -137,6 +138,7 @@ Name and case must match
     Tracking ID: **YourGoogleAnalyticsID**
     Track Type: **Page View**
     More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
+    More settings > Field to Set > name: **cookieDomain**, value: **auto**
     Fire On: **Angulartics pageviews**
 
 ### for Google Tag Manager (old interface)
