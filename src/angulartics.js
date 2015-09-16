@@ -43,6 +43,7 @@ angular.module('angulartics', [])
   var knownHandlers = [
     'pageTrack',
     'eventTrack',
+    'eventTrackAdditional',
     'setAlias',
     'setUsername',
     'setUserProperties',
