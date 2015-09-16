@@ -129,6 +129,7 @@ Name and case must match
     Label: **{{angulartics event label}}**
     Value: **{{angulartics event value}}**
     Non-Interaction Hit: **{{angulartics event interaction type}}**
+    More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
     Fire On: **Angulartics events**
 2. **Angulartics Pageviews**
     Product: **Google Analytics**
@@ -190,6 +191,7 @@ Name and case must match
     Label: **{{angulartics event label}}**
     Value: **{{angulartics event value}}**
     Non-Interaction Hit: **{{angulartics event interaction type}}**
+    More settings > Basic Configuration > Document Path: **{{angulartics page path}}**
     Firing Rules: **Angulartics events**
 2. **Angulartics Pageviews**
     Product: **Google Analytics**
