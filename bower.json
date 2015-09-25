@@ -2,19 +2,7 @@
   "name": "angulartics",
   "version": "0.20.1",
   "main": [
-    "src/angulartics.js",
-    "src/angulartics-clicky.js",
-    "src/angulartics-cnzz.js",
-    "src/angulartics-ga-cordova.js",
-    "src/angulartics-gtm.js",
-    "src/angulartics-piwik.js",
-    "src/angulartics-scroll.js",
-    "src/angulartics-splunk.js",
-    "src/angulartics-woopra.js",
-    "src/angulartics-marketo.js",
-    "src/angulartics-intercom.js",
-    "src/angulartics-inspectlet.js",
-    "src/angulartics-newrelic-insights.js"
+    "src/angulartics.js"
   ],
   "dependencies": {
     "angular": ">= 1.1.5",
