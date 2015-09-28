@@ -122,7 +122,8 @@ describe('Module: angulartics', function() {
         'setUserProperties',
         'setUserPropertiesOnce',
         'setSuperProperties',
-        'setSuperPropertiesOnce'
+        'setSuperPropertiesOnce',
+        'userTimings'
       ];
       var capitalize = function(input) {
         return input.replace(/^./, function(match) {
