@@ -102,7 +102,9 @@ function $analytics() {
   }
 
   var provider = {
-    $get: function() { return api; },
+    $get: function($injector) {
+      return apiWithInjector($injector);
+    },
     api: api,
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
@@ -131,6 +133,13 @@ function $analytics() {
           return match.toUpperCase();
       });
   }
+
+  //provide a method to inject services into handlers
+  var apiWithInjector = function(injector) {
+    return angular.extend(api, {
+      '$inject': injector.invoke
+    });
+  };
 
   // Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
   function installHandlerRegisterFunction(handlerName){

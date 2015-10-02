@@ -231,6 +231,38 @@ describe('Module: angulartics', function() {
   });
 
   describe('$analytics', function() {
+
+    describe('registering hooks', function() {
+      var $analytics, $analyticsProvider, eventTrackSpy, someService;
+      beforeEach(function() {
+        someService = {
+          makeRequest: angular.noop
+        };
+        module(function(_$analyticsProvider_, $provide) {
+          $analyticsProvider = _$analyticsProvider_;
+          $provide.value('someService', someService);
+        });
+
+        inject(function(_$analytics_) {
+          $analytics = _$analytics_;
+        });
+      });
+      it('should provide a way to access services within tracking', function() {
+        spyOn(someService, 'makeRequest');
+
+        $analyticsProvider.registerEventTrack(function(action, properties) {
+          this.$inject(function(someService) {
+            someService.makeRequest('toBeAwesome');
+          });
+        });
+        $analytics.eventTrack('foo');
+        expect(someService.makeRequest.calls.length).toEqual(1);
+      });
+
+
+
+    });
+
     describe('buffering', function() {
       var $analytics, $analyticsProvider, eventTrackSpy;
       beforeEach(function() {
