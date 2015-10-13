@@ -258,9 +258,42 @@ describe('Module: angulartics', function() {
         $analytics.eventTrack('foo');
         expect(someService.makeRequest.calls.length).toEqual(1);
       });
+    });
+
+    describe('promise-based completion', function() {
+      var $rootScope, $analyticsProvider, $analytics;
 
 
+      beforeEach(module(function(_$analyticsProvider_, $provide) {
+          $analyticsProvider = _$analyticsProvider_;
+        }));
 
+      beforeEach(inject(function(_$rootScope_, _$analytics_) {
+        $rootScope = _$rootScope_;
+        $analytics = _$analytics_;
+      }));
+
+      it('waits until all handlers that have callbacks return', function() {
+        var calledBack = jasmine.createSpy();
+        var someService = {}, anotherService = {};
+        anotherService.makeRequest = jasmine.createSpy();
+        someService.makeRequest = function(event, callback) {
+          callback(event);
+        };
+
+        $analyticsProvider.registerEventTrack(function(cb, action, properties) {
+          someService.makeRequest('meow', cb);
+        }, {async: true});
+
+        $analyticsProvider.registerEventTrack(function(action, properties) {
+          anotherService.makeRequest(action);
+        });
+
+        $analytics.eventTrack('foo').then(calledBack);
+        $rootScope.$digest();
+        expect(anotherService.makeRequest).toHaveBeenCalledWith('foo');
+        expect(calledBack).toHaveBeenCalledWith(jasmine.any(Array));
+      });
     });
 
     describe('buffering', function() {
