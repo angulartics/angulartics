@@ -58,6 +58,15 @@ describe('Module: angulartics', function() {
 
     });
 
+    it ('should configure excluded routes', function() {
+      module(function(_$analyticsProvider_) {
+        _$analyticsProvider_.excludeRoutes(['/abc/def']);
+      });
+      inject(function(_$analytics_) {
+        expect(_$analytics_.settings.pageTracking.excludedRoutes).toEqual(['/abc/def']);
+      });
+    });
+
   });
 
   describe('Provider: analytics', function() {
@@ -108,6 +117,70 @@ describe('Module: angulartics', function() {
         rootScope.$emit('$stateChangeSuccess');
         expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
       });
+    });
+
+    describe('excludedRoutes', function() {
+      var analytics,
+          rootScope,
+          location;
+      beforeEach(module('ui.router'));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+      }));
+
+      it('should have empty excludedRoutes by default', function () {
+        expect(analytics.settings.pageTracking.excludedRoutes.length).toBe(0);
+      });
+
+      it('should trigger page track if excludeRoutes is empty', function() {
+        analytics.settings.pageTracking.excludedRoutes = [];
+        location.path('/abc');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+      });
+
+      it('should trigger page track if excludeRoutes do not match current route', function() {
+        analytics.settings.pageTracking.excludedRoutes = ['/def'];
+        location.path('/abc');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+      });
+
+      it ('should not trigger page track if current route is excluded', function() {
+        analytics.settings.pageTracking.excludedRoutes = ['/abc'];
+        location.path('/abc');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).not.toHaveBeenCalled();
+      });
+
+      it ('should not allow for multiple route exclusions to be specified', function() {
+        analytics.settings.pageTracking.excludedRoutes = ['/def','/abc'];
+        // Ignore excluded route
+        location.path('/abc');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).not.toHaveBeenCalled();
+        // Ignore excluded route
+        location.path('/def');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).not.toHaveBeenCalled();
+        // Track non-excluded route
+        location.path('/ghi');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/ghi', location);
+      });
+
+      it ('should allow specifying excluded routes as regular expressions', function() {
+        analytics.settings.pageTracking.excludedRoutes = [/\/sections\/\d+\/pages\/\d+/];
+        // Ignore excluded route
+        location.path('/sections/123/pages/456');
+        rootScope.$emit('$stateChangeSuccess');
+        expect(analytics.pageTrack).not.toHaveBeenCalled();
+      });
+
     });
 
   });
