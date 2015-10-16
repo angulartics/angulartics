@@ -123,6 +123,17 @@ Name and case must match
     More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
     Fire On: **Angulartics pageviews**
 
+### UserID  (optional)
+
+#### Variables
+1.**angulartics user id**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **user-id**
+#### Tags
+    Add to **Angulartics Events** and **Angulartics Pageviews**
+    More settings > Field to Set > name: **userId**, value: **{{angulartics user id}}**
+
+
 ### for Google Tag Manager (old interface)
 
     angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
