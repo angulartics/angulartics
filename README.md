@@ -1,242 +1,414 @@
-# YouTube Google Analytics & GTM Plugin
+# angulartics
 
-This is a plug-and-play tracking solution for tracking user interaction with YouTube videos in Google Analytics. It will detect if GTM, Universal Analytics, or Classic Analytics is installed on the page, in that order, and use the first syntax it matches unless configured otherwise. It include support for delivering hits directly to Universal or Classic Google Analytics, or for pushing Data Layer events to be used by Google Tag Manager.
+[![NPM version][npm-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-downloads-url] [![Bower version][bower-image]][bower-url] [![Dependencies status][dep-status-image]][dep-status-url] [![MIT license][license-image]][license-url] [![Join the Slack chat][slack-image]][slack-url]
 
-Once installed, the plugin will fire events with the following settings:
-- Event Category: Videos
-- Event Action: *&lt;Action, e.g. Play, Pause&gt;*
-- Event Label: *&lt;URL of the video&gt;*
+Vendor-agnostic analytics for AngularJS applications. [angulartics.github.io](http://angulartics.github.io "Go to the website")
 
-## Installation
+## Install
 
-This plugin will play nicely with any other existing plugin that interfaces with the YouTube Iframe API, so long as it is loaded after any existing code. Otherwise, if another function overwrites the window.onYouTubeIframeAPIReady property, it will fail silently. If you're seeing strange errors like 'getVideoUrl' is not a function, there is another script causing a collision that you must remedy.
+### npm
 
-### Universal or Classic Google Analytics Installation:
+```shell
+npm install angulartics
+```
 
-The plugin is designed to be plug-and-play. By default, the plugin will try and detect if you have Google Tag Manager, Universal Analytics, or Classic Google Analytics, and use the appropriate syntax for the event. If you are **not** using Google Tag Manager to fire your Google Analytics code, store the plugin on your server and include the lunametrics-youtube-v7.gtm.js script file somewhere on the page.
+### Bower
 
-    <script src="/somewhere-on-your-server/lunametrics-youtube-v7.gtm.js"></script>
+To install all available modules:
+```shell
+bower install angulartics
+```
 
-###Google Tag Manager Installation
+### NuGet
+
+> **Note: we are dropping support for NuGet in the short term. If you are interested in taking ownership of this, please [let us know](https://github.com/angulartics/angulartics/issues/new?title=I+want+to+take+care+of+NuGet+packaging).**
+
+Manage the NuGet Packages for your project and search for Angular.Analytics. Select the module for the analytics package you wish to use and the Angular.Analytics.Core package will be included. Also install any additional modules you require such as Angular.Analytics.Scroll.
+
+Alternatively, at the Package Manager Console type:
+```sh
+Install-Package Angular.Analytics.[ModuleName]
+````
+
+Or, in a command line (with nuget.exe in your path):
+```sh
+nuget.exe install Angular.Analytics.[ModuleName]
+```
+
+
+## Full path tracking (for pages without a router)
+Introduced in 0.15.19 - support websites that do not use Angular `routes` or `states` on every page and still want to track full paths.  The modifications lead to the following behavior:
+
+ - **Viewing page `http://host.com/routes#/route` will be tracked as `/routes#/route`.** The original version would only track the page as `/route`
+ - **Viewing page `http://host.com/noroutes` will be tracked as `/noroutes`.**  This is useful for pages that do not contain Angular code besides initializing the base module.
+ - **Viewing page `http://host.com/routes2` that loads a default route and changes the path to `http://host.com/routes2#/` will be tracked as `/routes2#/`.** This will only fire one pageview, whereas earlier versions would have fired two.
+
+To enable this behavior, add the following to your configuration:
+
+		...
+		var yourApp = angular.module('YourApp', ['angulartics', 'angulartics.google.analytics'])
+		    .config(function ($analyticsProvider) {
+		        $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
+		        $analyticsProvider.withAutoBase(true);  /* Records full path */
+		});
+
+You can also use `$analyticsProvider.withBase(true)` instead of `$analyticsProvider.withAutoBase(true)` if you are using a `<base>` HTML tag.
+
+## Minimal setup
+
+### for Google Analytics
+
+See [angulartics-google-analytics](https://github.com/angulartics/angulartics-google-analytics/blob/master/README.md) documentation.
+
+### for Google Tag Manager (new interface)
+
+    angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
+
+Add the full tracking code from Google Tag Manager to the beginning of your body tag.
 
 ####Container Import (recommended)
 
-1. Download the file 'luna-youtube-tracking.json' from this repository.
+1. Download the file 'angulartics-gtm.json' from this repository.
 2. In Google Tag Manager, navigate to the **Admin** tab.
 3. Under the **Container** column, select **Import Container**.
-4. Click **Choose Container File** and select the 'luna-youtube-tracking.json' file you downloaded.
+4. Click **Choose Container File** and select the 'angulartics-gtm.json' file you downloaded.
 5. Select **Merge** from the radio selector beneath the Choose Container File button.
 6. Select **Rename** from the radio selector that appears beneath the Merge selector.
 7. Click Continue, then Confirm.
-8. Navigate to the Tags interface - select the tag imported tag named GA - Event - YouTube Tracking.
-9. Change the {{YOUR_GA_TRACKING_ID}} in the **Tracking ID** field to your Google Analytics Tracking ID (a.k.a. UA Number).
-
-Once you publish your next container, YouTube tracking will begin working immediately.
-
-**NOTE:** If you're using a custom GA cookie name, GA cookie domain, or GA function name, you'll need to change those variables as well.
+8. Navigate to the Variable interface - select the tag imported tag named YOUR_GA_TRACKING_ID.
+9. Change the UA-XXXXXXX-X in the **Value** field to your Google Analytics Tracking ID (a.k.a. UA Number).
 
 ####Manual Installation (not recommended)
+Setup listeners in Google Tag Manager
 
-Create a new Custom HTML tag and paste in the below:
+#### 6 Variables
 
-    <script type="text/javascript" id="gtm-youtube-tracking">
-      // script file contents go here
+Naming and case must match.
+
+1. **angulartics page path**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **content-name**
+2. **angulartics event category**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **target**
+3. **angulartics event action**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **action**
+4. **angulartics event label**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **target-properties**
+5. **angulartics event value**
+    Macro Type: **Data Layer Variable**
+    Data Layer Variable Name: **value**
+6. **angulartics event interaction type**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **interaction-type**
+
+#### 2 Triggers
+
+Name and case must match
+
+1. **Angulartics events**
+    Event: **Custom Event**
+    Fire on: **interaction**
+2. **Angulartics pageviews**
+    Event: **Custom Event**
+    Fire on: **content-view**
+
+#### 2 Tags
+
+1. **Angulartics Events**
+    Product: **Google Analytics**
+    Type: **Universal Analytics**
+    Tracking ID: **YourGoogleAnalyticsID**
+    Track Type: **Event**
+    Category: **{{angulartics event category}}**
+    Action: **{{angulartics event action}}**
+    Label: **{{angulartics event label}}**
+    Value: **{{angulartics event value}}**
+    Non-Interaction Hit: **{{angulartics event interaction type}}**
+    Fire On: **Angulartics events**
+2. **Angulartics Pageviews**
+    Product: **Google Analytics**
+    Type: **Universal Analytics**
+    Tracking ID: **YourGoogleAnalyticsID**
+    Track Type: **Page View**
+    More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
+    Fire On: **Angulartics pageviews**
+
+### for Google Tag Manager (old interface)
+
+    angular.module('myApp', ['angulartics', 'angulartics.google.tagmanager'])
+
+Add the full tracking code from Google Tag Manager to the beginning of your body tag.
+
+Setup listeners in Google Tag Manager
+
+#### 6 Macros
+
+Naming and case must match.
+
+1. **angulartics page path**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **content-name**
+2. **angulartics event category**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **target**
+3. **angulartics event action**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **action**
+4. **angulartics event label**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **target-properties**
+5. **angulartics event value**
+    Macro Type: **Data Layer Variable**
+    Data Layer Variable Name: **value**
+6. **angulartics event interaction type**
+    Type: **Data Layer Variable**
+    Data Layer Variable Name: **interaction-type**
+
+#### 2 Rules
+
+Name and case must match
+
+1. **Angulartics events**  
+    Condition: **{{event}} equals interaction**
+2. **Angulartics pageviews**
+    Condition: **{{event}} equals content-view**
+
+#### 2 Tags
+
+1. **Angulartics Events**
+    Product: **Google Analytics**
+    Type: **Universal Analytics**
+    Tracking ID: **YourGoogleAnalyticsID**
+    Track Type: **Event**
+    Category: **{{angulartics event category}}**
+    Action: **{{angulartics event action}}**
+    Label: **{{angulartics event label}}**
+    Value: **{{angulartics event value}}**
+    Non-Interaction Hit: **{{angulartics event interaction type}}**
+    Firing Rules: **Angulartics events**
+2. **Angulartics Pageviews**
+    Product: **Google Analytics**
+    Type: **Universal Analytics**
+    Tracking ID: **YourGoogleAnalyticsID**
+    Track Type: **Page View**
+    More settings > Basic Configuration > Document Path: **{{angulartics page path}}**
+    Firing Rules: **Angulartics pageviews**
+
+### for Piwik ##
+
+    angular.module('myApp', ['angulartics', 'angulartics.piwik'])
+
+Set piwik tracker code as you would normally somewhere on your page, but make
+sure that you remove or comment the initial pageview tracking line (Angulartics will track
+the page when the first state is loaded).
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      // _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//piwik.yourdomain.com/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 1]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
     </script>
+    <noscript><p><img src="//piwik.yourdomain.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
 
-In the space between the **&lt;script&gt;** and **&lt;/script&gt;** tags, paste in the contents of the lunametrics-youtube.gtm.js script, found [here](https://raw.githubusercontent.com/lunametrics/youtube-google-analytics/master/lunametrics-youtube.gtm.js). Set the Firing Trigger to 'All Pages'. If you'd prefer to fire the tag only when a YouTube video is detected, create the following variable:
+### for other providers
 
-* Variable Name: YouTube Video Present
-    - Variable Type: Custom JavaScript Variables
-    - Variable Value: 
+[Browse the website for detailed instructions.](http://angulartics.github.io)
 
-            function() {
+## Supported providers
 
-              var iframes = document.getElementsByTagName('iframe');
-              var embeds = document.getElementsByTagName('embed');
-              var i;
+* [Adobe Analytics](https://github.com/angulartics/angulartics-adobe-analytics)
+* [Chartbeat](https://github.com/angulartics/angulartics-chartbeat)
+* Clicky
+* [Facebook Pixel] (https://github.com/mooyoul/angulartics-facebook-pixel)
+* [Flurry](https://github.com/angulartics/angulartics-flurry)
+* [Google Analytics](https://github.com/angulartics/angulartics-google-analytics)
+* Google Tag Manager
+* GoSquared
+* HubSpot
+* [IBM Digital Analytics](https://github.com/cwill747/angulartics-coremetrics)
+* [Kissmetrics](https://github.com/angulartics/angulartics-kissmetrics)
+* [Localytics](https://github.com/angulartics/angulartics-localytics)
+* Loggly
+* Marketo
+* [Mixpanel](https://github.com/angulartics/angulartics-mixpanel)
+* Piwik
+* Scroll tracking
+* [Segment](https://github.com/angulartics/angulartics-segment)
+* Splunk
+* Woopra
 
-              function isYouTubeVideo(potentialYouTubeVideo) {
+If there's no Angulartics plugin for your analytics vendor of choice, please feel free to write yours and PR' it! Here's how to do it.
 
-                var potentialYouTubeVideoSrc = potentialYouTubeVideo.src || '';
+## Creating your own vendor plugin
 
-                if( potentialYouTubeVideoSrc.indexOf( 'youtube.com/embed/' ) > -1 || 
-                    potentialYouTubeVideoSrc.indexOf( 'youtube.com/v/' ) > -1 ) {
+> Make sure you follow the [Plugin contribution guidelines](https://github.com/angulartics/angulartics/wiki/Plugin-contribution-rules). You can also use [any of the existing plugins](https://github.com/angulartics) as a starter template.
 
-                  return true;
+It's very easy to write your own plugin. First, create your module and inject `$analyticsProvider`:
 
-                }
+	angular.module('angulartics.myplugin', ['angulartics'])
+	  .config(['$analyticsProvider', function ($analyticsProvider) {
 
-              }
+Please follow the style `angulartics.{vendorname}`.
 
-              for(i = iframes.length - 1; i > -1; i--) {
-              
-                var _iframe = iframes[i];
-                var test = isYouTubeVideo(_iframe);
+Next, you register either the page track function, event track function, or both. You do it by calling the `registerPageTrack` and `registerEventTrack` methods. Let's take a look at page tracking first:
 
-                if(test) {
-                  return true;
-                }
+    $analyticsProvider.registerPageTrack(function (path) {
+		// your implementation here
+	}
 
-              }
+By calling `registerPageTrack`, you tell Angulartics to invoke your function on `$routeChangeSuccess` or `$stateChangeSuccess`. Angulartics will send the new path as an argument.
 
-              for(i = embeds.length - 1; i > -1; i--) {
+    $analyticsProvider.registerEventTrack(function (action, properties) {
+		// your implementation here
 
-                var _embed = embeds[i];
-                var test = isYouTubeVideo(_embed);
+This is very similar to page tracking. Angulartics will invoke your function every time the event (`analytics-on` attribute) is fired, passing the action (`analytics-event` attribute) and an object composed of any `analytics-*` attributes you put in the element.
 
-                if(test) {
-                  return true;
-                }
+If the analytics provider is created async, you can wrap you code with:
 
-              }
+    angulartics.waitForVendorApi("var", 1000, function(window.var) {
+      ...
+    });
 
-              return false;
+which will polls every 1000ms for `window.var`, and fire `function(window.var)` once `window.var` is not `undefined`. Calls made by `$analytics` will be buffered until `function(window.var)` fires.
 
-            }
+You can also poll for `window.var.subvar` with:
 
-    - Returns 'true' if a video is detected, otherwise returns 'false'
+    angulartics.waitForVendorApi("var", 1000, "subvar", function(window.var) {
+      ...
+    });
 
-Create the following Trigger:
+Check out the bundled plugins as reference. If you still have any questions, feel free to email me or post an issue at GitHub!
 
-* Trigger Name: YouTube Video Detected
-    - Trigger Event: Page View
-    - Trigger Type: Window Loaded
-    - Fire On: Some Pageviews
-        - YouTube Video Present equals true
+## Playing around
 
-Use the YouTube Video Detected Trigger to fire the YouTube Google Analytics script.
+### Disabling virtual pageview tracking
 
-**Don't forget, you need to add a Google Analytics Event tag that acts upon the pushes to the Data Layer the plugin executes.** Follow the steps in the [Google Tag Manager Configuration](#google-tag-manager-configuration) section for help on getting this set up.
+If you want to keep pageview tracking for its traditional meaning (whole page visits only), set virtualPageviews to false:
 
-## Configuration
+	module.config(function ($analyticsProvider) {
+		$analyticsProvider.virtualPageviews(false);
 
-### Default Configuration
-By default, the script will attempt to fire events when users Play, Pause, Watch to End, and watch 10%, 25%, 50%, 75%, and 90% of each video on the page it is loaded into. These defaults can be adjusted by modifying the object passed as the third argument to the script, at the bottom.
+### Programmatic tracking
 
-### Player Interaction Events
-By default, the script will fire events when users interact with the player by:
+Use the `$analytics` service to emit pageview and event tracking:
 
-- Playing
-- Pausing
-- Watching to the end
+	module.controller('SampleCtrl', function($analytics) {
+		// emit pageview beacon with path /my/url
+	    $analytics.pageTrack('/my/url');
 
-To change which events are fired, edit the events property of the configuration at the end of the script. For example, if you'd like to fire Buffering events:
+		// emit event track (without properties)
+	    $analytics.eventTrack('eventName');
 
-    ( function( document, window, config ) {
-    
-       // ... the tracking code
+		// emit event track (with category and label properties for GA)
+	    $analytics.eventTrack('eventName', {
+	      category: 'category', label: 'label'
+        });
 
-    } )( document, window, {
-      'events': {
-        'Play': true,
-        'Pause': true,
-        'Watch to End': true,
-        'Buffering': true,
-        'Unstarted': false,
-        'Cued': false
-      }
-    } );
+### Declarative tracking
 
-The available events are **Play, Pause, Watch to End, Buffering, Unstarted, and Cueing**.
+Use `analytics-on` and `analytics-event` attributes for enabling event tracking on a specific HTML element:
 
-### Percentage Viewed Events
+	<a href="file.pdf"
+		analytics-on="click"
+        analytics-if="myScope.shouldTrack"
+		analytics-event="Download">Download</a>
 
-By default, the script will track 10%, 25%, 50%, 75%, and 90% view completion. You can adjust this by changing the percentageTracking.each and percentageTracking.every values.
+`analytics-on` lets you specify the DOM event that triggers the event tracking; `analytics-event` is the event name to be sent.
 
-####percentageTracking.each
-For each number in the array passed to this configuration, a percentage viewed event will fire.
+`analytics-if` is a conditional check. If the attribute value evaluates to a falsey, the event will NOT be fired. Useful for user tracking opt-out, etc.
 
-    ( function( document, window, config ) {
-    
-       // ... the tracking code
+Additional properties (for example, category as required by GA) may be specified by adding `analytics-*` attributes:
 
-    } )( document, window, {
-      'percentageTracking': {
-        'every': 25  // Tracks every 25% viewed
-      }
-    } );
+	<a href="file.pdf"
+		analytics-on="click"
+		analytics-event="Download"
+		analytics-category="Content Actions">Download</a>
 
-####percentageTracking.every
-For every n%, where n is the value of percentageTracking.every, a percentage viewed event will fire.
+or setting `analytics-properties`:
 
-    ( function( document, window, config ) {
-    
-       // ... the tracking code
+	<a href="file.pdf"
+		analytics-on="click"
+		analytics-event="Download"
+		analytics-properties="{ category: 'Content Actions' }">Download</a>
 
-    } )( document, window, {
-      'percentageTracking': {
-        'each': [10, 90]  // Tracks when 10% of the video and 90% of the video has been viewed
-      }
-    } );
+### Scroll tracking
 
-**NOTE**: Google Analytics has a 500 hit per-session limitation, as well as a 20 hit window that replenishes at 2 hits per second. For that reason, it is HIGHLY INADVISABLE to track every 1% of video viewed.
+You can use:
 
-### Forcing Universal or Classic Analytics Instead of GTM
+    <div analytics-on="scrollby">
 
-By default, the plugin will try and fire Data Layer events, then fallback to Univeral Analytics events, then fallback to Classic Analytics events. If you want to force the script to use a particular syntax for your events, you can set the 'forceSyntax' property of the configuration object to an integer:
-    
-    ( function( document, window, config ) {
-    
-       // ... the tracking code
+which will track an event when the element is scrolled to the top of the viewport.
+This relies on [jQuery Waypoints](http://imakewebthings.com/jquery-waypoints/) which must be loaded:
 
-    } )( document, window, {
-      'forceSyntax': 1
-    } );
+    <script src="waypoints/waypoints.min.js"></script>
+    <script src="angulartics/dist/angulartics-scroll.min.js"></script>
 
-Setting this value to 0 will force the script to use Google Tag Manager events, setting it 1 will force it to use Universal Google Analytics events, and setting it to 2 will force it to use Classic Google Analytics events.
+The following module must be enabled as well:
 
-### Using A Custom Data Layer Name (GTM Only)
-If you're using a name for your dataLayer object other than 'dataLayer', you must configure the script to push the data into the correct place. Otherwise, it will try Universal Analytics directly, then Classic Analytics, and then fail silently.
+    angular.module('myApp', [..., 'angulartics.scroll'])
 
-    ( function( document, window, config ) {
-    
-       // ... the tracking code
+You can pass [extra options](http://imakewebthings.com/waypoints/api/waypoint/) to Waypoints with `scrollby-OPTION`. For example, to track an event when the element is in the middle on the viewport:
 
-    } )( document, window, {
-      'dataLayerName': 'customDataLayerName'
-    } );
+    <div analytics-on="scrollby" scrollby-offset="50%">
 
-## Google Tag Manager Configuration
+Waypoints is fired with the following options:
+  - `continuous: false`, when jumping (for example with a URL anchor) passed several tracked elements, only the last one will fire an event
+  - `triggerOnce: true`, the tracking event is only fired once for a given page
 
-Once you've added the script to your container (see [Google Tag Manager Installation](#google-tag-manager-installation)), you must configure Google Tag Manager.
+### User tracking
 
-Create the following Variables:
+You can assign user-related properties which will be sent along each page or event tracking thanks to:
 
-* Variable Name: Video URL
-    - Variable Type: Data Layer Variable
-    - Data Layer Variable Name: attributes.videoUrl
-    - This will be the URL of the video on YouTube
+    $analytics.setAlias(alias)
+    $analytics.setUsername(username)
+    $analytics.setUserProperties(properties)
+    $analytics.setSuperProperties(properties)
 
-* Variable Name: Video Action
-    - Variable Type: Data Layer Variable
-    - Data Layer Variable Name: attributes.videoAction
-    - This will be the action the user has taken, e.g. Play, Pause, or Watch to End
+Like `$analytics.pageTrack()` and `$analytics.eventTrack()`, the effect depends on the analytics provider (i.e. `$analytics.register*()`). Not all of them implement those methods.
 
-Create the following Trigger:
+The Google Analytics module lets you call `$analytics.setUsername(username)` or set up `$analyticsProvider.settings.ga.userId = 'username'`.
 
-* Trigger Name: Event - YouTube Tracking
-    - Trigger Type: Custom Event
-    - Event Name: youTubeTrack
 
-Create your Google Analytics Event tag
+### Developer mode
 
-* Tag Name: GA - Event - YouTube Tracking
-    - Tag Type: Google Analytics
-    - Choose a Tag Type: Universal Analytics (or Classic Analytics, if you are still using that)
-    - Tracking ID: *&lt;Enter in your Google Analytics tracking ID&gt;*
-    - Track Type: Event
-    - Category: Videos
-    - Action: {{Video Action}}
-    - Label: {{Video URL}}
-    - Fire On: More
-        - Choose from existing Triggers: Event - YouTube Tracking
+You can disable tracking with:
+
+    $analyticsProvider.developerMode(true);
+
+You can also debug Angulartics by adding the following module:
+
+    angular.module('myApp', [..., 'angulartics.debug'])
+
+which will call `console.log('Page|Event tracking: ', ...)` accordingly.
+
+## What else?
+
+See more docs and samples at [http://angulartics.github.io](http://angulartics.github.io "http://angulartics.github.io").
 
 ## License
 
-Licensed under the Creative Commons 4.0 International Public License. Refer to the LICENSE.MD file in the repository for the complete text of the license.
+[MIT](LICENSE)
 
-## Acknowledgements
-
-Created by the honest folks at [LunaMetrics](http://www.lunametrics.com/), a digital marketing & Google Analytics consultancy. For questions, please drop us a line here or [on our blog](http://www.lunametrics.com/blog/2015/05/11/updated-youtube-tracking-google-analytics-gtm/).
-
-Written by [Sayf Sharif](https://twitter.com/sayfsharif) and updated by [Dan Wilkerson](https://twitter.com/notdanwilkerson).
+[npm-image]: https://img.shields.io/npm/v/angulartics.svg
+[npm-url]: https://npmjs.org/package/angulartics
+[npm-downloads-image]: https://img.shields.io/npm/dm/angulartics.svg
+[npm-downloads-url]: https://npmjs.org/package/angulartics
+[bower-image]: https://img.shields.io/bower/v/angulartics.svg
+[bower-url]: http://bower.io/search/?q=angulartics
+[dep-status-image]: https://img.shields.io/david/angulartics/angulartics.svg
+[dep-status-url]: https://david-dm.org/angulartics/angulartics
+[license-image]: http://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: LICENSE
+[slack-image]: https://angulartics.herokuapp.com/badge.svg
+[slack-url]: https://angulartics.herokuapp.com
