@@ -8,7 +8,7 @@
    */
   angular.module('angulartics.cnzz', ['angulartics'])
     .config(['$analyticsProvider', function ($analyticsProvider) {
-      window._czc = _czc || [];
+      window._czc = window._czc || [];
       _czc.push(['_setAutoPageview', false]);
 
       $analyticsProvider.registerPageTrack(function (path) {
