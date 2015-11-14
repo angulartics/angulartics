@@ -286,6 +286,15 @@ If you want to keep pageview tracking for its traditional meaning (whole page vi
 	module.config(function ($analyticsProvider) {
 		$analyticsProvider.virtualPageviews(false);
 
+### Disabling pageview tracking for specific routes
+
+If you want to disable pageview tracking for specific routes, you can define a list of excluded routes (using strings or regular expressions):
+
+    module.config(function ($analyticsProvider) {
+    		$analyticsProvider.excludeRoutes(['/abc','/def']);
+
+Urls and routes that contain any of the strings or match any of the regular expressions will not trigger the pageview tracking.
+
 ### Programmatic tracking
 
 Use the `$analytics` service to emit pageview and event tracking:
@@ -365,7 +374,6 @@ You can assign user-related properties which will be sent along each page or eve
 Like `$analytics.pageTrack()` and `$analytics.eventTrack()`, the effect depends on the analytics provider (i.e. `$analytics.register*()`). Not all of them implement those methods.
 
 The Google Analytics module lets you call `$analytics.setUsername(username)` or set up `$analyticsProvider.settings.ga.userId = 'username'`.
-
 
 ### Developer mode
 
