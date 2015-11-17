@@ -1,3 +1,15 @@
+<a name="0.20.2"></a>
+### 0.20.2 (2015-11-17)
+Add setting to exclude specific routes from pageview tracking
+
+<a name="0.20.0"></a>
+### 0.20.0 (2015-07-27)
+
+#### Organizational changes
+- Core clean-up: all plugins will no longer part of Angulartics core, each one will have its own repo
+- CommonJS: all plugins will be packaged for npm, this means they will be importable à la CommonJS module style
+- Moved Google Analytics plugin to [angulartics-google-analytics](http://github.com/angulartics/angulartics-google-analytics)
+
 <a name="0.20.0"></a>
 ### 0.20.0 (2015-07-27)
 
