@@ -28,5 +28,13 @@
   },
   "resolutions": {
     "angular": ">= 1.1.5"
-  }
+  },
+  "ignore": [
+    ".*",
+    "Gruntfile.js",
+    "package.json",
+    "node_modules",
+    "src",
+    "test"
+  ]
 }
