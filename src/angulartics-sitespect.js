@@ -19,7 +19,7 @@
 						SS.EventTrack.rp('page-view', path);
 					} catch (err) {
 						console.warn("core.js not loaded");
-						console.log('page-view', path)
+						console.log('page-view', path);
 					}
 				});
 
@@ -28,17 +28,11 @@
 				 * @name eventTrack
 				 */
 				$analyticsProvider.registerEventTrack(function (action, properties) {
-					var JSONToQueryString = function (a) {
-						var params = Object.keys(a).map(function (k) {
-								return encodeURIComponent(k) + '=' + encodeURIComponent(a[k])
-							}).join('&');
-							return params;
-					}
 					try {
-						SS.EventTrack.rp("event=true&" + JSONToQueryString(properties));
+						SS.EventTrack.rp("true", properties);
 					} catch (err) {
 						console.warn("core.js not loaded");
-						console.log("event=true&" + JSONToQueryString(properties));
+						console.log("event=true&"+ JSON.stringify(properties));
 					}
 				});
 
