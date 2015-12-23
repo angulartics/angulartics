@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.19.2
+ * @license Angulartics
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Heap Analytics update contributed by https://github.com/rgbj
  * License: MIT

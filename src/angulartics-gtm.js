@@ -1,5 +1,5 @@
 /**
- * @license Angulartics v0.19.2
+ * @license Angulartics
  * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
  * Google Tag Manager Plugin Contributed by http://github.com/danrowe49
  * License: MIT
@@ -18,21 +18,21 @@
 angular.module('angulartics.google.tagmanager', ['angulartics'])
 .config(['$analyticsProvider', function($analyticsProvider){
 
-	/**
-	* Send content views to the dataLayer
-	*
-	* @param {string} path Required 'content name' (string) describes the content loaded
-	*/
+    /**
+    * Send content views to the dataLayer
+    *
+    * @param {string} path Required 'content name' (string) describes the content loaded
+    */
 
-	$analyticsProvider.registerPageTrack(function(path){
-		var dataLayer = window.dataLayer = window.dataLayer || [];
-		dataLayer.push({
-			'event': 'content-view',
-			'content-name': path
-		});
-	});
+    $analyticsProvider.registerPageTrack(function(path){
+        var dataLayer = window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'event': 'content-view',
+            'content-name': path
+        });
+    });
 
-	/**
+    /**
    * Send interactions to the dataLayer, i.e. for event tracking in Google Analytics
    * @name eventTrack
    *
@@ -40,19 +40,19 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
    * @param {object} properties Comprised of the mandatory field 'category' (string) and optional  fields 'label' (string), 'value' (integer) and 'noninteraction' (boolean)
    */
 
-	$analyticsProvider.registerEventTrack(function(action, properties){
-		var dataLayer = window.dataLayer = window.dataLayer || [];
-		properties = properties || {};
-		dataLayer.push({
-			'event': properties.event || 'interaction',
-			'target': properties.category,
-			'action': action,
-			'target-properties': properties.label,
-			'value': properties.value,
-			'interaction-type': properties.noninteraction
-		});
+    $analyticsProvider.registerEventTrack(function(action, properties){
+        var dataLayer = window.dataLayer = window.dataLayer || [];
+        properties = properties || {};
+        dataLayer.push({
+            'event': properties.event || 'interaction',
+            'target': properties.category,
+            'action': action,
+            'target-properties': properties.label,
+            'value': properties.value,
+            'interaction-type': properties.noninteraction
+        });
 
-	});
+    });
 }]);
 
 })(angular);
