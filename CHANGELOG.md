@@ -1,3 +1,12 @@
+<a name="0.20.3"></a>
+### 0.20.3 (2015-12-23)
+- Added SiteSpect plugin for angulartics
+- chore(es6): add support for es6 modules
+- clarify we don't support nuget
+- Fix broken CNZZ plugin
+- remove version from license header in src
+- replace slack with gitter
+
 <a name="0.20.2"></a>
 ### 0.20.2 (2015-11-17)
 Add setting to exclude specific routes from pageview tracking
