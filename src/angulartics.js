@@ -25,7 +25,11 @@ angulartics.waitForVendorApi = function (objectName, delay, containsField, regis
  * @name angulartics
  */
 angular.module('angulartics', [])
-.provider('$analytics', function () {
+.provider('$analytics', $analytics)
+.run(['$rootScope', '$window', '$analytics', '$injector', $analyticsRun])
+.directive('analyticsOn', ['$analytics', analyticsOn]);
+
+function $analytics() {
   var settings = {
     pageTracking: {
       autoTrackFirstPage: true,
@@ -56,17 +60,17 @@ angular.module('angulartics', [])
   var handlers = {};
 
   // General buffering handler
-  var bufferedHandler = function(handlerName){
+  function bufferedHandler(handlerName){
     return function(){
       if(angulartics.waitForVendorCount){
         if(!cache[handlerName]){ cache[handlerName] = []; }
         cache[handlerName].push(arguments);
       }
     };
-  };
+  }
 
   // As handlers are installed by plugins, they get pushed into a list and invoked in order.
-  var updateHandlers = function(handlerName, fn){
+  function updateHandlers(handlerName, fn){
     if(!handlers[handlerName]){
       handlers[handlerName] = [];
     }
@@ -77,7 +81,7 @@ angular.module('angulartics', [])
         handler.apply(this, handlerArgs);
       }, this);
     };
-  };
+  }
 
   // The api (returned by this provider) gets populated with handlers below.
   var api = {
@@ -87,13 +91,13 @@ angular.module('angulartics', [])
   // Will run setTimeout if delay is > 0
   // Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
   // Plugins should take care to register handlers by order of precedence.
-  var onTimeout = function(fn, delay){
+  function onTimeout(fn, delay){
     if(delay){
       setTimeout(fn, delay);
     } else {
       fn();
     }
-  };
+  }
 
   var provider = {
     $get: function() { return api; },
@@ -110,7 +114,7 @@ angular.module('angulartics', [])
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
-  var register = function(handlerName, fn){
+  function register(handlerName, fn){
     api[handlerName] = updateHandlers(handlerName, fn);
     var handlerSettings = settings[handlerName];
     var handlerDelay = (handlerSettings) ? handlerSettings.bufferFlushDelay : null;
@@ -118,29 +122,29 @@ angular.module('angulartics', [])
     angular.forEach(cache[handlerName], function (args, index) {
       onTimeout(function () { fn.apply(this, args); }, index * delay);
     });
-  };
+  }
 
-  var capitalize = function (input) {
+  function capitalize(input) {
       return input.replace(/^./, function (match) {
           return match.toUpperCase();
       });
-  };
+  }
 
   // Adds to the provider a 'register#{handlerName}' function that manages multiple plugins and buffer flushing.
-  var installHandlerRegisterFunction = function(handlerName){
+  function installHandlerRegisterFunction(handlerName){
     var registerName = 'register'+capitalize(handlerName);
     provider[registerName] = function(fn){
       register(handlerName, fn);
     };
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
-  };
+  }
 
   // Set up register functions for each known handler
   angular.forEach(knownHandlers, installHandlerRegisterFunction);
   return provider;
-})
+}
 
-.run(['$rootScope', '$window', '$analytics', '$injector', function ($rootScope, $window, $analytics, $injector) {
+function $analyticsRun($rootScope, $window, $analytics, $injector) {
   function matchesExcludedRoute(url) {
     for (var i = 0; i < $analytics.settings.pageTracking.excludedRoutes.length; i++) {
       var excludedRoute = $analytics.settings.pageTracking.excludedRoutes[i];
@@ -234,38 +238,9 @@ angular.module('angulartics', [])
       }
     });
   }
-}])
+}
 
-.directive('analyticsOn', ['$analytics', function ($analytics) {
-  function isCommand(element) {
-    return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
-      element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
-  }
-
-  function inferEventType(element) {
-    if (isCommand(element)) return 'click';
-    return 'click';
-  }
-
-  function inferEventName(element) {
-    if (isCommand(element)) return element.innerText || element.value;
-    return element.id || element.name || element.tagName;
-  }
-
-  function isProperty(name) {
-    return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'If', 'Properties', 'EventType'].indexOf(name.substr(9)) === -1;
-  }
-
-  function propertyName(name) {
-    var s = name.slice(9); // slice off the 'analytics' prefix
-    if (typeof s !== 'undefined' && s!==null && s.length > 0) {
-      return s.substring(0, 1).toLowerCase() + s.substring(1);
-    }
-    else {
-      return s;
-    }
-  }
-
+function analyticsOn($analytics) {
   return {
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
@@ -299,5 +274,34 @@ angular.module('angulartics', [])
       });
     }
   };
-}]);
+}
+
+function isCommand(element) {
+  return ['a:','button:','button:button','button:submit','input:button','input:submit'].indexOf(
+    element.tagName.toLowerCase()+':'+(element.type||'')) >= 0;
+}
+
+function inferEventType(element) {
+  if (isCommand(element)) return 'click';
+  return 'click';
+}
+
+function inferEventName(element) {
+  if (isCommand(element)) return element.innerText || element.value;
+  return element.id || element.name || element.tagName;
+}
+
+function isProperty(name) {
+  return name.substr(0, 9) === 'analytics' && ['On', 'Event', 'If', 'Properties', 'EventType'].indexOf(name.substr(9)) === -1;
+}
+
+function propertyName(name) {
+  var s = name.slice(9); // slice off the 'analytics' prefix
+  if (typeof s !== 'undefined' && s!==null && s.length > 0) {
+    return s.substring(0, 1).toLowerCase() + s.substring(1);
+  }
+  else {
+    return s;
+  }
+}
 })(angular);
