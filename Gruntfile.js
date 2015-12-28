@@ -38,31 +38,16 @@ module.exports = function(grunt) {
          all: ['Gruntfile.js', 'src/*.js', 'test/**/*.js']
       },
 
-      concat: {
-         options: {
-            stripBanners: false
-         },
-         dist: {
-            src: ['dist/angulartics-scroll.min.js', 'components/jquery-waypoints/waypoints.min.js'],
-            dest: 'dist/angulartics-scroll.min.js'
-         }
-      },
-
       uglify: {
          options: {
             preserveComments: 'some',
             report: 'min'
          },
-         predist: {
-            files: {
-               'dist/angulartics-scroll.min.js': ['src/angulartics-scroll.js']
-            }
-         },
          dist: {
             files: [{
                expand: true,
                cwd: 'src/',
-               src: ['*.js', '!angulartics-scroll.js'],
+               src: ['*.js'],
                dest: 'dist/',
                ext: '.min.js'
             }]
@@ -75,7 +60,7 @@ module.exports = function(grunt) {
    require('load-grunt-tasks')(grunt);
 
    grunt.registerTask('test', ['jshint', 'karma']);
-   grunt.registerTask('default', ['jshint', 'karma', 'uglify:predist', 'concat:dist', 'uglify:dist']);
+   grunt.registerTask('default', ['jshint', 'karma', 'uglify:dist']);
 
    grunt.registerTask('release', 'Release a new version, push it and publish it', function(target) {
      if (!target) {
