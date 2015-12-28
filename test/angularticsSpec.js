@@ -1,9 +1,10 @@
 describe('window.angulartics', function() {
   beforeEach(function() {
-    jasmine.Clock.useMock();
+    jasmine.clock().install();
   });
   afterEach(function() {
     delete window.angularticsTestVendor;
+    jasmine.clock().uninstall();
   });
 
   it('should manage vendor wait count', function() {
@@ -13,15 +14,15 @@ describe('window.angulartics', function() {
     angulartics.waitForVendorApi('angularticsTestVendor', 1, spyWhenLoaded);
     expect(window.angulartics.waitForVendorCount).toEqual(2);
 
-    jasmine.Clock.tick(1);
+    jasmine.clock().tick(1);
     expect(window.angulartics.waitForVendorCount).toEqual(2);
 
     window.angularticsTestVendor = {};
-    jasmine.Clock.tick(1);
+    jasmine.clock().tick(1);
     expect(angulartics.waitForVendorCount).toEqual(1);
 
     window.angularticsTestVendor.loaded = true;
-    jasmine.Clock.tick(1);
+    jasmine.clock().tick(1);
     expect(window.angulartics.waitForVendorCount).toEqual(0);
     expect(spyWhenLoaded).toHaveBeenCalledWith(window.angularticsTestVendor);
   });
@@ -251,9 +252,9 @@ describe('Module: angulartics', function() {
         $analytics.eventTrack('bar'); // This event should be buffered
 
         $analyticsProvider.registerEventTrack(eventTrackSpy); // This should immediately flush
-        expect(eventTrackSpy.calls.length).toEqual(2);
-        expect(eventTrackSpy.calls[0].args).toEqual(['foo']);
-        expect(eventTrackSpy.calls[1].args).toEqual(['bar']);
+        expect(eventTrackSpy.calls.count()).toEqual(2);
+        expect(eventTrackSpy.calls.argsFor(0)).toEqual(['foo']);
+        expect(eventTrackSpy.calls.argsFor(1)).toEqual(['bar']);
       });
 
       it('should not buffer events if not waiting on any vendors', function() {
@@ -271,14 +272,14 @@ describe('Module: angulartics', function() {
         expect(eventTrackSpy).toHaveBeenCalledWith('foo');
 
         $analytics.eventTrack('bar');
-        expect(eventTrackSpy.calls.length).toEqual(2);
-        expect(eventTrackSpy.calls[1].args).toEqual(['bar']);
+        expect(eventTrackSpy.calls.count()).toEqual(2);
+        expect(eventTrackSpy.calls.argsFor(1)).toEqual(['bar']);
 
         var secondVendor = jasmine.createSpy('secondVendor');
         $analyticsProvider.registerEventTrack(secondVendor); // This should immediately flush
-        expect(secondVendor.calls.length).toEqual(2);
-        expect(secondVendor.calls[0].args).toEqual(['foo']);
-        expect(secondVendor.calls[1].args).toEqual(['bar']);
+        expect(secondVendor.calls.count()).toEqual(2);
+        expect(secondVendor.calls.argsFor(0)).toEqual(['foo']);
+        expect(secondVendor.calls.argsFor(1)).toEqual(['bar']);
 
       });
     });
