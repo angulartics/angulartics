@@ -34,5 +34,21 @@
 
         }
       });
+      
+      /**
+      * Add user identify to Hubspot tracking calls
+      * @name identify
+      *
+      * @param {object} properties
+      *
+      * @link http://developers.hubspot.com/docs/methods/enterprise_events/javascript_api
+      */
+
+      $analyticsProvider.registerSetUserProperties(function (properties) {
+        if (window._hsq) {
+          _hsq.push(["identify", properties]);
+        }
+      });
+
     }]);
 })(angular);
