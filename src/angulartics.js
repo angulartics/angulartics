@@ -244,7 +244,7 @@ function analyticsOn($analytics) {
   return {
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
-      var eventType = $attrs.analyticsOn || inferEventType($element[0]);
+      var eventType = $attrs.analyticsOn || 'click'
       var trackingData = {};
 
       angular.forEach($attrs.$attr, function(attr, name) {
