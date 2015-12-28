@@ -1,3 +1,18 @@
+<a name="1.0.0"></a>
+### 1.0.0 (2015-12-28)
+- Added devDependency badge
+  - Updated all dev deps and fixed karma tests
+- Added userTimings to the known handlers
+- Refactoring - use toddmotto angular styleguide and avoid anonymous functions
+- Hubspot - add register user properties
+- Marketo - fix known user identification (typo)
+- fix - default analytics-on eventType is 'click' [#402](https://github.com/angulartics/angulartics/issues/402)
+- fix - remove vendor scripts from main field of bower.json #377 #285
+
+#### Organizational changes
+- Moved scroll tracking plugin to [angulartics-scroll](http://github.com/angulartics/angulartics-scroll)
+  - Removes Jquery dependency :)
+
 <a name="0.20.3"></a>
 ### 0.20.3 (2015-12-23)
 - Added SiteSpect plugin for angulartics
