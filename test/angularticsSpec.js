@@ -192,6 +192,7 @@ describe('Module: angulartics', function() {
       var expectedHandler = [
         'pageTrack',
         'eventTrack',
+        'exceptionTrack',
         'setUsername',
         'setUserProperties',
         'setUserPropertiesOnce',
