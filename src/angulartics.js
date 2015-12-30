@@ -48,6 +48,7 @@ function $analytics() {
   var knownHandlers = [
     'pageTrack',
     'eventTrack',
+    'exceptionTrack',
     'setAlias',
     'setUsername',
     'setUserProperties',
