@@ -67,9 +67,9 @@
     "grunt-karma": "0.12.1",
     "grunt-shell": "^1.0.0",
     "jasmine-core": "2.4.1",
-    "karma": "0.13.16",
+    "karma": "0.13.19",
     "karma-jasmine": "0.3.6",
-    "karma-phantomjs-launcher": "0.2.2",
+    "karma-phantomjs-launcher": "0.2.3",
     "load-grunt-tasks": "3.4.0",
     "phantomjs": "1.9.19"
   }
