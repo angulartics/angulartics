@@ -3,7 +3,7 @@
   "description": "Vendor-agnostic web analytics for AngularJS applications",
   "version": "1.0.2",
   "filename": "./src/angulartics.min.js",
-  "main": "./src/angulartics.js",
+  "main": "./src/index.js",
   "homepage": "http://angulartics.github.io/",
   "author": "Luis Farzati <lfarzati@gmail.com> (http://github.com/luisfarzati)",
   "contributors": [
