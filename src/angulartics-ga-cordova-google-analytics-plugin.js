@@ -80,6 +80,10 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
     $analyticsProvider.registerEventTrack(function (action, properties) {
       analytics.trackEvent(properties.category, action, properties.label, properties.value);
     });
+
+    $analyticsProvider.registerSetUsername(function (userId) {
+      analytics.setUserId(userId);
+    });
   });
 }])
 
