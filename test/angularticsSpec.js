@@ -236,7 +236,7 @@ describe('Module: angulartics', function() {
       var $analytics, $analyticsProvider, eventTrackSpy, someService;
       beforeEach(function() {
         someService = {
-          makeRequest: angular.noop
+          makeRequest: jasmine.createSpy()
         };
         module(function(_$analyticsProvider_, $provide) {
           $analyticsProvider = _$analyticsProvider_;
@@ -248,15 +248,13 @@ describe('Module: angulartics', function() {
         });
       });
       it('should provide a way to access services within tracking', function() {
-        spyOn(someService, 'makeRequest');
-
         $analyticsProvider.registerEventTrack(function(action, properties) {
           this.$inject(function(someService) {
             someService.makeRequest('toBeAwesome');
           });
         });
         $analytics.eventTrack('foo');
-        expect(someService.makeRequest.calls.length).toEqual(1);
+        expect(someService.makeRequest).toHaveBeenCalledWith('toBeAwesome');
       });
     });
 
