@@ -120,6 +120,65 @@ describe('Module: angulartics', function() {
       });
     });
 
+    describe('ui-router@>=1.0.0 support', function() {
+      var analytics,
+          rootScope,
+          location,
+          registeredHook,
+          $transition$;
+      beforeEach(module('ui.router', function($provide) {
+        // mock $transitions service, that's coming in UI Router 1.0
+        $provide.service('$transitions', function() {
+          this.onSuccess = function(matchCriteria, callback) {
+            registeredHook = callback;
+          };
+        });
+
+      }));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+        $transition$ = jasmine.createSpyObj('$transition', ['options']);
+        $transition$.options.and.returnValue({
+          notify: true
+        });
+      }));
+
+      it('should track pages if $transitions are being used instead of state events', function() {
+        location.path('/abc');
+
+        registeredHook($transition$);
+
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+        expect($transition$.options).toHaveBeenCalled();
+      });
+
+      it('should only track pages on transitions which would have otherwise triggered $stateChangeSuccess', function() {
+        location.path('/abc');
+        $transition$.options.and.returnValue({
+          notify: false
+        });
+
+        registeredHook($transition$);
+
+        expect(analytics.pageTrack).not.toHaveBeenCalled();
+        expect($transition$.options).toHaveBeenCalled();
+      });
+
+      it('should not trigger twice, even if state events are manually re-enabled', function() {
+        location.path('/abc');
+
+        registeredHook($transition$);
+        rootScope.$emit('$stateChangeSuccess');
+
+        expect(analytics.pageTrack.calls.count()).toEqual(1);
+        expect($transition$.options).toHaveBeenCalled();
+      });
+    });
+
     describe('excludedRoutes', function() {
       var analytics,
           rootScope,

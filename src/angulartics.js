@@ -235,12 +235,26 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
           pageTrack(url, $location);
         });
       }
-      if ($injector.has('$state')) {
+      if ($injector.has('$state') && !$injector.has('$transitions')) {
         noRoutesOrStates = false;
         $rootScope.$on('$stateChangeSuccess', function (event, current) {
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           pageTrack(url, $location);
         });
+      }
+      if ($injector.has('$state') && $injector.has('$transitions')) {
+        noRoutesOrStates = false;
+        $injector.invoke(['$transitions', function($transitions) {
+          $transitions.onSuccess({}, function($transition$) {
+            var transitionOptions = $transition$.options();
+
+            // only track for transitions that would have triggered $stateChangeSuccess
+            if (transitionOptions.notify) {
+              var url = $analytics.settings.pageTracking.basePath + $location.url();
+              pageTrack(url, $location);
+            }
+          });
+        }]);
       }
       if (noRoutesOrStates) {
         $rootScope.$on('$locationChangeSuccess', function (event, current) {
