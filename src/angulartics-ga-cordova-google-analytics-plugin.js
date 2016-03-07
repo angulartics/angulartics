@@ -90,6 +90,12 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
       }
     });
 
+    $analyticsProvider.registerSetUserProperties(function (properties) {
+      angular.forEach(properties, function(value, key) {
+        analytics.addCustomDimension(key, value, success, failure);
+      });
+    });
+
     $analyticsProvider.registerSetUsername(function (userId) {
       analytics.setUserId(userId, success, failure);
     });
