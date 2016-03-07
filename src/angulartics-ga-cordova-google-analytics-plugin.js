@@ -74,15 +74,24 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
 .config(['$analyticsProvider', 'googleAnalyticsCordovaProvider', function ($analyticsProvider, googleAnalyticsCordovaProvider) {
   googleAnalyticsCordovaProvider.ready(function (analytics, success, failure) {
     $analyticsProvider.registerPageTrack(function (path) {
-      analytics.trackView(path);
+      analytics.trackView(path, success, failure);
     });
 
     $analyticsProvider.registerEventTrack(function (action, properties) {
-      analytics.trackEvent(properties.category, action, properties.label, properties.value);
+      if (action === 'Transaction') {
+        // track transaction (Ecommerce)
+        analytics.addTransaction(properties.id, properties.affiliation, properties.revenue, properties.tax, properties.shipping, properties.currency, success, failure);
+      } else if (action === 'TransactionItem') {
+        // track transaction item (Ecommerce)
+        analytics.addTransactionItem(properties.id, properties.name, properties.sku, properties.category, properties.price, properties.quantity, properties.currency, success, failure);
+      } else {
+        // track regular event
+        analytics.trackEvent(properties.category, action, properties.label, properties.value, success, failure);
+      }
     });
 
     $analyticsProvider.registerSetUsername(function (userId) {
-      analytics.setUserId(userId);
+      analytics.setUserId(userId, success, failure);
     });
   });
 }])
