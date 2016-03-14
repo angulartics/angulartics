@@ -53,6 +53,24 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
         });
 
     });
+
+    $analyticsProvider.registerSetUsername(
+  		/**
+  		 * Send user's data to the datalayer, i.e. for user tracking in Google Analytics
+  		 * @param  {string} username   login of the username
+  		 * @param  {object} properties List of attribute of the current username
+  		 * @return {void}
+  		 */
+  		function (username, properties) {
+  			var
+  				dataLayer = window.dataLayer = window.dataLayer || [],
+  				properties = properties || {};
+  			dataLayer.push({
+  				'username': username,
+  				'user': properties
+  			});
+  	  }
+  	);
 }]);
 
 })(angular);
