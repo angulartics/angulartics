@@ -27,7 +27,8 @@ angulartics.waitForVendorApi = function (objectName, delay, containsField, regis
 angular.module('angulartics', [])
 .provider('$analytics', $analytics)
 .run(['$rootScope', '$window', '$analytics', '$injector', $analyticsRun])
-.directive('analyticsOn', ['$analytics', analyticsOn]);
+.directive('analyticsOn', ['$analytics', analyticsOn])
+.config(['$provide', exceptionTrack]);
 
 function $analytics() {
   var settings = {
@@ -312,6 +313,15 @@ function analyticsOn($analytics) {
       });
     }
   };
+}
+
+function exceptionTrack($provide) {
+  $provide.decorator('$exceptionHandler', ['$delegate', '$injector', function ($delegate, $injector) {
+    function (error, cause) {
+      $injector.get('$analytics').exceptionTrack(error, cause);
+      return $delegate(error, cause);
+    }
+  }]);
 }
 
 function isCommand(element) {
