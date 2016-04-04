@@ -13,6 +13,16 @@
     "angular-route": "~1.2",
     "angular-ui-router": "~0.2"
   },
+  "ignore": [
+    ".gitignore",
+    "test",
+    "samples",
+    "LICENSE",
+    "*.md",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
   "resolutions": {
     "angular": ">= 1.1.5"
   }
