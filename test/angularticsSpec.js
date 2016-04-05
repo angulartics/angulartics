@@ -257,6 +257,7 @@ describe('Module: angulartics', function() {
         'setUserPropertiesOnce',
         'setSuperProperties',
         'setSuperPropertiesOnce',
+        'incrementProperty',
         'userTimings'
       ];
       var capitalize = function(input) {
