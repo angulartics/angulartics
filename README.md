@@ -4,6 +4,10 @@
 
 Vendor-agnostic analytics for AngularJS applications. [angulartics.github.io](http://angulartics.github.io "Go to the website")
 
+## Please Read!
+
+This is **Angulartics**, not _**[Angularytics](http://github.com/mgonto/angularytics)**_. There's been some complains about the unfortunate similarity in the names of both projects (this is actually a [funny story](#FunnyStory)), so [we hear you guys](https://daveceddia.com/angular/angularytics-vs-angulartics/) and are making this clarification here. Just make sure **Angulartics** is the library you actually want to use, and if you work in a team, make sure this is the library they are using!
+
 ## Install
 
 ### npm
@@ -357,6 +361,16 @@ which will call `console.log('Page|Event tracking: ', ...)` accordingly.
 ## What else?
 
 See more docs and samples at [http://angulartics.github.io](http://angulartics.github.io "http://angulartics.github.io").
+
+## <a name="FunnyStory"></a>Funny Story
+
+Back in 2003 [@mgonto](http://github.com/mgonto) and I were excited with Angular, doing a bunch of stuff. We had met each other at the [Nardoz](http://github.com/nardoz) group and even crossed paths working for the same company. It turns out, both of us came up with the idea of building a module for analytics **at the same time, without knowing about it**. We even created our respective repos with just seconds of difference. Check that out yourselves by using the GitHub api and inspecting [the creation date for this repo](https://api.github.com/repos/angulartics/angulartics) (at that time, this repo was under my username [@luisfarzati](http://github.com/luisfarzati), this is the original so it has the original creation date) and then [Angularytics](https://api.github.com/repos/mgonto/angularytics)' creation date. Even our initial commits were about the same time.
+
+To be honest, initially I thought he was just blatantly copycating the idea but then when I checked out the repo data, truth was his repo timestamp was even earlier than mine. So, technically, I copycated his idea. Of course I did not, that's the funny and weirdest thing of the story. Or perhaps, even weirder, is that we both chose almost the same exact name, only that @mgonto went with an additional Y.
+
+We discussed about renaming one of our projects, we almost decided to play a Rock, Paper, Scissors, Lizard, Spock game to decide who keeps the original name, but both of us really liked our names. So we kept it that way.
+
+Isn't the open source world crazy?
 
 ## License
 
