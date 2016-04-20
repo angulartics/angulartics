@@ -115,9 +115,9 @@ function $analytics() {
   }
 
   var provider = {
-    $get: function($injector) {
+    $get: ['$injector', function($injector) {
       return apiWithInjector($injector);
-    },
+    }],
     api: api,
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
@@ -165,7 +165,9 @@ function $analytics() {
 
   // Set up register functions for each known handler
   angular.forEach(knownHandlers, installHandlerRegisterFunction);
-  return provider;
+  for (var key in provider) {
+    this[key] = provider[key];
+  }
 }
 
 function $analyticsRun($rootScope, $window, $analytics, $injector) {
