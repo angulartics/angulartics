@@ -187,7 +187,7 @@ See [angulartics-piwik](https://github.com/angulartics/angulartics-piwik) for mo
 
 * [Adobe Analytics](https://github.com/angulartics/angulartics-adobe-analytics)
 * [Chartbeat](https://github.com/angulartics/angulartics-chartbeat)
-* Clicky
+* [Clicky](https://github.com/angulartics/angulartics-clicky)
 * [Facebook Pixel] (https://github.com/mooyoul/angulartics-facebook-pixel)
 * [Flurry](https://github.com/angulartics/angulartics-flurry)
 * [Google Analytics](https://github.com/angulartics/angulartics-google-analytics)
