@@ -193,9 +193,13 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
       var noRoutesOrStates = true;
       if ($injector.has('$route')) {
          var $route = $injector.get('$route');
-         for (var route in $route.routes) {
-           noRoutesOrStates = false;
-           break;
+         if ($route) {
+          for (var route in $route.routes) {
+            noRoutesOrStates = false;
+            break;
+          }
+         } else if ($route === null){
+          noRoutesOrStates = false;
          }
       } else if ($injector.has('$state')) {
         var $state = $injector.get('$state');
@@ -227,9 +231,13 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
       var noRoutesOrStates = true;
       if ($injector.has('$route')) {
         var $route = $injector.get('$route');
-        for (var route in $route.routes) {
+        if ($route) {
+          for (var route in $route.routes) {
+            noRoutesOrStates = false;
+            break;
+          }
+        } else if ($route === null){
           noRoutesOrStates = false;
-          break;
         }
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
           if (current && (current.$$route||current).redirectTo) return;
