@@ -41,7 +41,8 @@ function $analytics() {
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
-    developerMode: false // Prevent sending data in local/development environment
+    developerMode: false, // Prevent sending data in local/development environment
+    directiveMode: true  // Prevent sending data from the directive (analyticsOn)
   };
 
   // List of known handlers that plugins can register themselves for
@@ -127,7 +128,9 @@ function $analytics() {
       this.settings.pageTracking.basePath = (value) ? angular.element(document).find('base').attr('href') : '';
     },
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
-    developerMode: function(value) { this.settings.developerMode = value; }
+    developerMode: function(value) { this.settings.developerMode = value; },
+    enableDirective: function(value) { this.settings.directiveMode = value; }
+
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
@@ -292,6 +295,12 @@ function analyticsOn($analytics) {
   return {
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
+
+      if (!$analytics.settings.directiveMode)
+      {
+          return;
+      }
+
       var eventType = $attrs.analyticsOn || 'click';
       var trackingData = {};
 
