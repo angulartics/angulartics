@@ -27,7 +27,8 @@ angulartics.waitForVendorApi = function (objectName, delay, containsField, regis
 angular.module('angulartics', [])
 .provider('$analytics', $analytics)
 .run(['$rootScope', '$window', '$analytics', '$injector', $analyticsRun])
-.directive('analyticsOn', ['$analytics', analyticsOn]);
+.directive('analyticsOn', ['$analytics', analyticsOn])
+.config(['$provide', exceptionTrack]);
 
 function $analytics() {
   var settings = {
@@ -41,6 +42,7 @@ function $analytics() {
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
+    trackExceptions: false,
     developerMode: false // Prevent sending data in local/development environment
   };
 
@@ -128,6 +130,7 @@ function $analytics() {
       this.settings.pageTracking.basePath = (value) ? angular.element(document).find('base').attr('href') : '';
     },
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
+    trackExceptions: function (value) { this.settings.trackExceptions = value; },
     developerMode: function(value) { this.settings.developerMode = value; }
   };
 
@@ -323,6 +326,19 @@ function analyticsOn($analytics) {
       });
     }
   };
+}
+
+function exceptionTrack($provide) {
+  $provide.decorator('$exceptionHandler', ['$delegate', '$injector', function ($delegate, $injector) {
+    function (error, cause) {
+      var result = $delegate(error, cause);
+      var $analytics = $injector.get('$analytics');
+      if ($analytics.settings.trackExceptions) {
+        $analytics.exceptionTrack(error, cause);
+      }
+      return result;
+    }
+  }]);
 }
 
 function isCommand(element) {

@@ -149,7 +149,7 @@ Naming and case must match.
 
 Name and case must match
 
-1. **Angulartics events**  
+1. **Angulartics events**
     Condition: **{{event}} equals interaction**
 2. **Angulartics pageviews**
     Condition: **{{event}} equals content-view**
@@ -345,6 +345,14 @@ You can assign user-related properties which will be sent along each page or eve
 Like `$analytics.pageTrack()` and `$analytics.eventTrack()`, the effect depends on the analytics provider (i.e. `$analytics.register*()`). Not all of them implement those methods.
 
 The Google Analytics module lets you call `$analytics.setUsername(username)` or set up `$analyticsProvider.settings.ga.userId = 'username'`.
+
+### Exception tracking
+
+You can enable automatic exception tracking which decorates angular's `$exceptionHandler` and reports the exception to the analytics provider:
+
+    $analyticsProvider.trackExceptions(true)
+
+Currently only the Google Analytics provider supports tracking exceptions, and it does so by reporting it as an event.
 
 ### Developer mode
 
