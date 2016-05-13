@@ -43,6 +43,7 @@ function $analytics() {
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
     trackExceptions: false,
+    optedOut: false,
     developerMode: false // Prevent sending data in local/development environment
   };
 
@@ -58,7 +59,9 @@ function $analytics() {
     'setSuperProperties',
     'setSuperPropertiesOnce',
     'incrementProperty',
-    'userTimings'
+    'userTimings',
+    'setOptOut',
+    'getOptOut'
   ];
   // Cache and handler properties will match values in 'knownHandlers' as the buffering functons are installed.
   var cache = {};
@@ -175,6 +178,14 @@ function $analytics() {
 }
 
 function $analyticsRun($rootScope, $window, $analytics, $injector) {
+  function setOptOut(Optout) {
+    console.debug('SETTING OPT OUT', Optout);
+  }
+
+  function getOptOut() {
+    console.debug('GETTING OPT OUT');
+  }
+
   function matchesExcludedRoute(url) {
     for (var i = 0; i < $analytics.settings.pageTracking.excludedRoutes.length; i++) {
       var excludedRoute = $analytics.settings.pageTracking.excludedRoutes[i];
