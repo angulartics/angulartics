@@ -104,9 +104,18 @@ function $analytics() {
 
   // The api (returned by this provider) gets populated with handlers below.
   var api = {
-    settings: settings,
-    test: function() { console.debug('TEST'); }
+    settings: settings
   };
+
+  // Opt in and opt out functions
+  api.setOptOut = function(OptOut) {
+    console.debug('SET OPT OUT', OptOut);
+  };
+
+  api.getOptOut = function(OptOut) {
+    console.debug('GET OPT OUT');
+  };
+
 
   // Will run setTimeout if delay is > 0
   // Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
