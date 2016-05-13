@@ -109,10 +109,12 @@ function $analytics() {
 
   // Opt in and opt out functions
   api.setOptOut = function(optOut) {
+    console.debug('SET OPT OUT', optOut);
     this.settings.optOut = optOut;
   };
 
-  api.getOptOut = function(OptOut) {
+  api.getOptOut = function() {
+    console.debug('GET OPT OUT');
     return this.settings.optOut;
   };
 
