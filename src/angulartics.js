@@ -189,7 +189,7 @@ function $analytics() {
 
 function $analyticsRun($rootScope, $window, $analytics, $injector) {
 
-  if($analytics.settings.optOut) {
+  if($analytics.settings.optOut === true) {
     return false;
   }
 
