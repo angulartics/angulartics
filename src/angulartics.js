@@ -43,7 +43,7 @@ function $analytics() {
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
     trackExceptions: false,
-    optedOut: false,
+    optOut: false,
     developerMode: false // Prevent sending data in local/development environment
   };
 
@@ -108,12 +108,14 @@ function $analytics() {
   };
 
   // Opt in and opt out functions
-  api.setOptOut = function(OptOut) {
-    console.debug('SET OPT OUT', OptOut);
+  api.setOptOut = function(optOut) {
+    console.debug('SET OPT OUT', optOut);
+    this.settings.optOut = optOut;
   };
 
   api.getOptOut = function(OptOut) {
     console.debug('GET OPT OUT');
+    return this.settings.optOut;
   };
 
 
