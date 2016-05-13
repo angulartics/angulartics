@@ -59,9 +59,7 @@ function $analytics() {
     'setSuperProperties',
     'setSuperPropertiesOnce',
     'incrementProperty',
-    'userTimings',
-    'setOptOut',
-    'getOptOut'
+    'userTimings'
   ];
   // Cache and handler properties will match values in 'knownHandlers' as the buffering functons are installed.
   var cache = {};
@@ -106,7 +104,8 @@ function $analytics() {
 
   // The api (returned by this provider) gets populated with handlers below.
   var api = {
-    settings: settings
+    settings: settings,
+    test: function() { console.debug('TEST'); }
   };
 
   // Will run setTimeout if delay is > 0
@@ -178,13 +177,6 @@ function $analytics() {
 }
 
 function $analyticsRun($rootScope, $window, $analytics, $injector) {
-  function setOptOut(Optout) {
-    console.debug('SETTING OPT OUT', Optout);
-  }
-
-  function getOptOut() {
-    console.debug('GETTING OPT OUT');
-  }
 
   function matchesExcludedRoute(url) {
     for (var i = 0; i < $analytics.settings.pageTracking.excludedRoutes.length; i++) {
