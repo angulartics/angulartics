@@ -330,7 +330,7 @@ function analyticsOn($analytics) {
 
 function exceptionTrack($provide) {
   $provide.decorator('$exceptionHandler', ['$delegate', '$injector', function ($delegate, $injector) {
-    function (error, cause) {
+    var excTrack = function (error, cause) {
       var result = $delegate(error, cause);
       var $analytics = $injector.get('$analytics');
       if ($analytics.settings.trackExceptions) {
