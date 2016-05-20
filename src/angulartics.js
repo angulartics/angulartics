@@ -136,6 +136,10 @@ function $analytics() {
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
   function register(handlerName, fn, options){
+    // Do not add a handler if developerMode is true
+    if (settings.developerMode) {
+        return;
+    }
     api[handlerName] = updateHandlers(handlerName, fn, options);
     var handlerSettings = settings[handlerName];
     var handlerDelay = (handlerSettings) ? handlerSettings.bufferFlushDelay : null;
