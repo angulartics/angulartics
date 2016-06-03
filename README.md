@@ -193,7 +193,7 @@ See [angulartics-piwik](https://github.com/angulartics/angulartics-piwik) for mo
 * [Google Analytics](https://github.com/angulartics/angulartics-google-analytics)
 * Google Tag Manager
 * GoSquared
-* HubSpot
+* [HubSpot](https://github.com/angulartics/angulartics-hubspot)
 * [IBM Digital Analytics](https://github.com/cwill747/angulartics-coremetrics)
 * [Kissmetrics](https://github.com/angulartics/angulartics-kissmetrics)
 * [Localytics](https://github.com/angulartics/angulartics-localytics)
