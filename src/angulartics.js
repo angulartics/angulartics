@@ -337,7 +337,7 @@ function exceptionTrack($provide) {
         $analytics.exceptionTrack(error, cause);
       }
       return result;
-    }
+    };
   }]);
 }
 
