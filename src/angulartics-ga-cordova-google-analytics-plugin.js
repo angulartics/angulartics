@@ -46,9 +46,10 @@ angular.module('angulartics.google.analytics.cordova', ['angulartics'])
 
     this.init = function () {
       return deferred.promise.then(function () {
-        if (typeof analytics != 'undefined') {
-          ready(analytics, success, failure);
-          analytics.startTrackerWithId(trackingId);
+        var gaAnalytics = ga || analytics;
+        if (typeof gaAnalytics != 'undefined') {
+          ready(gaAnalytics, success, failure);
+          gaAnalytics.startTrackerWithId(trackingId);
         } else if (debug) {
           $log.error('Google Analytics Plugin for Cordova is not available');
         }
