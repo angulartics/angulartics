@@ -187,7 +187,7 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
 
   function pageTrack(url, $location) {
     if (!matchesExcludedRoute(url)) {
-      $analytics.pageTrack(url, $location);
+      $analytics.pageTrack(url, angular.toJson($location));
     }
   }
 
