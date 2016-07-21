@@ -96,7 +96,7 @@ describe('Module: angulartics', function() {
       it('should track pages on route change', function() {
         location.path('/abc');
         rootScope.$emit('$routeChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', angular.toJson(location));
       });
     });
 
@@ -116,7 +116,7 @@ describe('Module: angulartics', function() {
       it('should track pages on route change', function() {
         location.path('/abc');
         rootScope.$emit('$stateChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', angular.toJson(location));
       });
     });
 
@@ -200,14 +200,14 @@ describe('Module: angulartics', function() {
         analytics.settings.pageTracking.excludedRoutes = [];
         location.path('/abc');
         rootScope.$emit('$stateChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', angular.toJson(location));
       });
 
       it('should trigger page track if excludeRoutes do not match current route', function() {
         analytics.settings.pageTracking.excludedRoutes = ['/def'];
         location.path('/abc');
         rootScope.$emit('$stateChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', location);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/abc', angular.toJson(location));
       });
 
       it ('should not trigger page track if current route is excluded', function() {
@@ -230,7 +230,7 @@ describe('Module: angulartics', function() {
         // Track non-excluded route
         location.path('/ghi');
         rootScope.$emit('$stateChangeSuccess');
-        expect(analytics.pageTrack).toHaveBeenCalledWith('/ghi', location);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/ghi', angular.toJson(location));
       });
 
       it ('should allow specifying excluded routes as regular expressions', function() {
