@@ -62,13 +62,12 @@ angular.module('angulartics.google.tagmanager', ['angulartics'])
   		 * @return {void}
   		 */
   		function (username, properties) {
-  			var
-  				dataLayer = window.dataLayer = window.dataLayer || [],
+  			var dataLayer = window.dataLayer = window.dataLayer || [];
   				properties = properties || {};
-  			dataLayer.push({
-  				'username': username,
-  				'user': properties
-  			});
+    			dataLayer.push({
+    				'username': username,
+    				'user': properties
+    			});
   	  }
   	);
 }]);

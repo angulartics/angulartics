@@ -1,6 +1,5 @@
 {
   "name": "angulartics",
-  "version": "1.0.3",
   "main": [
     "src/angulartics.js"
   ],

@@ -1,3 +1,19 @@
+<a name="1.1.0"></a>
+### 1.1.0 (2016-06-06)
+- access angular dependency injection within event handlers [#416](https://github.com/angulartics/angulartics/pull/416)
+  - Analytics providers to be designated as async, which means their first handler will be based a callback function.
+  - Calls to eventTrack now return a promise that for each provider. Resolves immediately if the provider is not asynchronous. Waits for the callback if the provider is asynchronous
+- Removed piwik from source and docs. Added link to angulartics-piwik
+- Add support for UI Router 1.0 which will use transition hooks [#455](https://github.com/angulartics/angulartics/pull/455)
+- angulartics.google.tagmanager - add `registerSetUsername` method
+- bugfix(Angular 1.5): fix provider for angular 1.5 
+- Add ignore key to Bower file
+- Moved Clicky to angulartics-clicky repo
+- Added support for Angular Component Router (where $route is null)
+- Add handler for incrementing property value
+- track exceptions via `$exceptionHandler` with `$analytics.exceptionTrack()` [#461](https://github.com/angulartics/angulartics/pull/461)
+- cordova-google-analytics : registerSetUserName
+
 <a name="1.0.0"></a>
 ### 1.0.0 (2015-12-28)
 - Added devDependency badge
