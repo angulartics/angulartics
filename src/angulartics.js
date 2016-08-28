@@ -51,6 +51,7 @@ function $analytics() {
     'pageTrack',
     'eventTrack',
     'exceptionTrack',
+    'transactionTrack',
     'setAlias',
     'setUsername',
     'setUserProperties',
