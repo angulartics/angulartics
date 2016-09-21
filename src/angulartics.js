@@ -264,7 +264,7 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
       if ($injector.has('$state') && $injector.has('$transitions')) {
         noRoutesOrStates = false;
         $injector.invoke(['$transitions', function($transitions) {
-          $transitions.onSuccess({}, ['$transition$', function($transition$) {
+          $transitions.onSuccess({}, function($transition$) {
             var transitionOptions = $transition$.options();
 
             // only track for transitions that would have triggered $stateChangeSuccess
@@ -272,7 +272,7 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
               var url = $analytics.settings.pageTracking.basePath + $location.url();
               pageTrack(url, $location);
             }
-          }]);
+          });
         }]);
       }
       if (noRoutesOrStates) {
