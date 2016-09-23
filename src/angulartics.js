@@ -62,7 +62,8 @@ function $analytics() {
     'setSuperProperties',
     'setSuperPropertiesOnce',
     'incrementProperty',
-    'userTimings'
+    'userTimings',
+    'clearCookies'
   ];
   // Cache and handler properties will match values in 'knownHandlers' as the buffering functons are installed.
   var cache = {};
