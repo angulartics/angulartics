@@ -250,6 +250,21 @@ Check out the bundled plugins as reference. If you still have any questions, fee
 
 ## Playing around
 
+### Opt-out settings
+
+When working on a global product there are many countries who by default require the opt-out functionality of all analytics and tracking. These opt out settings are meant to adi with that. The developer mode simply cripples the library where as this actually disables the tracking so it can be turned on and off.
+
+    // $analytics.setOptOut(boolean Optout);
+    // To opt out
+    $analytics.setOptOut(true);
+    
+    // To opt in
+    $analytics.setOptOut(false);
+
+    // To get opt out state
+    $analytics.getOptOut(); // Returns true or false 
+
+
 ### Disabling virtual pageview tracking
 
 If you want to keep pageview tracking for its traditional meaning (whole page visits only), set virtualPageviews to false:

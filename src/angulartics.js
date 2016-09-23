@@ -31,6 +31,8 @@ angular.module('angulartics', [])
 .config(['$provide', exceptionTrack]);
 
 function $analytics() {
+  var vm = this;
+
   var settings = {
     pageTracking: {
       autoTrackFirstPage: true,
@@ -43,6 +45,7 @@ function $analytics() {
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
     trackExceptions: false,
+    optOut: false,
     developerMode: false // Prevent sending data in local/development environment
   };
 
@@ -84,21 +87,23 @@ function $analytics() {
     handlers[handlerName].push(fn);
     handlerOptions[fn] = options;
     return function(){
-      var handlerArgs = Array.prototype.slice.apply(arguments);
-      return this.$inject(['$q', angular.bind(this, function($q) {
-        return $q.all(handlers[handlerName].map(function(handlerFn) {
-          var options = handlerOptions[handlerFn] || {};
-          if (options.async) {
-            var deferred = $q.defer();
-            var currentArgs = angular.copy(handlerArgs);
-            currentArgs.unshift(deferred.resolve);
-            handlerFn.apply(this, currentArgs);
-            return deferred.promise;
-          } else{
-            return $q.when(handlerFn.apply(this, handlerArgs));
-          }
-        }, this));
-      })]);
+      if(!this.settings.optOut) {
+        var handlerArgs = Array.prototype.slice.apply(arguments);
+        return this.$inject(['$q', angular.bind(this, function($q) {
+          return $q.all(handlers[handlerName].map(function(handlerFn) {
+            var options = handlerOptions[handlerFn] || {};
+            if (options.async) {
+              var deferred = $q.defer();
+              var currentArgs = angular.copy(handlerArgs);
+              currentArgs.unshift(deferred.resolve);
+              handlerFn.apply(this, currentArgs);
+              return deferred.promise;
+            } else{
+              return $q.when(handlerFn.apply(this, handlerArgs));
+            }
+          }, this));
+        })]);
+      }
     };
   }
 
@@ -106,6 +111,17 @@ function $analytics() {
   var api = {
     settings: settings
   };
+
+  // Opt in and opt out functions
+  api.setOptOut = function(optOut) {
+    this.settings.optOut = optOut;
+    triggerRegister();
+  };
+
+  api.getOptOut = function() {
+    return this.settings.optOut;
+  };
+
 
   // Will run setTimeout if delay is > 0
   // Runs immediately if no delay to make sure cache/buffer is flushed before anything else.
@@ -172,14 +188,26 @@ function $analytics() {
     api[handlerName] = updateHandlers(handlerName, bufferedHandler(handlerName));
   }
 
-  // Set up register functions for each known handler
-  angular.forEach(knownHandlers, installHandlerRegisterFunction);
-  for (var key in provider) {
-    this[key] = provider[key];
+  function startRegistering(_provider, _knownHandlers, _installHandlerRegisterFunction) {
+    angular.forEach(_knownHandlers, _installHandlerRegisterFunction);
+
+    for (var key in _provider) {
+      vm[key] = _provider[key];
+    }
   }
+
+  // Allow $angulartics to trigger the register to update opt in/out 
+  var triggerRegister = function() {
+    startRegistering(provider, knownHandlers, installHandlerRegisterFunction);
+  };
+
+  // Initial register
+  startRegistering(provider, knownHandlers, installHandlerRegisterFunction);
+
 }
 
 function $analyticsRun($rootScope, $window, $analytics, $injector) {
+
   function matchesExcludedRoute(url) {
     for (var i = 0; i < $analytics.settings.pageTracking.excludedRoutes.length; i++) {
       var excludedRoute = $analytics.settings.pageTracking.excludedRoutes[i];
