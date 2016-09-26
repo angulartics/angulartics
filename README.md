@@ -257,12 +257,12 @@ When working on a global product there are many countries who by default require
     // $analytics.setOptOut(boolean Optout);
     // To opt out
     $analytics.setOptOut(true);
-    
+
     // To opt in
     $analytics.setOptOut(false);
 
     // To get opt out state
-    $analytics.getOptOut(); // Returns true or false 
+    $analytics.getOptOut(); // Returns true or false
 
 
 ### Disabling virtual pageview tracking
@@ -280,6 +280,20 @@ If you want to disable pageview tracking for specific routes, you can define a l
     		$analyticsProvider.excludeRoutes(['/abc','/def']);
 
 Urls and routes that contain any of the strings or match any of the regular expressions will not trigger the pageview tracking.
+
+### Disabling tracking on $routeChangeSuccess
+
+If you want to disable pageview tracking for the $routeChangeSuccess event, set trackRoutes to false:
+
+    module.config(function ($analyticsProvider) {
+      $analyticsProvider.trackRoutes(true);
+
+### Disabling tracking on $stateChangeSuccess
+
+If you want to disable pageview tracking for the $stateChangeSuccess event, set trackStates to false:
+
+    module.config(function ($analyticsProvider) {
+      $analyticsProvider.trackStates(true);
 
 ### Programmatic tracking
 
