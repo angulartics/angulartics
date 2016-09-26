@@ -144,8 +144,8 @@ function $analytics() {
     api: api,
     settings: settings,
     virtualPageviews: function (value) { this.settings.pageTracking.autoTrackVirtualPages = value; },
-    states: function (value) { this.settings.pageTracking.trackStates = value; },
-    routes: function (value) { this.settings.pageTracking.trackRoutes = value; },
+    trackStates: function (value) { this.settings.pageTracking.trackStates = value; },
+    trackRoutes: function (value) { this.settings.pageTracking.trackRoutes = value; },
     excludeRoutes: function(routes) { this.settings.pageTracking.excludedRoutes = routes; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) {
