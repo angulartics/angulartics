@@ -1,6 +1,6 @@
 /**
  * @license Angulartics
- * (c) 2013 Luis Farzati http://luisfarzati.github.io/angulartics
+ * (c) 2013 Luis Farzati http://angulartics.github.io/
  * License: MIT
  */
 (function(angular, analytics) {
