@@ -42,7 +42,9 @@ function $analytics() {
       trackStates: true,
       autoBasePath: false,
       basePath: '',
-      excludedRoutes: []
+      excludedRoutes: [],
+      queryKeysWhitelisted: [],
+      queryKeysBlacklisted: []
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
@@ -147,6 +149,8 @@ function $analytics() {
     trackStates: function (value) { this.settings.pageTracking.trackStates = value; },
     trackRoutes: function (value) { this.settings.pageTracking.trackRoutes = value; },
     excludeRoutes: function(routes) { this.settings.pageTracking.excludedRoutes = routes; },
+    queryKeysWhitelist: function(keys) { this.settings.pageTracking.queryKeysWhitelisted = keys; },
+    queryKeysBlacklist: function(keys) { this.settings.pageTracking.queryKeysBlacklisted = keys; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) {
       this.settings.pageTracking.basePath = (value) ? angular.element(document).find('base').attr('href') : '';
@@ -223,8 +227,68 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     return false;
   }
 
+  function arrayDifference(a1, a2) {
+    var result = [];
+    for (var i = 0; i < a1.length; i++) {
+      if (a2.indexOf(a1[i]) === -1) {
+        result.push(a1[i]);
+      }
+    }
+    return result;
+  }
+
+  function whitelistQueryString(url){ //DRY
+    if (/\?/.test(url) && $analytics.settings.pageTracking.queryKeysWhitelisted.length > 0) {
+      var urlArr = url.split('?');
+      var urlBase = urlArr[0];
+      var pairs = urlArr[1].split('&');
+      var matchedPairs = [];
+
+      for (var i = 0; i < $analytics.settings.pageTracking.queryKeysWhitelisted.length; i++) {
+        var whitelistedKey = $analytics.settings.pageTracking.queryKeysWhitelisted[i];
+        for (var j = 0; j < pairs.length; j++) {
+          if ((whitelistedKey instanceof RegExp && whitelistedKey.test(pairs[j])) || pairs[j].indexOf(whitelistedKey) > -1) matchedPairs.push(pairs[j]);
+        }
+      }
+      if (matchedPairs.length > 0) {
+        return urlBase + '?' + matchedPairs.join('&');
+      } else {
+        return urlBase;
+      }
+    } else {
+      return url;
+    }
+  }
+
+  function blacklistQueryString(url){ //DRY
+    if (/\?/.test(url) && $analytics.settings.pageTracking.queryKeysBlacklisted.length > 0) {
+      var urlArr = url.split('?');
+      var urlBase = urlArr[0];
+      var pairs = urlArr[1].split('&');
+      var matchedPairs = [];
+
+      for (var i = 0; i < $analytics.settings.pageTracking.queryKeysBlacklisted.length; i++) {
+        var blacklistedKey = $analytics.settings.pageTracking.queryKeysBlacklisted[i];
+        for (var j = 0; j < pairs.length; j++) {
+          if ((blacklistedKey instanceof RegExp && blacklistedKey.test(pairs[j])) || pairs[j].indexOf(blacklistedKey) > -1) matchedPairs.push(pairs[j]);
+        }
+      }
+
+      var evalStr = 'arrayDifference(pairs,matchedPairs)';
+      if (eval(evalStr).length > 0) {
+        return urlBase + '?' + eval(evalStr).join('&');
+      } else {
+        return urlBase;
+      }
+    } else {
+      return url;
+    }
+  }
+
   function pageTrack(url, $location) {
     if (!matchesExcludedRoute(url)) {
+      url = whitelistQueryString(url);
+      url = blacklistQueryString(url);
       $analytics.pageTrack(url, $location);
     }
   }

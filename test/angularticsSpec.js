@@ -68,6 +68,27 @@ describe('Module: angulartics', function() {
       });
     });
 
+    describe('Query string filtering',function(){
+      it('should configure Whitelisted keys', function(){
+        var keyArr = ['foo',/utm_.*/];
+        module(function(_$analyticsProvider_) {
+          _$analyticsProvider_.queryKeysWhitelist(keyArr);
+        });
+        inject(function(_$analytics_) {
+          expect(_$analytics_.settings.pageTracking.queryKeysWhitelisted).toEqual(keyArr);
+        });
+      });
+      it('should configure Blacklisted keys', function(){
+        var keyArr = ['email',/cc_.*/];
+        module(function(_$analyticsProvider_) {
+          _$analyticsProvider_.queryKeysBlacklist(keyArr);
+        });
+        inject(function(_$analytics_) {
+          expect(_$analytics_.settings.pageTracking.queryKeysBlacklisted).toEqual(keyArr);
+        });
+      });
+    });
+
   });
 
   describe('Provider: analytics', function() {
@@ -243,6 +264,72 @@ describe('Module: angulartics', function() {
 
     });
 
+    describe('Query string filtering', function(){
+        var analytics,
+            rootScope,
+            location;
+        beforeEach(module('ui.router'));
+        beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+          analytics = _$analytics_;
+          location = _$location_;
+          rootScope = _$rootScope_;
+
+          spyOn(analytics, 'pageTrack');
+        }));
+
+        var query = {
+          email: 'j.doe@example.com',
+          foo: 'bar',
+          utm_campaign: '42'
+        };
+
+        describe('Whitelisted', function(){
+          //DRY
+          it('should be empty by default', function () {
+            expect(analytics.settings.pageTracking.queryKeysWhitelisted.length).toBe(0);
+          });
+
+          it('should remove all Non-matched key/value pairs', function () {
+            analytics.settings.pageTracking.queryKeysWhitelisted = [/^utm_.*/];
+            //DRY
+            location.path('/abc');
+            for (var key in query) {
+              location.search(key, query[key]);
+            }
+            rootScope.$emit('$stateChangeSuccess');
+            expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
+          });
+        }) //End: Whitelisted;
+
+        describe('Blacklisted', function(){
+          //DRY
+          it('should be empty by default', function () {
+            expect(analytics.settings.pageTracking.queryKeysBlacklisted.length).toBe(0);
+          });
+          it('should remove all Matched key/value pairs', function () {
+            analytics.settings.pageTracking.queryKeysBlacklisted = ['email'];
+            //DRY
+            location.path('/abc');
+            for (var key in query) {
+              location.search(key, query[key]);
+            }
+            rootScope.$emit('$stateChangeSuccess');
+            expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?foo=bar&utm_campaign=42', location);
+          });
+        }) //End: Blacklisted;
+
+        it('Blacklisted supercedes Whitelisted', function () {
+          analytics.settings.pageTracking.queryKeysBlacklisted = ['email'];
+          analytics.settings.pageTracking.queryKeysWhitelisted = ['email', /^utm_.*/];
+          //DRY
+          location.path('/abc');
+          for (var key in query) {
+            location.search(key, query[key]);
+          }
+          rootScope.$emit('$stateChangeSuccess');
+          expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
+        });
+    });
   });
 
   describe('$analyticsProvider', function() {
