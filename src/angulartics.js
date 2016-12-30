@@ -237,21 +237,21 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     return result;
   }
 
-  function whitelistQueryString(url){ //DRY
-    if (/\?/.test(url) && $analytics.settings.pageTracking.queryKeysWhitelisted.length > 0) {
+  function filterQueryString(url,keysMatchArr,containerEvalStr){
+    if (/\?/.test(url) && keysMatchArr.length > 0) {
       var urlArr = url.split('?');
       var urlBase = urlArr[0];
       var pairs = urlArr[1].split('&');
       var matchedPairs = [];
 
-      for (var i = 0; i < $analytics.settings.pageTracking.queryKeysWhitelisted.length; i++) {
-        var whitelistedKey = $analytics.settings.pageTracking.queryKeysWhitelisted[i];
+      for (var i = 0; i < keysMatchArr.length; i++) {
+        var listedKey = keysMatchArr[i];
         for (var j = 0; j < pairs.length; j++) {
-          if ((whitelistedKey instanceof RegExp && whitelistedKey.test(pairs[j])) || pairs[j].indexOf(whitelistedKey) > -1) matchedPairs.push(pairs[j]);
+          if ((listedKey instanceof RegExp && listedKey.test(pairs[j])) || pairs[j].indexOf(listedKey) > -1) matchedPairs.push(pairs[j]);
         }
       }
-      if (matchedPairs.length > 0) {
-        return urlBase + '?' + matchedPairs.join('&');
+      if (eval(containerEvalStr).length > 0) {
+        return urlBase + '?' + eval(containerEvalStr).join('&');
       } else {
         return urlBase;
       }
@@ -260,29 +260,12 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     }
   }
 
-  function blacklistQueryString(url){ //DRY
-    if (/\?/.test(url) && $analytics.settings.pageTracking.queryKeysBlacklisted.length > 0) {
-      var urlArr = url.split('?');
-      var urlBase = urlArr[0];
-      var pairs = urlArr[1].split('&');
-      var matchedPairs = [];
+  function whitelistQueryString(url){
+    return filterQueryString(url,$analytics.settings.pageTracking.queryKeysWhitelisted,'matchedPairs');
+  }
 
-      for (var i = 0; i < $analytics.settings.pageTracking.queryKeysBlacklisted.length; i++) {
-        var blacklistedKey = $analytics.settings.pageTracking.queryKeysBlacklisted[i];
-        for (var j = 0; j < pairs.length; j++) {
-          if ((blacklistedKey instanceof RegExp && blacklistedKey.test(pairs[j])) || pairs[j].indexOf(blacklistedKey) > -1) matchedPairs.push(pairs[j]);
-        }
-      }
-
-      var evalStr = 'arrayDifference(pairs,matchedPairs)';
-      if (eval(evalStr).length > 0) {
-        return urlBase + '?' + eval(evalStr).join('&');
-      } else {
-        return urlBase;
-      }
-    } else {
-      return url;
-    }
+  function blacklistQueryString(url){
+    return filterQueryString(url,$analytics.settings.pageTracking.queryKeysBlacklisted,'arrayDifference(pairs,matchedPairs)');
   }
 
   function pageTrack(url, $location) {
