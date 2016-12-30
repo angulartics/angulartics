@@ -283,37 +283,36 @@ describe('Module: angulartics', function() {
           utm_campaign: '42'
         };
 
+        function setLocationAndRootScopeEmit(location,rootScope) {
+          location.path('/abc');
+          var orderedKeys = [];
+          for (var k in query){ orderedKeys.push(k) };
+          orderedKeys.sort();
+          for (var i = 0; i < orderedKeys.length; i++) {
+            location.search(orderedKeys[i], query[orderedKeys[i]]);
+          }
+          rootScope.$emit('$stateChangeSuccess');
+        }
+
         describe('Whitelisted', function(){
-          //DRY
           it('should be empty by default', function () {
             expect(analytics.settings.pageTracking.queryKeysWhitelisted.length).toBe(0);
           });
 
           it('should remove all Non-matched key/value pairs', function () {
             analytics.settings.pageTracking.queryKeysWhitelisted = [/^utm_.*/];
-            //DRY
-            location.path('/abc');
-            for (var key in query) {
-              location.search(key, query[key]);
-            }
-            rootScope.$emit('$stateChangeSuccess');
+            setLocationAndRootScopeEmit(location,rootScope);
             expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
           });
         }) //End: Whitelisted;
 
         describe('Blacklisted', function(){
-          //DRY
           it('should be empty by default', function () {
             expect(analytics.settings.pageTracking.queryKeysBlacklisted.length).toBe(0);
           });
           it('should remove all Matched key/value pairs', function () {
             analytics.settings.pageTracking.queryKeysBlacklisted = ['email'];
-            //DRY
-            location.path('/abc');
-            for (var key in query) {
-              location.search(key, query[key]);
-            }
-            rootScope.$emit('$stateChangeSuccess');
+            setLocationAndRootScopeEmit(location,rootScope);
             expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?foo=bar&utm_campaign=42', location);
           });
         }) //End: Blacklisted;
@@ -321,12 +320,7 @@ describe('Module: angulartics', function() {
         it('Blacklisted supercedes Whitelisted', function () {
           analytics.settings.pageTracking.queryKeysBlacklisted = ['email'];
           analytics.settings.pageTracking.queryKeysWhitelisted = ['email', /^utm_.*/];
-          //DRY
-          location.path('/abc');
-          for (var key in query) {
-            location.search(key, query[key]);
-          }
-          rootScope.$emit('$stateChangeSuccess');
+          setLocationAndRootScopeEmit(location,rootScope);
           expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
         });
     });
