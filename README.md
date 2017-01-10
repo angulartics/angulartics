@@ -201,6 +201,7 @@ See [angulartics-piwik](https://github.com/angulartics/angulartics-piwik) for mo
 * Marketo
 * [Mixpanel](https://github.com/angulartics/angulartics-mixpanel)
 * Piwik
+* [Scout](https://github.com/Trolleymusic/angulartics-scout)
 * Scroll tracking
 * [Segment](https://github.com/angulartics/angulartics-segment)
 * Splunk
