@@ -286,7 +286,7 @@ describe('Module: angulartics', function() {
         function setLocationAndRootScopeEmit(location,rootScope) {
           location.path('/abc');
           var orderedKeys = [];
-          for (var k in query){ orderedKeys.push(k) };
+          for (var k in query){ orderedKeys.push(k); }
           orderedKeys.sort();
           for (var i = 0; i < orderedKeys.length; i++) {
             location.search(orderedKeys[i], query[orderedKeys[i]]);
@@ -304,7 +304,7 @@ describe('Module: angulartics', function() {
             setLocationAndRootScopeEmit(location,rootScope);
             expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
           });
-        }) //End: Whitelisted;
+        }); //End: Whitelisted
 
         describe('Blacklisted', function(){
           it('should be empty by default', function () {
@@ -315,7 +315,7 @@ describe('Module: angulartics', function() {
             setLocationAndRootScopeEmit(location,rootScope);
             expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?foo=bar&utm_campaign=42', location);
           });
-        }) //End: Blacklisted;
+        }); //End: Blacklisted
 
         it('Blacklisted supercedes Whitelisted', function () {
           analytics.settings.pageTracking.queryKeysBlacklisted = ['email'];
