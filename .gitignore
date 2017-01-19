@@ -3,3 +3,4 @@
 /*.sublime-*
 npm-debug.log
 .idea
+.project

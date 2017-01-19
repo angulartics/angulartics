@@ -282,6 +282,18 @@ If you want to disable pageview tracking for specific routes, you can define a l
 
 Urls and routes that contain any of the strings or match any of the regular expressions will not trigger the pageview tracking.
 
+### Disabling tracking of specific query string keys
+
+If you want to disable tracking for specific query string keys, you can define a list of both whitelisted and blacklisted keys (using strings or regular expressions):
+
+    module.config(function ($analyticsProvider) {
+            $analyticsProvider.queryKeysWhitelist([/^utm_.*/]);
+            $analyticsProvider.queryKeysBlacklist(['email',/^user/]);
+
+Any query string key/value pairs will be filtered out of the URL sent to the tracking authority.
+
+Blacklisting overrides Whitelisting.
+
 ### Disabling tracking on $routeChangeSuccess
 
 If you want to disable pageview tracking for the $routeChangeSuccess event, set trackRoutes to false:

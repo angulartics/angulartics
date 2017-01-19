@@ -42,7 +42,9 @@ function $analytics() {
       trackStates: true,
       autoBasePath: false,
       basePath: '',
-      excludedRoutes: []
+      excludedRoutes: [],
+      queryKeysWhitelisted: [],
+      queryKeysBlacklisted: []
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
@@ -147,6 +149,8 @@ function $analytics() {
     trackStates: function (value) { this.settings.pageTracking.trackStates = value; },
     trackRoutes: function (value) { this.settings.pageTracking.trackRoutes = value; },
     excludeRoutes: function(routes) { this.settings.pageTracking.excludedRoutes = routes; },
+    queryKeysWhitelist: function(keys) { this.settings.pageTracking.queryKeysWhitelisted = keys; },
+    queryKeysBlacklist: function(keys) { this.settings.pageTracking.queryKeysBlacklisted = keys; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) {
       this.settings.pageTracking.basePath = (value) ? angular.element(document).find('base').attr('href') : '';
@@ -223,8 +227,53 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     return false;
   }
 
+  function arrayDifference(a1, a2) {
+    var result = [];
+    for (var i = 0; i < a1.length; i++) {
+      if (a2.indexOf(a1[i]) === -1) {
+        result.push(a1[i]);
+      }
+    }
+    return result;
+  }
+
+  function filterQueryString(url, keysMatchArr, thisType){
+    if (/\?/.test(url) && keysMatchArr.length > 0) {
+      var urlArr = url.split('?');
+      var urlBase = urlArr[0];
+      var pairs = urlArr[1].split('&');
+      var matchedPairs = [];
+
+      for (var i = 0; i < keysMatchArr.length; i++) {
+        var listedKey = keysMatchArr[i];
+        for (var j = 0; j < pairs.length; j++) {
+          if ((listedKey instanceof RegExp && listedKey.test(pairs[j])) || pairs[j].indexOf(listedKey) > -1) matchedPairs.push(pairs[j]);
+        }
+      }
+
+      var matchedPairsArr = (thisType == 'white' ? matchedPairs : arrayDifference(pairs,matchedPairs));
+      if(matchedPairsArr.length > 0){
+        return urlBase + '?' + matchedPairsArr.join('&');
+      }else{
+        return urlBase;
+      }
+    } else {
+      return url;
+    }
+  }
+
+  function whitelistQueryString(url){
+    return filterQueryString(url, $analytics.settings.pageTracking.queryKeysWhitelisted, 'white');
+  }
+
+  function blacklistQueryString(url){
+    return filterQueryString(url, $analytics.settings.pageTracking.queryKeysBlacklisted, 'black');
+  }
+
   function pageTrack(url, $location) {
     if (!matchesExcludedRoute(url)) {
+      url = whitelistQueryString(url);
+      url = blacklistQueryString(url);
       $analytics.pageTrack(url, $location);
     }
   }
