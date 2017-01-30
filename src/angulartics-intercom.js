@@ -20,7 +20,20 @@ angular.module('angulartics.intercom', ['angulartics'])
       window.Intercom('update', { user_id: userId });
     }
   });
-
+  /**
+   * Send Updates to avoid Intercom waiting 10 mins before sending messages etc 
+   * @name update
+   *
+   * @link http://docs.intercom.io/install-on-your-web-product/intercom-javascript-api
+   *
+   * @example
+   *   Intercom('update');
+   */
+  $analyticsProvider.registerPageTrack(function () {
+    if(window.Intercom) {
+      window.Intercom('update');
+    }
+  });
   /**
    * Track Event in Intercom
    * @name eventTrack
