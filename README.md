@@ -253,7 +253,7 @@ Check out the bundled plugins as reference. If you still have any questions, fee
 
 ### Opt-out settings
 
-When working on a global product there are many countries who by default require the opt-out functionality of all analytics and tracking. These opt out settings are meant to adi with that. The developer mode simply cripples the library where as this actually disables the tracking so it can be turned on and off.
+When working on a global product there are many countries who by default require the opt-out functionality of all analytics and tracking. These opt out settings are meant to aid with that. The developer mode simply cripples the library where as this actually disables the tracking so it can be turned on and off.
 
     // $analytics.setOptOut(boolean Optout);
     // To opt out
