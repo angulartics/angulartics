@@ -18,21 +18,34 @@ angular.module('angulartics.heap', ['angulartics'])
   $analyticsProvider.settings.trackRelativePath = true;
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
-    heap.track(action, properties);
+    dispatchToHeap('track', action, properties);
   });
 
   $analyticsProvider.registerSetUsername(function (username, properties) {
     if(properties) {
-      heap.identify(properties);
+      dispatchToHeap('identify', properties);
     }
     else {
-      heap.identify({handle: username});
+      dispatchToHeap('identify', {handle: username});
     }
   });
 
   $analyticsProvider.registerSetUserProperties(function (properties) {
-    heap.setEventProperties(properties);
+    dispatchToHeap('setEventProperties', properties);
   });
+
+  var dispatchToHeap = (function () {
+    // Dispatch command to Heap library, and fail gracefully if it isn't loaded
+    //  heap.command(arg1, arg2) becomes: dispatchToHeap('command', arg1, arg2)
+    return function() {
+      var command = arguments[0];
+      var args = Array.prototype.splice.call(arguments, 1);
+
+      if (window.heap) {
+        window.heap[command].apply(this, args);
+      }
+    };
+  })();
 
 }]);
 })(angular);
