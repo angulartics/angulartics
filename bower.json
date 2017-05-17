@@ -16,11 +16,9 @@
     ".gitignore",
     "test",
     "samples",
-    "LICENSE",
     "*.md",
     "Gruntfile.js",
-    "karma.conf.js",
-    "package.json"
+    "karma.conf.js"
   ],
   "resolutions": {
     "angular": ">= 1.1.5"
