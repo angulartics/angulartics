@@ -57,6 +57,21 @@ See [angulartics-google-analytics](https://github.com/angulartics/angulartics-go
 
 Add the full tracking code from Google Tag Manager to the beginning of your body tag.
 
+#### OPTION A) Import the necessary configurations into Google Tag Manager
+- Open Google Tag Manager and navigate to the Admin Tab
+- Select **Import Container**, then select **Merge**
+- From the dropdown, select **Rename conflicting tags, triggers, and variables**
+- Click **Choose Container File** and select **google-tag-manager-import.json** from this repository 
+- Click **Continue**, then **Confirm**
+- Navigate to the Variables tab 
+- Scroll beneath the Built-In Variables section, and click **Google Analytics Tracking ID - Angulartics** from the list at the bottom 
+- Change this value to your Google Analytics Tracking ID in the format UA-XXXXXX-YY (can be found in the Google Analytics Admin -> Property Settings menu)
+- Save the changes to the Variable
+
+This will add the Tags, Triggers, and Variables needed by Angulartics to your container.
+
+#### OPTION B) Manually configure necessary configurations in Google Tag Manager
+
 Setup listeners in Google Tag Manager
 
 #### 6 Variables
@@ -105,6 +120,8 @@ Name and case must match
     Label: **{{angulartics event label}}**
     Value: **{{angulartics event value}}**
     Non-Interaction Hit: **{{angulartics event interaction type}}**
+    More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
+    More settings > Field to Set > name: **cookieDomain**, value: **auto**
     Fire On: **Angulartics events**
 2. **Angulartics Pageviews**
     Product: **Google Analytics**
@@ -112,6 +129,7 @@ Name and case must match
     Tracking ID: **YourGoogleAnalyticsID**
     Track Type: **Page View**
     More settings > Field to Set > name: **page**, value: **{{angulartics page path}}**
+    More settings > Field to Set > name: **cookieDomain**, value: **auto**
     Fire On: **Angulartics pageviews**
 
 ### for Google Tag Manager (old interface)
@@ -166,6 +184,7 @@ Name and case must match
     Label: **{{angulartics event label}}**
     Value: **{{angulartics event value}}**
     Non-Interaction Hit: **{{angulartics event interaction type}}**
+    More settings > Basic Configuration > Document Path: **{{angulartics page path}}**
     Firing Rules: **Angulartics events**
 2. **Angulartics Pageviews**
     Product: **Google Analytics**
