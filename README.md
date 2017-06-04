@@ -57,6 +57,19 @@ See [angulartics-google-analytics](https://github.com/angulartics/angulartics-go
 
 Add the full tracking code from Google Tag Manager to the beginning of your body tag.
 
+####Container Import (recommended)
+
+1. Download the file 'angulartics-gtm.json' from this repository.
+2. In Google Tag Manager, navigate to the **Admin** tab.
+3. Under the **Container** column, select **Import Container**.
+4. Click **Choose Container File** and select the 'angulartics-gtm.json' file you downloaded.
+5. Select **Merge** from the radio selector beneath the Choose Container File button.
+6. Select **Rename** from the radio selector that appears beneath the Merge selector.
+7. Click Continue, then Confirm.
+8. Navigate to the Variable interface - select the tag imported tag named YOUR_GA_TRACKING_ID.
+9. Change the UA-XXXXXXX-X in the **Value** field to your Google Analytics Tracking ID (a.k.a. UA Number).
+
+####Manual Installation (not recommended)
 Setup listeners in Google Tag Manager
 
 #### 6 Variables
