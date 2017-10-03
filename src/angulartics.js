@@ -402,7 +402,7 @@ function analyticsOn($analytics) {
         }
       });
 
-      angular.element($element[0]).bind(eventType, function ($event) {
+      angular.element($element[0]).on(eventType, function ($event) {
         var eventName = $attrs.analyticsEvent || inferEventName($element[0]);
         trackingData.eventType = $event.type;
 
