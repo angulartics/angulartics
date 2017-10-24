@@ -4,7 +4,8 @@
 	<meta charset="utf8">
 	<title>Heap sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular-route.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-heap.js"></script>
     <script type="text/javascript">window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+t+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};heap.load("<heap_id>");</script>
@@ -56,7 +57,7 @@
 </div>
 
 <script>
-	angular.module('sample', ['angulartics', 'angulartics.heap'])
+	angular.module('sample', ['ngRoute', 'angulartics', 'angulartics.heap'])
 	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
 			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })

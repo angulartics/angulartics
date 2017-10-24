@@ -5,7 +5,8 @@
 	<title>Splunk sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
 
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular-route.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-splunk.js"></script>
 	<script type="text/javascript">
@@ -51,7 +52,7 @@
 </div>
 
 <script>
-	angular.module('sample', ['angulartics', 'angulartics.splunk'])
+	angular.module('sample', ['ngRoute', 'angulartics', 'angulartics.splunk'])
 	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
 			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })

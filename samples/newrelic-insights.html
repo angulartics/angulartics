@@ -5,7 +5,8 @@
   <title>New Relic Insights sample | Angulartics</title>
   <link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
 
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular-route.js"></script>
   <script src="../src/angulartics.js"></script>
   <script src="../src/angulartics-newrelic-insights.js"></script>
   <script type="text/javascript">
@@ -50,7 +51,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </div>
 
 <script>
-  angular.module('sample', ['angulartics', 'angulartics.newrelic.insights'])
+  angular.module('sample', ['ngRoute', 'angulartics', 'angulartics.newrelic.insights'])
   .config(function ($routeProvider, $analyticsProvider) {
     $routeProvider
       .when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })

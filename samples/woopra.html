@@ -5,7 +5,8 @@
 	<title>Segment.io sample | Angulartics</title>
 	<link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
 
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.11/angular-route.js"></script>
 	<script src="../src/angulartics.js"></script>
 	<script src="../src/angulartics-woopra.js"></script>
 	<script type="text/javascript">
@@ -53,7 +54,7 @@
 </div>
 
 <script>
-	angular.module('sample', ['angulartics', 'angulartics.woopra'])
+	angular.module('sample', ['ngRoute', 'angulartics', 'angulartics.woopra'])
 	.config(function ($routeProvider, $analyticsProvider) {
 		$routeProvider
 			.when('/', { templateUrl: '/samples/partials/root.tpl.html', controller: 'SampleCtrl' })
