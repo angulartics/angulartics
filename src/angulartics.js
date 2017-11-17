@@ -294,10 +294,7 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
          }
       } else if ($injector.has('$state')) {
         var $state = $injector.get('$state');
-        for (var state in $state.get()) {
-          noRoutesOrStates = false;
-          break;
-        }
+        if ($state.get().length > 1) noRoutesOrStates = false;
       }
       if (noRoutesOrStates) {
         if ($analytics.settings.pageTracking.autoBasePath) {
