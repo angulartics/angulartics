@@ -44,7 +44,8 @@ function $analytics() {
       basePath: '',
       excludedRoutes: [],
       queryKeysWhitelisted: [],
-      queryKeysBlacklisted: []
+      queryKeysBlacklisted: [],
+      filterUrlSegments: []
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
@@ -151,6 +152,7 @@ function $analytics() {
     excludeRoutes: function(routes) { this.settings.pageTracking.excludedRoutes = routes; },
     queryKeysWhitelist: function(keys) { this.settings.pageTracking.queryKeysWhitelisted = keys; },
     queryKeysBlacklist: function(keys) { this.settings.pageTracking.queryKeysBlacklisted = keys; },
+    filterUrlSegments: function(filters) { this.settings.pageTracking.filterUrlSegments = filters; },
     firstPageview: function (value) { this.settings.pageTracking.autoTrackFirstPage = value; },
     withBase: function (value) {
       this.settings.pageTracking.basePath = (value) ? angular.element(document).find('base').attr('href') : '';
@@ -270,10 +272,37 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     return filterQueryString(url, $analytics.settings.pageTracking.queryKeysBlacklisted, 'black');
   }
 
+  function filterUrlSegments(url){
+    var segmentFiltersArr = $analytics.settings.pageTracking.filterUrlSegments;
+
+    if (segmentFiltersArr.length > 0) {
+      var urlArr = url.split('?');
+      var urlBase = urlArr[0];
+
+      var segments = urlBase.split('/');
+
+      for (var i = 0; i < segmentFiltersArr.length; i++) {
+        var segmentFilter = segmentFiltersArr[i];
+
+        for (var j = 1; j < segments.length; j++) {
+          /* First segment will be host/protocol or base path. */
+          if ((segmentFilter instanceof RegExp && segmentFilter.test(segments[j])) || segments[j].indexOf(segmentFilter) > -1) {
+            segments[j] = 'FILTERED';
+          }
+        }
+      }
+
+      return segments.join('/');
+    } else {
+      return url;
+    }
+  }
+
   function pageTrack(url, $location) {
     if (!matchesExcludedRoute(url)) {
       url = whitelistQueryString(url);
       url = blacklistQueryString(url);
+      url = filterUrlSegments(url);
       $analytics.pageTrack(url, $location);
     }
   }

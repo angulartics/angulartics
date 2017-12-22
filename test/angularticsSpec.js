@@ -89,6 +89,17 @@ describe('Module: angulartics', function() {
       });
     });
 
+    describe('URL segment filtering',function(){
+      it('should configure URL segment filters', function(){
+        var filtersArr = ['foo',/utm_.*/];
+        module(function(_$analyticsProvider_) {
+          _$analyticsProvider_.filterUrlSegments(filtersArr);
+        });
+        inject(function(_$analytics_) {
+          expect(_$analytics_.settings.pageTracking.filterUrlSegments).toEqual(filtersArr);
+        });
+      });
+    });
   });
 
   describe('Provider: analytics', function() {
@@ -323,6 +334,51 @@ describe('Module: angulartics', function() {
           setLocationAndRootScopeEmit(location,rootScope);
           expect(analytics.pageTrack).toHaveBeenCalledWith('/abc?utm_campaign=42', location);
         });
+    });
+
+    describe('URL segment filtering', function(){
+      var analytics,
+        rootScope,
+        location;
+      beforeEach(module('ui.router'));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+      }));
+
+      function setLocationAndRootScopeEmit(location,rootScope) {
+        location.path('/abc/123/xyz');
+        rootScope.$emit('$stateChangeSuccess');
+      }
+
+      it('should be empty by default', function () {
+        expect(analytics.settings.pageTracking.filterUrlSegments.length).toBe(0);
+      });
+
+      it('should remove all Matched segments', function () {
+        analytics.settings.pageTracking.filterUrlSegments = ['abc', /\d+/];
+        setLocationAndRootScopeEmit(location,rootScope);
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/FILTERED/FILTERED/xyz', location);
+      });
+
+      describe('with basePath', function() {
+        beforeEach(function() {
+          analytics.settings.pageTracking.basePath = 'foo.com';
+        });
+
+        it('should be empty by default', function () {
+          expect(analytics.settings.pageTracking.filterUrlSegments.length).toBe(0);
+        });
+
+        it('should remove all Matched segments', function () {
+          analytics.settings.pageTracking.filterUrlSegments = [/^foo*$/, 'abc', /\d+/];
+          setLocationAndRootScopeEmit(location,rootScope);
+          expect(analytics.pageTrack).toHaveBeenCalledWith('foo.com/FILTERED/FILTERED/xyz', location);
+        });
+      });
     });
   });
 
