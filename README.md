@@ -299,14 +299,14 @@ Blacklisting overrides Whitelisting.
 If you want to disable pageview tracking for the $routeChangeSuccess event, set trackRoutes to false:
 
     module.config(function ($analyticsProvider) {
-      $analyticsProvider.trackRoutes(true);
+      $analyticsProvider.trackRoutes(false);
 
 ### Disabling tracking on $stateChangeSuccess
 
 If you want to disable pageview tracking for the $stateChangeSuccess event, set trackStates to false:
 
     module.config(function ($analyticsProvider) {
-      $analyticsProvider.trackStates(true);
+      $analyticsProvider.trackStates(false);
 
 ### Programmatic tracking
 
