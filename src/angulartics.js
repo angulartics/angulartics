@@ -120,12 +120,12 @@ function $analytics() {
 
   // Opt in and opt out functions
   api.setOptOut = function(optOut) {
-    this.settings.optOut = optOut;
+    vm.settings.optOut = optOut;
     triggerRegister();
   };
 
   api.getOptOut = function() {
-    return this.settings.optOut;
+    return vm.settings.optOut;
   };
 
 
