@@ -307,13 +307,17 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     }
   }
 
+  var noRoutesOrStates;
+  var $route;
+  var route;
+
   if ($analytics.settings.pageTracking.autoTrackFirstPage) {
     /* Only track the 'first page' if there are no routes or states on the page */
-    var noRoutesOrStates = true;
+    noRoutesOrStates = true;
     if ($injector.has('$route')) {
-       var $route = $injector.get('$route');
+       $route = $injector.get('$route');
        if ($route) {
-        for (var route in $route.routes) {
+        for (route in $route.routes) {
           noRoutesOrStates = false;
           break;
         }
@@ -344,13 +348,13 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
       /* Add the full route to the base. */
       $analytics.settings.pageTracking.basePath = $window.location.pathname + "#";
     }
-    var noRoutesOrStates = true;
+    noRoutesOrStates = true;
 
     if ($analytics.settings.pageTracking.trackRoutes) {
       if ($injector.has('$route')) {
-        var $route = $injector.get('$route');
+        $route = $injector.get('$route');
         if ($route) {
-          for (var route in $route.routes) {
+          for (route in $route.routes) {
             noRoutesOrStates = false;
             break;
           }
