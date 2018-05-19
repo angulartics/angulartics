@@ -27,12 +27,13 @@ angular.module('angulartics.baidu', ['angulartics'])
   });
 
   $analyticsProvider.registerEventTrack(function (action, properties) {
-    // do nothing if there is no category or action (it's required by baidu)
-    if (!window._hmt || !properties || !properties.category || !properties.action) {
+   var eventAction = !!properties.action ? properties.action : action;
+   // do nothing if there is no category or action (it's required by baidu)
+    if (!window._hmt || !properties || !properties.category || !eventAction) {
 		return;
 	}
 
-	var eventData = [ '_trackEvent', properties.category, properties.action ];
+	var eventData = [ '_trackEvent', properties.category, eventAction ];
 
 	if (properties.label) {
 		eventData.push(properties.label);
