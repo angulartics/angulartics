@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8">
+    <title>Webtrends Analytics Sample | Angulartics</title>
+    <link rel="stylesheet" href="//bootswatch.com/cosmo/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>
+
+    <!-- Webtrends Code -->
+    <!-- New Tag - Will have initial page load event by default, this can be configured to be disabled. -->
+    <!--<script type="text/javascript" src="//c.webtrends.com/acs/account/xxxxxxxxxxx/js/wt.js"></script>-->
+
+    <!-- Old Tag -->
+    <script type="text/javascript">
+        window.webtrendsAsyncInit=function(){
+            var dcs=new Webtrends.dcs().init({
+                dcsid:"dcs9x99xxxx9xxx9xx9xxxx9x_9x9x",
+                domain:"statse.webtrendslive.com",
+                timezone:0,
+                i18n:true,
+                fpcdom:"localhost", // Domain of site here
+                plugins:{ }
+            });  // .track() function call is removed to prevent initial page load.
+        };
+        (function(){
+            var s=document.createElement("script"); s.async=true; s.src="http://s.webtrends.com/js/webtrends.min.js";
+            var s2=document.getElementsByTagName("script")[0]; s2.parentNode.insertBefore(s,s2);
+        }());
+    </script>
+
+    <script src="../src/angulartics.js"></script>
+    <script src="../src/angulartics-webtrends-analytics.js"></script>
+
+</head>
+<body ng-app="sample">
+
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#/">My App</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a href="#/a">Page A</a></li>
+            <li><a href="#/b">Page B</a></li>
+            <li><a href="#/c">Page C</a></li>
+            <li><a href="#/custom">Page Custom</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div ng-view></div>
+    <hr>
+
+    <!-- analytics-event will be the WT.dl value. 0 for page view. 99 for generic page event. -->
+    <button analytics-on="click" analytics-event="0" class="btn btn-default">Page View</button>
+
+    <!-- Same as analytics-on="click", because 'click' is the default. WT.dl=20 for download links -->
+    <button analytics-on analytics-event="20" class="btn btn-primary">Download</button>
+
+    <!-- The default analytics event value will be 99, to indicate a generic page event  -->
+    <button analytics-on class="btn btn-secondary">Generic</button>
+
+    <!-- Pass additional parameters by using the analytics-params attribute in valid JSON object format -->
+    <button analytics-on analytics-params='{"WT.z_custom": "custom-value", "WT.tx_s": "12.95"}' class="btn btn-info">
+        Custom
+    </button>
+    <hr>
+
+    <p class="alert alert-success">
+        Open the network inspector in your browser, click any of the nav options or buttons above and you'll see the
+        analytics request being executed.
+    </p>
+</div>
+
+<script>
+    angular.module('sample', ['angulartics', 'angulartics.webtrends.analytics'])
+            .config(function ($routeProvider, $analyticsProvider) {
+                $routeProvider
+                        .when('/', {template: '<h1>Root Page</h1>', controller: 'SampleCtrl'})
+                        .when('/a', {template: '<h1>Page "A"</h1>', controller: 'SampleCtrl'})
+                        .when('/b', {template: '<h1>Page "B"</h1>', controller: 'SampleCtrl'})
+                        .when('/c', {template: '<h1>Page "C"</h1>', controller: 'SampleCtrl'})
+                        .when('/custom', {template: '<h1>Page "Custom"</h1>', controller: 'CustomCtrl'})
+                        .otherwise({redirectTo: '/'});
+
+                // If custom page track behaviour is needed, exclude the path like so:
+                $analyticsProvider.excludeRoutes(['/custom']);
+            })
+            .controller('SampleCtrl', function () {
+                // Default page track behaviour.
+            })
+            .controller('CustomCtrl', function ($analytics) {
+
+                // Use $analytics.pageTrack(path, params) to pass custom values on page loads.
+                // path is normally passed automatically, but should be explicitly passed for custom page load events.
+                // params is used to replicate page META tags. They are passed as a key/value object.
+                $analytics.pageTrack('/custom', {"WT.z_label": "value", "WT.z_label2": "value2"});
+
+            });
+</script>
+</body>
+</html>

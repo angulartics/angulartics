@@ -205,6 +205,7 @@ See [angulartics-piwik](https://github.com/angulartics/angulartics-piwik) for mo
 * Scroll tracking
 * [Segment](https://github.com/angulartics/angulartics-segment)
 * Splunk
+* [Webtrends] [https://github.com/JibbyJames/angulartics]
 * Woopra
 
 If there's no Angulartics plugin for your analytics vendor of choice, please feel free to write yours and PR' it! Here's how to do it.
