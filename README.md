@@ -224,7 +224,7 @@ Next, you register either the page track function, event track function, or both
 
     $analyticsProvider.registerPageTrack(function (path) {
 		// your implementation here
-	}
+	});
 
 By calling `registerPageTrack`, you tell Angulartics to invoke your function on `$routeChangeSuccess` or `$stateChangeSuccess`. Angulartics will send the new path as an argument.
 
