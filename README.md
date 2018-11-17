@@ -408,6 +408,36 @@ You can also debug Angulartics by adding the following module:
 
 which will call `console.log('Page|Event tracking: ', ...)` accordingly.
 
+
+### Remove IDs from url paths
+`/callback#authcode=123&idToken=456` becomes `/callback`
+````ts
+$analyticsProvider.clearIds(true);
+````
+By default, it removes IDs matching this pattern (ie. either all numeric or UUID) : `^\d+$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`.
+
+You can set your own regexp if you need to : 
+
+ `/project/a01/feature` becomes `/project/feature`
+ ````ts
+ $analyticsProvider.idsRegExp(new RegExp('^[a-z]\\d+$'));
+ ````
+
+### Remove Query Params from url paths
+
+This can be combined with clearIds and idsRegExp
+
+`/project/12981/feature?param=12` becomes `/project/12981/feature`
+````ts
+$analyticsProvider.clearQueryParams(true);
+````
+### Remove Hash from url paths
+
+`/callback#authcode=123&idToken=456` becomes `/callback`
+````ts
+$analyticsProvider.clearHash(true);
+````
+
 ## What else?
 
 See more docs and samples at [http://angulartics.github.io](http://angulartics.github.io "http://angulartics.github.io").

@@ -45,7 +45,11 @@ function $analytics() {
       excludedRoutes: [],
       queryKeysWhitelisted: [],
       queryKeysBlacklisted: [],
-      filterUrlSegments: []
+      filterUrlSegments: [],
+      clearIds: false,
+      clearHash: false,
+      clearQueryParams: false,
+      idsRegExp: /^\d+$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
     },
     eventTracking: {},
     bufferFlushDelay: 1000, // Support only one configuration for buffer flush delay to simplify buffering
@@ -159,7 +163,11 @@ function $analytics() {
     },
     withAutoBase: function (value) { this.settings.pageTracking.autoBasePath = value; },
     trackExceptions: function (value) { this.settings.trackExceptions = value; },
-    developerMode: function(value) { this.settings.developerMode = value; }
+    developerMode: function(value) { this.settings.developerMode = value; },
+    clearIds: function(value) { this.settings.pageTracking.clearIds = value; },
+    clearHash: function(value) { this.settings.pageTracking.clearHash = value; },
+    clearQueryParams: function(value) { this.settings.pageTracking.clearQueryParams = value; },
+    idsRegExp: function(value) { this.settings.pageTracking.idsRegExp = value; }
   };
 
   // General function to register plugin handlers. Flushes buffers immediately upon registration according to the specified delay.
@@ -298,8 +306,22 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
     }
   }
 
+  function clearUrl(url){
+    if ($analytics.settings.pageTracking.clearIds || $analytics.settings.pageTracking.clearQueryParams ||
+      $analytics.settings.pageTracking.clearHash) {
+      return url
+        .split('/')
+        .map(function(part){return $analytics.settings.pageTracking.clearQueryParams ? part.split('?')[0] : part;})
+        .map(function(part){return $analytics.settings.pageTracking.clearHash ? part.split('#')[0] : part;})
+        .filter(function(part){return !$analytics.settings.pageTracking.clearIds || !part.match($analytics.settings.pageTracking.idsRegExp);})
+        .join('/');
+    }
+    return url;
+  }
+
   function pageTrack(url, $location) {
     if (!matchesExcludedRoute(url)) {
+      url = clearUrl(url);
       url = whitelistQueryString(url);
       url = blacklistQueryString(url);
       url = filterUrlSegments(url);

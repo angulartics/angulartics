@@ -380,6 +380,68 @@ describe('Module: angulartics', function() {
         });
       });
     });
+
+    describe('clearIds', function(){
+      var analytics,
+        rootScope,
+        location;
+
+      function setLocationAndRootScopeEmit(location,rootScope, url) {
+        location.url(url);
+        rootScope.$emit('$stateChangeSuccess');
+      }
+
+      beforeEach(module('ui.router'));
+      beforeEach(inject(function(_$analytics_, _$rootScope_, _$location_) {
+        analytics = _$analytics_;
+        location = _$location_;
+        rootScope = _$rootScope_;
+
+        spyOn(analytics, 'pageTrack');
+      }));
+
+      it('should not clear ids by default', function () {
+        expect(analytics.settings.pageTracking.clearIds).toBe(false);
+      });
+
+      it('should not change url if clearIds is false', function () {
+        analytics.settings.pageTracking.clearIds = false;
+        setLocationAndRootScopeEmit(location,rootScope, '/sections/01234567-9ABC-DEF0-1234-56789ABCDEF0/pages/456');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/sections/01234567-9ABC-DEF0-1234-56789ABCDEF0/pages/456', location);
+      });
+
+      it('should remove ids and uuids from url if clearIds is true', function () {
+        analytics.settings.pageTracking.clearIds = true;
+        setLocationAndRootScopeEmit(location,rootScope, '/0sections0/01234567-9ABC-DEF0-1234-56789ABCDEF0/pages?param=456');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/0sections0/pages?param=456', location);
+      });
+
+      it('should remove ids using custom regex if idsRegExp is set', function () {
+        analytics.settings.pageTracking.clearIds  = true;
+        analytics.settings.pageTracking.idsRegExp  = /^[a-z]\d+$/;
+        setLocationAndRootScopeEmit(location,rootScope, '/0sections0/a01/pages/page/2/summary?param=456');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/0sections0/pages/page/2/summary?param=456', location);
+      });
+
+      it('should remove query params if clearQueryParams is set', function () {
+        analytics.settings.pageTracking.clearQueryParams = true;
+        setLocationAndRootScopeEmit(location,rootScope, '/0sections0/a01/pages/page/2/summary?param=456');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/0sections0/a01/pages/page/2/summary', location);
+      });
+
+      it('should remove hash if clearHash is set', function () {
+        analytics.settings.pageTracking.clearHash  = true;
+        setLocationAndRootScopeEmit(location,rootScope, '/0sections0/a01/pages/page/2/summary#authCode=123');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/0sections0/a01/pages/page/2/summary', location);
+      });
+
+      it('should remove ids and query params if clearQueryParams and clearIds are set', function () {
+        analytics.settings.pageTracking.clearQueryParams = true;
+        analytics.settings.pageTracking.clearIds = true;
+        setLocationAndRootScopeEmit(location,rootScope, '/0sections0/01234567-9ABC-DEF0-1234-56789ABCDEF0/pages?param=456');
+        expect(analytics.pageTrack).toHaveBeenCalledWith('/0sections0/pages', location);
+      });
+    });
   });
 
   describe('$analyticsProvider', function() {
