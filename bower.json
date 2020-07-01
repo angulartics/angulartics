@@ -5,7 +5,7 @@
   ],
   "dependencies": {
     "angular": ">= 1.1.5",
-    "SHA-1": "*"
+    "SHA-1": "0.1.1"
   },
   "devDependencies": {
     "angular-mocks": ">= 1.1.5",
